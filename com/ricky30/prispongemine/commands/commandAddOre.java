@@ -1,0 +1,65 @@
+package com.ricky30.prispongemine.commands;
+
+import java.io.IOException;
+
+import org.spongepowered.api.GameDictionary.Entry;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.text.Text;
+
+import com.google.common.collect.SetMultimap;
+import com.ricky30.prispongemine.prispongemine;
+
+import ninja.leaping.configurate.ConfigurationNode;
+
+public class commandAddOre implements CommandExecutor
+{
+	private ConfigurationNode config = null;
+
+	public CommandResult execute(CommandSource src, CommandContext args)
+			throws CommandException
+	{
+		
+		SetMultimap<String, Entry> blocks = Sponge.getDictionary().getAll();
+		String Name = args.<String>getOne("name").get();
+		String Orename = args.<String>getOne("orename").get();
+		int Percentage = args.<Integer>getOne("percentage").get();
+		if (blocks.containsKey(Orename))
+		{
+			this.config = prispongemine.plugin.getConfig();
+			if (this.config.getNode("prisonName").getChildrenMap().get(Name) != null)
+			{
+				 boolean Isnothere = false;
+				 int position = -1;
+				 while (!Isnothere)
+				 {
+					 position++;
+					 if (this.config.getNode("prisonName", Name, "items", "item_".concat(String.valueOf(position))).getString() == null)
+					 {
+						 Isnothere = true;
+					 }
+				 }
+				 this.config.getNode("prisonName", Name, "items", "item_".concat(String.valueOf(position))).setValue(Orename);
+				 this.config.getNode("prisonName", Name, "items", "item_".concat(String.valueOf(position)), Orename).setValue(Percentage);
+				 try
+					{
+					 prispongemine.plugin.getConfigManager().save(this.config);
+					} catch (IOException e) 
+			        {
+						prispongemine.plugin.getLogger().error("Failed to update config file!", e);
+			        }
+					src.sendMessage(Text.of("Prison " , Name, " add ore ", Orename));
+					return CommandResult.success();
+			}
+			src.sendMessage(Text.of("Prison " + Name + " not found"));
+			return CommandResult.empty();
+		}
+		src.sendMessage(Text.of("Ore not found"));
+		return CommandResult.empty();
+	}
+
+}
