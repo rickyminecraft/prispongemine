@@ -35,7 +35,7 @@ public class timers
 						{
 							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Prison " , Prison_name.getKey(), " five minute left"));
+								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " five minute left"));
 							}
 						}
 					}
@@ -45,7 +45,7 @@ public class timers
 						{
 							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Prison " , Prison_name.getKey(), " one minute left"));
+								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " one minute left"));
 							}
 						}
 					}
@@ -55,7 +55,7 @@ public class timers
 						{
 							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Prison " , Prison_name.getKey(), " 30 seconds left"));
+								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " 30 seconds left"));
 							}
 						}
 					}
@@ -65,7 +65,7 @@ public class timers
 						{
 							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Prison " , Prison_name.getKey(), " 10 seconds left"));
+								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " 10 seconds left"));
 							}
 						}
 					}
@@ -75,7 +75,7 @@ public class timers
 						{
 							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Prison " , Prison_name.getKey(), " 5 seconds left"));
+								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " 5 seconds left"));
 							}
 						}
 					}
@@ -85,7 +85,7 @@ public class timers
 						{
 							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Prison " , Prison_name.getKey(), " 4 seconds left"));
+								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " 4 seconds left"));
 							}
 						}
 					}
@@ -95,7 +95,7 @@ public class timers
 						{
 							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Prison " , Prison_name.getKey(), " 3 seconds left"));
+								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " 3 seconds left"));
 							}
 						}
 					}
@@ -105,7 +105,7 @@ public class timers
 						{
 							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Prison " , Prison_name.getKey(), " 2 seconds left"));
+								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " 2 seconds left"));
 							}
 						}
 					}
@@ -115,7 +115,7 @@ public class timers
 						{
 							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Prison " , Prison_name.getKey(), " 1 second left"));
+								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " 1 second left"));
 							}
 						}
 					}
@@ -129,7 +129,7 @@ public class timers
 					{
 						if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
 						{
-							player.sendMessage(Text.of("Prison " , Prison_name.getKey(), " refill done"));
+							player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " refill done"));
 						}
 					}
 					wasted.put(Prison_name.getKey(), -1);

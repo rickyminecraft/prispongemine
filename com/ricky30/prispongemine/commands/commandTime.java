@@ -52,13 +52,13 @@ public class commandTime implements CommandExecutor
 		        {
 					prispongemine.plugin.getLogger().error("Failed to update config file!", e);
 		        }
-				src.sendMessage(Text.of("Prison " , Name, " updated time & format"));
+				src.sendMessage(Text.of("Mine " , Name, " updated time & format"));
 				return CommandResult.success();
 			}
 			src.sendMessage(Text.of("Wrong time format : use SECONDS MINUTES HOURS DAYS"));
 			return CommandResult.empty();
 		}
-		src.sendMessage(Text.of("Prison " , Name, " doesn't exist"));
+		src.sendMessage(Text.of("Mine " , Name, " not found"));
 		return CommandResult.empty();
 	}
 

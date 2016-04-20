@@ -106,10 +106,10 @@ public class commandClear implements CommandExecutor
 					}
 				}
 			}
-			prispongemine.plugin.getLogger().info("Prison " + Name + " cleared");
+			prispongemine.plugin.getLogger().info("Mine " + Name + " cleared");
 			return CommandResult.success();
 		}
-		src.sendMessage(Text.of("Prison " + Name + " not found"));
+		src.sendMessage(Text.of("Mine " + Name + " not found"));
 		return CommandResult.empty();
 	}
 

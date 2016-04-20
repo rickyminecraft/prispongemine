@@ -40,13 +40,13 @@ public class commandRemoveOre implements CommandExecutor
 			        {
 						prispongemine.plugin.getLogger().error("Failed to update config file!", e);
 			        }
-					src.sendMessage(Text.of("Prison " + Name + ": " + ore + " removed"));
+					src.sendMessage(Text.of("Mine " + Name + ": " + ore + " removed"));
 				}
 			}
 			src.sendMessage(Text.of("Command finished"));
 			return CommandResult.success();
 		}
-		src.sendMessage(Text.of("Prison " + Name + " not found"));
+		src.sendMessage(Text.of("Mine " + Name + " not found"));
 		return CommandResult.empty();
 	}
 

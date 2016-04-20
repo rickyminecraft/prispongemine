@@ -5,57 +5,57 @@ How to:
 
 /prisponge list all commands
 
-MAKE A PRISON:
+MAKE A MINE:
 
 1 - use /prisponge define
 2 - with a stick click on to block to select a rectangular area
-3 - use /prisponge save -name of prison-
+3 - use /prisponge save -name of mine-
 
-MODIFY A PRISON:
+MODIFY A MINE:
 
 1 - use /prisponge define
 2 - with a stick click on to block to select a rectangular area
-3 - use /prisponge update -name of prison-
+3 - use /prisponge update -name of mine-
 
-REMOVE A PRISON:
+REMOVE A MINE:
 
-1 - use /prisponge delete -name of prison-
+1 - use /prisponge delete -name of mine-
 
-LIST ALL PRISON:
+LIST ALL MINE:
 
 1 - use /prisponge list
 
-CLEAN A PRISON:
+CLEAN A MINE:
 
-1 - use /prisponge clear -name of prison-
+1 - use /prisponge clear -name of mine-
 
-FILL A PRISON:
+FILL A MINE:
 
-By default, a prison is filled with stone
+By default, a mine is filled with stone
 
-1 - use /prisponge fill -name of prison-
+1 - use /prisponge fill -name of mine-
 
-ADD ORE TO PRISON:
+ADD ORE TO MINE:
 
-1 - use /prisponge addore -name of prison- -name of ore- -generation percentage-
+1 - use /prisponge addore -name of mine- -name of ore- -generation percentage-
 
-REMOVE ORE TO PRISON:
+REMOVE ORE TO MINE:
 
-1 - use /prisponge removeore -name of prison- -name of ore-
+1 - use /prisponge removeore -name of mine- -name of ore-
 
-ADJUST TIME FOR AUTOREFILL PRISON
+ADJUST TIME FOR AUTOREFILL MINE
 
-1 - use /prisponge time -name of prison- -duration- -duration format : SECONDS MINUTES HOURS DAYS-
+1 - use /prisponge time -name of mine- -duration- -duration format : SECONDS MINUTES HOURS DAYS-
 
-START A AUTOREFILL PRISON:
+START A AUTOREFILL MINE:
 
 There are few warning before the new fill is done
 
-1 - use /prisponge start -name of prison-
+1 - use /prisponge start -name of mine-
 
-STOP A AUTOREFILL PRISON:
+STOP A AUTOREFILL MINE:
 
-1 - use /prisponge stop -name of prison-
+1 - use /prisponge stop -name of mine-
 
 RELOAD CONFIG FILE:
 
@@ -63,6 +63,6 @@ RELOAD CONFIG FILE:
 
 LIST OF BLOCKS/ITEMS USABLE:
 
-if you can't see everything, look at the log file 'latest.log'
+if you can't see all, look at the log file 'latest.log'
 
 1 - use /prisponge listblocks

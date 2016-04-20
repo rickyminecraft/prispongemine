@@ -70,7 +70,7 @@ public class commandList implements CommandExecutor
 			int total_block = size.getX() * size.getY() * size.getZ();
 			//get the world of this prison
 			String World = this.config.getNode("prisonName", text.toString(), "world").getString();
-			src.sendMessage(Text.of("Prison: " , text.toString()));
+			src.sendMessage(Text.of("Mine: " , text.toString()));
 			src.sendMessage(Text.of("Coordinates: X=" , first.getX()," Y=", first.getY()," Z=", first.getZ(), " to X=" ,second.getX()," Y=", second.getY()," Z=", second.getZ()));
 			src.sendMessage(Text.of("Size: " , total_block, " blocks"));
 			src.sendMessage(Text.of("World: " , World));

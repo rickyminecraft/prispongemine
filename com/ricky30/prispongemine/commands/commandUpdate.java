@@ -26,7 +26,7 @@ public class commandUpdate implements CommandExecutor
 		this.config = prispongemine.plugin.getConfig();
 		if (this.config.getNode("prisonName").getChildrenMap().get(Name) == null)
 		{
-			src.sendMessage(Text.of("prison ", Name, " not found. Use save instead or change name."));
+			src.sendMessage(Text.of("Mine ", Name, " not found. Use save instead or change name."));
 			return CommandResult.empty();
 		}
 		if (interactionevents.IsreadytoFill())
@@ -47,7 +47,7 @@ public class commandUpdate implements CommandExecutor
 	        {
 				prispongemine.plugin.getLogger().error("Failed to update config file!", e);
 	        }
-			src.sendMessage(Text.of("Prison " , Name, " updated"));
+			src.sendMessage(Text.of("Mine " , Name, " updated"));
 			return CommandResult.success();
 		}
 		else

@@ -52,10 +52,10 @@ public class commandAddOre implements CommandExecutor
 			        {
 						prispongemine.plugin.getLogger().error("Failed to update config file!", e);
 			        }
-					src.sendMessage(Text.of("Prison " , Name, " add ore ", Orename));
+					src.sendMessage(Text.of("Mine " , Name, " add ore ", Orename));
 					return CommandResult.success();
 			}
-			src.sendMessage(Text.of("Prison " + Name + " not found"));
+			src.sendMessage(Text.of("Mine " + Name + " not found"));
 			return CommandResult.empty();
 		}
 		src.sendMessage(Text.of("Ore not found"));

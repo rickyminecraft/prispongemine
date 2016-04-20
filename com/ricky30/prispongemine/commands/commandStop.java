@@ -24,10 +24,10 @@ public class commandStop implements CommandExecutor
 		if (this.config.getNode("prisonName").getChildrenMap().get(Name) != null)
 		{
 			timers.remove(Name);
-			src.sendMessage(Text.of("Prison " , Name, " timer stop"));
+			src.sendMessage(Text.of("Mine " , Name, " timer stop"));
 			return CommandResult.success();
 		}
-		src.sendMessage(Text.of("Prison " , Name, " not found"));
+		src.sendMessage(Text.of("Mine " , Name, " not found"));
 		return CommandResult.empty();
 	}
 

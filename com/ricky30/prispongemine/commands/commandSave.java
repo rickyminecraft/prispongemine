@@ -29,7 +29,7 @@ public class commandSave implements CommandExecutor
 		this.config = prispongemine.plugin.getConfig();
 		if (this.config.getNode("prisonName").getChildrenMap().get(Name) != null)
 		{
-			src.sendMessage(Text.of("prison ", Name, " already saved. Use update instead or change name."));
+			src.sendMessage(Text.of("Mine ", Name, " already saved. Use update instead or change name."));
 			return CommandResult.empty();
 		}
 		if (interactionevents.IsreadytoFill())
@@ -53,7 +53,7 @@ public class commandSave implements CommandExecutor
 	        {
 				prispongemine.plugin.getLogger().error("Failed to save config file!", e);
 	        }
-			src.sendMessage(Text.of("Prison " , Name, " saved"));
+			src.sendMessage(Text.of("Mine " , Name, " saved"));
 			return CommandResult.success();
 		}
 		else

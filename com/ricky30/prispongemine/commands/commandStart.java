@@ -27,10 +27,10 @@ public class commandStart implements CommandExecutor
 	        String format = this.config.getNode("prisonName", Name, "renewformat").getString();
 	        String world =  this.config.getNode("prisonName", Name, "world").getString();
 			timers.add(Name, time, format, world);
-			src.sendMessage(Text.of("Prison " , Name, " timer start"));
+			src.sendMessage(Text.of("Mine " , Name, " timer start"));
 			return CommandResult.success();
 		}
-		src.sendMessage(Text.of("Prison " , Name, " not found"));
+		src.sendMessage(Text.of("Mine " , Name, " not found"));
 		return CommandResult.empty();
 	}
 }

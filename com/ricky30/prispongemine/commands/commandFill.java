@@ -213,17 +213,16 @@ public class commandFill implements CommandExecutor
 					}
 				}
 			}
-			prispongemine.plugin.getLogger().info("Prison " + Name + " filled");
+			prispongemine.plugin.getLogger().info("Mine " + Name + " filled");
 			//prevent use of stick, a new define command is necessary
 			interactionevents.isActive = false;
 			//clear all
 			totaux.clear();
 			orecount.clear();
 			ore.clear();
-			//TEST_BLOCKS = null;
 			return CommandResult.success();
 		}
-		src.sendMessage(Text.of("Prison " , Name, " doesn't exist"));
+		src.sendMessage(Text.of("Mine " , Name, " not found"));
 		return CommandResult.empty();
 	}
 

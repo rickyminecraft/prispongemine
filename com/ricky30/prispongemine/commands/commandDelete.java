@@ -34,10 +34,10 @@ public class commandDelete implements CommandExecutor
 	        {
 				prispongemine.plugin.getLogger().error("Failed to update config file!", e);
 	        }
-			src.sendMessage(Text.of("Prison " , Name, " deleted"));
+			src.sendMessage(Text.of("Mine " , Name, " deleted"));
 			return CommandResult.success();
 		}
-		src.sendMessage(Text.of("Prison " , Name, " not found"));
+		src.sendMessage(Text.of("Mine " , Name, " not found"));
 		return CommandResult.empty();
 	}
 
