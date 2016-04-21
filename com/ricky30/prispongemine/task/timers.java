@@ -176,6 +176,7 @@ public class timers
 		{
 			timer.remove(name);
 			wasted.remove(name);
+			theworld.remove(name);
 		}
 	}
 }
