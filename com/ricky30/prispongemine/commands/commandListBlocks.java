@@ -20,9 +20,9 @@ public class commandListBlocks implements CommandExecutor
 	{
 		Map<String, Collection<Entry>> Blocks = Sponge.getDictionary().getAll().asMap();
 		src.sendMessage(Text.of("--Start--"));
-		for (String a: Blocks.keySet())
+		for (String block: Blocks.keySet())
 		{
-			src.sendMessage(Text.of(a));
+			src.sendMessage(Text.of(block));
 		}
 		src.sendMessage(Text.of("--End--"));
 		return CommandResult.success();

@@ -1,7 +1,5 @@
 package com.ricky30.prispongemine.commands;
 
-import java.io.IOException;
-
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -46,13 +44,7 @@ public class commandSave implements CommandExecutor
 	        this.config.getNode("prisonName", Name, "fin_Z").setValue(positionfin.getZ());
 	        this.config.getNode("prisonName", Name, "renewtime").setValue(24);
 	        this.config.getNode("prisonName", Name, "renewformat").setValue("HOURS");
-			try
-			{
-				prispongemine.plugin.getConfigManager().save(this.config);
-			} catch (IOException e) 
-	        {
-				prispongemine.plugin.getLogger().error("Failed to save config file!", e);
-	        }
+	        prispongemine.plugin.save();
 			src.sendMessage(Text.of("Mine " , Name, " saved"));
 			return CommandResult.success();
 		}

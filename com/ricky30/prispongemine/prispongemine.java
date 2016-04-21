@@ -110,8 +110,6 @@ public class prispongemine
 
 				Files.createFile(getDefaultConfig());
 				setupconfig();
-
-				getConfigManager().save(this.config);
 			}
 		}
 		catch (IOException e)
@@ -230,21 +228,19 @@ public class prispongemine
 	public void onServerStopping(GameStoppingServerEvent event)
 	{
 		getLogger().info("Prispongemine stop.");
-		try
-		{
-			getConfigManager().save(this.config);
-		} catch (IOException e)
-		{
-			getLogger().error("Failed to save config file!", e);
-		}
+		save();
 		getLogger().info("Prispongemine stopped.");
 	}
 	
 	private void setupconfig()
 	{
         this.config.getNode("ConfigVersion").setValue(1);
-
-        try
+        save();
+	}
+	
+	public void save()
+	{
+		try
 		{
 			getConfigManager().save(this.config);
 		} catch (IOException e) 

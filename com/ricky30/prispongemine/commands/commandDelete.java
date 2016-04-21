@@ -1,7 +1,5 @@
 package com.ricky30.prispongemine.commands;
 
-import java.io.IOException;
-
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -27,13 +25,7 @@ public class commandDelete implements CommandExecutor
 		{
 			timers.remove(Name);
 			this.config.getNode("prisonName").removeChild(Name);
-			try
-			{
-				prispongemine.plugin.getConfigManager().save(this.config);
-			} catch (IOException e) 
-	        {
-				prispongemine.plugin.getLogger().error("Failed to update config file!", e);
-	        }
+			prispongemine.plugin.save();
 			src.sendMessage(Text.of("Mine " , Name, " deleted"));
 			return CommandResult.success();
 		}

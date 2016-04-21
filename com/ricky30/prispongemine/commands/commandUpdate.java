@@ -1,7 +1,5 @@
 package com.ricky30.prispongemine.commands;
 
-import java.io.IOException;
-
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -40,13 +38,7 @@ public class commandUpdate implements CommandExecutor
 	        this.config.getNode("prisonName", Name, "fin_X").setValue(positionfin.getX());
 	        this.config.getNode("prisonName", Name, "fin_Y").setValue(positionfin.getY());
 	        this.config.getNode("prisonName", Name, "fin_Z").setValue(positionfin.getZ());
-			try
-			{
-				prispongemine.plugin.getConfigManager().save(this.config);
-			} catch (IOException e) 
-	        {
-				prispongemine.plugin.getLogger().error("Failed to update config file!", e);
-	        }
+	        prispongemine.plugin.save();
 			src.sendMessage(Text.of("Mine " , Name, " updated"));
 			return CommandResult.success();
 		}

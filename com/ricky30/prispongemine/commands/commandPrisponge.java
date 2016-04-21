@@ -13,7 +13,7 @@ public class commandPrisponge implements CommandExecutor
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-		src.sendMessage(Text.of("Prison-mine plugin"));
+		src.sendMessage(Text.of("Prispongemine plugin"));
 		src.sendMessage(Text.of("Usage:"));
 		src.sendMessage(Text.of("/prisponge define"));
 		src.sendMessage(Text.of("/prisponge reload"));

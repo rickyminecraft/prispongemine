@@ -1,6 +1,5 @@
 package com.ricky30.prispongemine.commands;
 
-import java.io.IOException;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -45,13 +44,7 @@ public class commandTime implements CommandExecutor
 		        this.config.getNode("prisonName", Name, "fin_Z").setValue(Z2);
 		        this.config.getNode("prisonName", Name, "renewtime").setValue(Time);
 		        this.config.getNode("prisonName", Name, "renewformat").setValue(Format);
-				try
-				{
-					prispongemine.plugin.getConfigManager().save(this.config);
-				} catch (IOException e) 
-		        {
-					prispongemine.plugin.getLogger().error("Failed to update config file!", e);
-		        }
+		        prispongemine.plugin.save();
 				src.sendMessage(Text.of("Mine " , Name, " updated time & format"));
 				return CommandResult.success();
 			}
