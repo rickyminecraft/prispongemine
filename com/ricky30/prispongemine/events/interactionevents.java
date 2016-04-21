@@ -56,7 +56,7 @@ public class interactionevents
 						secondaryUsed = true;
 						if (primaryUsed && secondaryUsed)
 						{
-							setReadytofill();
+							Readytofill = true;
 						}
 						isActive = false;
 						player.getCommandSource().get().sendMessage(Text.of("Second point defined"));
@@ -72,16 +72,6 @@ public class interactionevents
 		return Readytofill;
 	}
 	
-	private void setReadytofill()
-	{
-		Readytofill = true;
-	}
-	
-	private static void InitReadytofill()
-	{
-		Readytofill = false;
-	}
-	
 	public static Vector3i getFirst()
 	{
 		return first;
@@ -94,7 +84,8 @@ public class interactionevents
 	
 	public static void Reset()
 	{
-		InitReadytofill();
+		isActive = true;
+		Readytofill = false;
 		primaryUsed = false;
 		secondaryUsed = false;
 	}

@@ -20,9 +20,6 @@ import org.spongepowered.api.world.extent.MutableBlockVolume;
 
 import com.flowpowered.math.vector.Vector3i;
 import com.ricky30.prispongemine.prispongemine;
-import com.ricky30.prispongemine.events.interactionevents;
-
-//import net.minecraft.block.Block;
 import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandFill implements CommandExecutor
