@@ -25,7 +25,7 @@ public class commandSave implements CommandExecutor
 		Player player = (Player) src;
 		String world = player.getWorld().getName();
 		this.config = prispongemine.plugin.getConfig();
-		if (this.config.getNode("prisonName").getChildrenMap().get(Name) != null)
+		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
 			src.sendMessage(Text.of("Mine ", Name, " already saved. Use update instead or change name."));
 			return CommandResult.empty();
@@ -34,16 +34,16 @@ public class commandSave implements CommandExecutor
 		{
 	        Vector3i positiondepart = interactionevents.getFirst();
 	        Vector3i positionfin = interactionevents.getSecond();
-	        this.config.getNode("prisonName", Name).setValue("");
-	        this.config.getNode("prisonName", Name, "world").setValue(world);
-	        this.config.getNode("prisonName", Name, "depart_X").setValue(positiondepart.getX());
-	        this.config.getNode("prisonName", Name, "depart_Y").setValue(positiondepart.getY());
-	        this.config.getNode("prisonName", Name, "depart_Z").setValue(positiondepart.getZ());
-	        this.config.getNode("prisonName", Name, "fin_X").setValue(positionfin.getX());
-	        this.config.getNode("prisonName", Name, "fin_Y").setValue(positionfin.getY());
-	        this.config.getNode("prisonName", Name, "fin_Z").setValue(positionfin.getZ());
-	        this.config.getNode("prisonName", Name, "renewtime").setValue(24);
-	        this.config.getNode("prisonName", Name, "renewformat").setValue("HOURS");
+	        this.config.getNode("mineName", Name).setValue("");
+	        this.config.getNode("mineName", Name, "world").setValue(world);
+	        this.config.getNode("mineName", Name, "depart_X").setValue(positiondepart.getX());
+	        this.config.getNode("mineName", Name, "depart_Y").setValue(positiondepart.getY());
+	        this.config.getNode("mineName", Name, "depart_Z").setValue(positiondepart.getZ());
+	        this.config.getNode("mineName", Name, "fin_X").setValue(positionfin.getX());
+	        this.config.getNode("mineName", Name, "fin_Y").setValue(positionfin.getY());
+	        this.config.getNode("mineName", Name, "fin_Z").setValue(positionfin.getZ());
+	        this.config.getNode("mineName", Name, "renewtime").setValue(24);
+	        this.config.getNode("mineName", Name, "renewformat").setValue("HOURS");
 	        prispongemine.plugin.save();
 			src.sendMessage(Text.of("Mine " , Name, " saved"));
 			return CommandResult.success();

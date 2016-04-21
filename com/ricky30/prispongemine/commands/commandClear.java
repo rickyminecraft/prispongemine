@@ -26,16 +26,16 @@ public class commandClear implements CommandExecutor
 	{
 		String Name = args.<String>getOne("name").get();
 		this.config = prispongemine.plugin.getConfig();
-		if (this.config.getNode("prisonName").getChildrenMap().get(Name) != null)
+		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
 			//get the size of the prison
 			int X1, X2, Y1, Y2, Z1, Z2;
-			X1 = this.config.getNode("prisonName", Name, "depart_X").getInt();
-			Y1 = this.config.getNode("prisonName", Name, "depart_Y").getInt();
-			Z1 = this.config.getNode("prisonName", Name, "depart_Z").getInt();
-			X2 = this.config.getNode("prisonName", Name, "fin_X").getInt();
-			Y2 = this.config.getNode("prisonName", Name, "fin_Y").getInt();
-			Z2 = this.config.getNode("prisonName", Name, "fin_Z").getInt();
+			X1 = this.config.getNode("mineName", Name, "depart_X").getInt();
+			Y1 = this.config.getNode("mineName", Name, "depart_Y").getInt();
+			Z1 = this.config.getNode("mineName", Name, "depart_Z").getInt();
+			X2 = this.config.getNode("mineName", Name, "fin_X").getInt();
+			Y2 = this.config.getNode("mineName", Name, "fin_Y").getInt();
+			Z2 = this.config.getNode("mineName", Name, "fin_Z").getInt();
 			
 			//converted to vector
 			Vector3i first = new Vector3i(X1, Y1, Z1);
@@ -93,7 +93,7 @@ public class commandClear implements CommandExecutor
 				}
 			}
 			//get the world where the prison is located
-			World world = Sponge.getServer().getWorld(this.config.getNode("prisonName", Name, "world").getString()).get();
+			World world = Sponge.getServer().getWorld(this.config.getNode("mineName", Name, "world").getString()).get();
 			
 			//fill the prison with buffer blocks
 			for (int x = min.getX(); x <= max.getX(); x++) 

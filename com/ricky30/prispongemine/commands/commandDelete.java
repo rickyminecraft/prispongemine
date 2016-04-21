@@ -21,10 +21,10 @@ public class commandDelete implements CommandExecutor
 	{
 		String Name = args.<String>getOne("name").get();
 		this.config = prispongemine.plugin.getConfig();
-		if (this.config.getNode("prisonName").getChildrenMap().get(Name) != null)
+		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
 			timers.remove(Name);
-			this.config.getNode("prisonName").removeChild(Name);
+			this.config.getNode("mineName").removeChild(Name);
 			prispongemine.plugin.save();
 			src.sendMessage(Text.of("Mine " , Name, " deleted"));
 			return CommandResult.success();

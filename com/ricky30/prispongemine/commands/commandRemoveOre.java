@@ -22,15 +22,15 @@ public class commandRemoveOre implements CommandExecutor
 		String Name = args.<String>getOne("name").get();
 		String Orename = args.<String>getOne("orename").get();
 		this.config = prispongemine.plugin.getConfig();
-		if (this.config.getNode("prisonName").getChildrenMap().get(Name) != null)
+		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
-			for (Object text: this.config.getNode("prisonName", Name, "items").getChildrenMap().keySet())
+			for (Object text: this.config.getNode("mineName", Name, "items").getChildrenMap().keySet())
 			{
-				String ore = this.config.getNode("prisonName", Name, "items", text.toString()).getString();
+				String ore = this.config.getNode("mineName", Name, "items", text.toString()).getString();
 				ore = ore.substring(1, ore.indexOf("="));
 				if (ore.equals(Orename))
 				{
-					this.config.getNode("prisonName", Name, "items").removeChild(text);
+					this.config.getNode("mineName", Name, "items").removeChild(text);
 					prispongemine.plugin.save();
 					src.sendMessage(Text.of("Mine " + Name + ": " + ore + " removed"));
 				}

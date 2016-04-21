@@ -29,20 +29,20 @@ public class commandAddOre implements CommandExecutor
 		if (blocks.containsKey(Orename))
 		{
 			this.config = prispongemine.plugin.getConfig();
-			if (this.config.getNode("prisonName").getChildrenMap().get(Name) != null)
+			if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 			{
 				boolean Isnothere = false;
 				int position = -1;
 				while (!Isnothere)
 				{
 					position++;
-					if (this.config.getNode("prisonName", Name, "items", "item_".concat(String.valueOf(position))).getString() == null)
+					if (this.config.getNode("mineName", Name, "items", "item_".concat(String.valueOf(position))).getString() == null)
 					{
 						Isnothere = true;
 					}
 				}
-				this.config.getNode("prisonName", Name, "items", "item_".concat(String.valueOf(position))).setValue(Orename);
-				this.config.getNode("prisonName", Name, "items", "item_".concat(String.valueOf(position)), Orename).setValue(Percentage);
+				this.config.getNode("mineName", Name, "items", "item_".concat(String.valueOf(position))).setValue(Orename);
+				this.config.getNode("mineName", Name, "items", "item_".concat(String.valueOf(position)), Orename).setValue(Percentage);
 				prispongemine.plugin.save();
 				src.sendMessage(Text.of("Mine " , Name, " add ore ", Orename));
 				return CommandResult.success();

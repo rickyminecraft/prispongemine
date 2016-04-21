@@ -21,7 +21,7 @@ public class commandStop implements CommandExecutor
 	{
 		String Name = args.<String>getOne("name").get();
 		this.config = prispongemine.plugin.getConfig();
-		if (this.config.getNode("prisonName").getChildrenMap().get(Name) != null)
+		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
 			timers.remove(Name);
 			src.sendMessage(Text.of("Mine " , Name, " timer stop"));

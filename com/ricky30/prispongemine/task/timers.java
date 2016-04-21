@@ -21,21 +21,21 @@ public class timers
 	{
 		if (!timer.isEmpty())
 		{
-			for (Entry<String, Integer> Prison_name: timer.entrySet()) 
+			for (Entry<String, Integer> Mine_name: timer.entrySet()) 
 			{
-				int duration = wasted.get(Prison_name.getKey());
-				int currentduration = Prison_name.getValue();
+				int duration = wasted.get(Mine_name.getKey());
+				int currentduration = Mine_name.getValue();
 				duration ++;
 				if (duration < currentduration)
 				{
-					wasted.put(Prison_name.getKey(), duration);
+					wasted.put(Mine_name.getKey(), duration);
 					if (currentduration - duration == 300)
 					{
 						for (Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
+							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " five minute left"));
+								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " five minute left"));
 							}
 						}
 					}
@@ -43,9 +43,9 @@ public class timers
 					{
 						for (Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
+							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " one minute left"));
+								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " one minute left"));
 							}
 						}
 					}
@@ -53,9 +53,9 @@ public class timers
 					{
 						for (Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
+							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " 30 seconds left"));
+								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 30 seconds left"));
 							}
 						}
 					}
@@ -63,9 +63,9 @@ public class timers
 					{
 						for (Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
+							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " 10 seconds left"));
+								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 10 seconds left"));
 							}
 						}
 					}
@@ -73,9 +73,9 @@ public class timers
 					{
 						for (Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
+							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " 5 seconds left"));
+								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 5 seconds left"));
 							}
 						}
 					}
@@ -83,9 +83,9 @@ public class timers
 					{
 						for (Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
+							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " 4 seconds left"));
+								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 4 seconds left"));
 							}
 						}
 					}
@@ -93,9 +93,9 @@ public class timers
 					{
 						for (Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
+							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " 3 seconds left"));
+								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 3 seconds left"));
 							}
 						}
 					}
@@ -103,9 +103,9 @@ public class timers
 					{
 						for (Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
+							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " 2 seconds left"));
+								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 2 seconds left"));
 							}
 						}
 					}
@@ -113,9 +113,9 @@ public class timers
 					{
 						for (Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
+							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
 							{
-								player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " 1 second left"));
+								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 1 second left"));
 							}
 						}
 					}
@@ -124,15 +124,15 @@ public class timers
 				else
 				{
 					//here launch event
-					Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "prisponge" +" fill " + Prison_name.getKey());
+					Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "prisponge" +" fill " + Mine_name.getKey());
 					for (Player player: Sponge.getServer().getOnlinePlayers())
 					{
-						if (player.getWorld().getName().equals(config.getNode("prisonName", Prison_name.getKey(), "world").getString()))
+						if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
 						{
-							player.sendMessage(Text.of("Mine " , Prison_name.getKey(), " refill done"));
+							player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " refill done"));
 						}
 					}
-					wasted.put(Prison_name.getKey(), -1);
+					wasted.put(Mine_name.getKey(), -1);
 				}
 			}
 		}

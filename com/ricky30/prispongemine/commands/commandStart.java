@@ -21,11 +21,11 @@ public class commandStart implements CommandExecutor
 	{
 		String Name = args.<String>getOne("name").get();
 		this.config = prispongemine.plugin.getConfig();
-		if (this.config.getNode("prisonName").getChildrenMap().get(Name) != null)
+		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
-			int time = this.config.getNode("prisonName", Name, "renewtime").getInt();
-	        String format = this.config.getNode("prisonName", Name, "renewformat").getString();
-	        String world =  this.config.getNode("prisonName", Name, "world").getString();
+			int time = this.config.getNode("mineName", Name, "renewtime").getInt();
+	        String format = this.config.getNode("mineName", Name, "renewformat").getString();
+	        String world =  this.config.getNode("mineName", Name, "world").getString();
 			timers.add(Name, time, format, world);
 			src.sendMessage(Text.of("Mine " , Name, " timer start"));
 			return CommandResult.success();

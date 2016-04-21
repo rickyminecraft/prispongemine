@@ -22,28 +22,12 @@ public class commandTime implements CommandExecutor
 		int Time = args.<Integer>getOne("duration").get();
 		String Format = args.<String>getOne("format").get();
 		this.config = prispongemine.plugin.getConfig();
-		if (this.config.getNode("prisonName").getChildrenMap().get(Name) != null)
+		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
 			if (Format.equals("SECONDS") || Format.equals("MINUTES") || Format.equals("HOURS") || Format.equals("DAYS"))
 			{
-				int X1, X2, Y1, Y2, Z1, Z2;
-				X1 = this.config.getNode("prisonName", Name, "depart_X").getInt();
-				Y1 = this.config.getNode("prisonName", Name, "depart_Y").getInt();
-				Z1 = this.config.getNode("prisonName", Name, "depart_Z").getInt();
-				X2 = this.config.getNode("prisonName", Name, "fin_X").getInt();
-				Y2 = this.config.getNode("prisonName", Name, "fin_Y").getInt();
-				Z2 = this.config.getNode("prisonName", Name, "fin_Z").getInt();
-				this.config.getNode("prisonName", Name).setValue("");
-				String world  =  this.config.getNode("prisonName", Name, "world").getString();
-		        this.config.getNode("prisonName", Name, "world").setValue(world);
-		        this.config.getNode("prisonName", Name, "depart_X").setValue(X1);
-		        this.config.getNode("prisonName", Name, "depart_Y").setValue(Y1);
-		        this.config.getNode("prisonName", Name, "depart_Z").setValue(Z1);
-		        this.config.getNode("prisonName", Name, "fin_X").setValue(X2);
-		        this.config.getNode("prisonName", Name, "fin_Y").setValue(Y2);
-		        this.config.getNode("prisonName", Name, "fin_Z").setValue(Z2);
-		        this.config.getNode("prisonName", Name, "renewtime").setValue(Time);
-		        this.config.getNode("prisonName", Name, "renewformat").setValue(Format);
+		        this.config.getNode("mineName", Name, "renewtime").setValue(Time);
+		        this.config.getNode("mineName", Name, "renewformat").setValue(Format);
 		        prispongemine.plugin.save();
 				src.sendMessage(Text.of("Mine " , Name, " updated time & format"));
 				return CommandResult.success();

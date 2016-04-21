@@ -36,21 +36,21 @@ public class commandFill implements CommandExecutor
 
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException
 	{
-		//get the prison name
+		//get the mine name
 		String Name = args.<String>getOne("name").get();
 		//init the config
 		this.config = prispongemine.plugin.getConfig();
-		//if the prison is defined then fine
-		if (this.config.getNode("prisonName").getChildrenMap().get(Name) != null)
+		//if the mine is defined then fine
+		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
-			//get the size of the prison
+			//get the size of the mine
 			int X1, X2, Y1, Y2, Z1, Z2;
-			X1 = this.config.getNode("prisonName", Name, "depart_X").getInt();
-			Y1 = this.config.getNode("prisonName", Name, "depart_Y").getInt();
-			Z1 = this.config.getNode("prisonName", Name, "depart_Z").getInt();
-			X2 = this.config.getNode("prisonName", Name, "fin_X").getInt();
-			Y2 = this.config.getNode("prisonName", Name, "fin_Y").getInt();
-			Z2 = this.config.getNode("prisonName", Name, "fin_Z").getInt();
+			X1 = this.config.getNode("mineName", Name, "depart_X").getInt();
+			Y1 = this.config.getNode("mineName", Name, "depart_Y").getInt();
+			Z1 = this.config.getNode("mineName", Name, "depart_Z").getInt();
+			X2 = this.config.getNode("mineName", Name, "fin_X").getInt();
+			Y2 = this.config.getNode("mineName", Name, "fin_Y").getInt();
+			Z2 = this.config.getNode("mineName", Name, "fin_Z").getInt();
 
 			//converted to vector
 			Vector3i first = new Vector3i(X1, Y1, Z1);
@@ -89,22 +89,22 @@ public class commandFill implements CommandExecutor
 				z1 = first.getZ() - second.getZ();
 				z2 = second.getZ();
 			}
-			//set the size of the prison
+			//set the size of the mine
 			Vector3i size = new Vector3i(x1, y1, z1);
 			size = size.add(1, 1, 1);
-			//number of block inside the prison
+			//number of block inside the mine
 			int total_block = size.getX() * size.getY() * size.getZ();
 
 			int percentage_global = 0;
 			int remplissage = 0;
-			for (Object text: this.config.getNode("prisonName", Name, "items").getChildrenMap().keySet())
+			for (Object text: this.config.getNode("mineName", Name, "items").getChildrenMap().keySet())
 			{
 				//get the ore name
-				String orename = this.config.getNode("prisonName", Name, "items", text.toString()).getString();
+				String orename = this.config.getNode("mineName", Name, "items", text.toString()).getString();
 				//remove useless things: {minecraft:stone=10 -> minecraft:stone
 				orename = orename.substring(1, orename.indexOf("="));
 				//get the percentage
-				int percentage = this.config.getNode("prisonName", Name, "items", text.toString(), orename).getInt();
+				int percentage = this.config.getNode("mineName", Name, "items", text.toString(), orename).getInt();
 				ore.put(orename, percentage);
 				orecount.put(orename, 0);
 				//add percentage to total;
@@ -196,8 +196,8 @@ public class commandFill implements CommandExecutor
 					}
 				}
 			}
-			//get the world where the prison is located
-			World world = Sponge.getServer().getWorld(this.config.getNode("prisonName", Name, "world").getString()).get();
+			//get the world where the mine is located
+			World world = Sponge.getServer().getWorld(this.config.getNode("mineName", Name, "world").getString()).get();
 			//fill the prison with buffer blocks
 			for (int x = min.getX(); x <= max.getX(); x++) 
 			{
