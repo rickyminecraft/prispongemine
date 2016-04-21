@@ -58,31 +58,13 @@ public class interactionevents
 						{
 							setReadytofill();
 						}
+						isActive = false;
 						player.getCommandSource().get().sendMessage(Text.of("Second point defined"));
+						player.getCommandSource().get().sendMessage(Text.of("Ready to save / update"));
 					}
 				}
 			}
 		}
-	}
-	
-	public void oninteractblockSecondary(InteractBlockEvent.Secondary Event, @First Player player)
-	{
-//		if (isActive)
-//		{
-//			if (player.getItemInHand().isPresent())
-//			{
-//				if (player.getItemInHand().get().getItem() == ItemTypes.STICK)
-//				{
-//					second = Event.getTargetBlock().getPosition();
-//					secondaryUsed = true;
-//					if (primaryUsed && secondaryUsed)
-//					{
-//						setReadytofill();
-//					}
-//					player.getCommandSource().get().sendMessage(Text.of("Second point defined"));
-//				}
-//			}
-//		}
 	}
 	
 	public static boolean IsreadytoFill()

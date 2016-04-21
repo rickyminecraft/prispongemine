@@ -214,8 +214,6 @@ public class commandFill implements CommandExecutor
 				}
 			}
 			prispongemine.plugin.getLogger().info("Mine " + Name + " filled");
-			//prevent use of stick, a new define command is necessary
-			interactionevents.isActive = false;
 			//clear all
 			totaux.clear();
 			orecount.clear();

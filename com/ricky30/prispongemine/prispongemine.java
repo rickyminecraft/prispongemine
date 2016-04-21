@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
-import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
@@ -49,7 +48,6 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
 @Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "1.0.2")
 public class prispongemine
 {
-	public static Game game = null;
 	public static ExtentBufferFactory EXTENT_BUFFER_FACTORY;
 	@Inject
 	private Logger logger;
@@ -104,7 +102,6 @@ public class prispongemine
 		getLogger().info("Prispongemine start.");
 		EXTENT_BUFFER_FACTORY = Sponge.getRegistry().getExtentBufferFactory();
 		plugin = this;
-		game = Sponge.getGame();
 		try
 		{
 			reload();
