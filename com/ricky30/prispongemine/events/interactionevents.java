@@ -24,6 +24,10 @@ public class interactionevents
 	{
 		if (isActive)
 		{
+			if(secondaryUsed)
+			{
+				isActive = false;
+			}
 			if (player.getItemInHand().isPresent())
 			{
 				if (player.getItemInHand().get().getItem() == ItemTypes.STICK)
@@ -58,7 +62,6 @@ public class interactionevents
 						{
 							Readytofill = true;
 						}
-						isActive = false;
 						player.getCommandSource().get().sendMessage(Text.of("Second point defined"));
 						player.getCommandSource().get().sendMessage(Text.of("Ready to save / update"));
 					}
