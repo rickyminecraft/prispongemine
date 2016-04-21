@@ -45,7 +45,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
-@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "1.0.2")
+@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "1.0.3")
 public class prispongemine
 {
 	public static ExtentBufferFactory EXTENT_BUFFER_FACTORY;
@@ -136,7 +136,7 @@ public class prispongemine
 				.executor(new commandFill())
 				.build());
 		subcommands.put(Arrays.asList("define"), CommandSpec.builder()
-				.description(Text.of("active use of stick to define a mine"))
+				.description(Text.of("allow use of stick to define a mine"))
 				.permission("prisponge.define")
 				.executor(new commandDefine())
 				.build());
