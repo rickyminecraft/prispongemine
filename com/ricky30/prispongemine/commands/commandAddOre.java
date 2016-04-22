@@ -26,6 +26,11 @@ public class commandAddOre implements CommandExecutor
 		String Name = args.<String>getOne("name").get();
 		String Orename = args.<String>getOne("orename").get();
 		int Percentage = args.<Integer>getOne("percentage").get();
+		if (Percentage <0 || Percentage >100)
+		{
+			src.sendMessage(Text.of("wrong percentage"));
+			return CommandResult.empty();
+		}
 		if (blocks.containsKey(Orename))
 		{
 			this.config = prispongemine.plugin.getConfig();

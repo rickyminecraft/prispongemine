@@ -20,6 +20,10 @@ public class commandTime implements CommandExecutor
 	{
 		String Name = args.<String>getOne("name").get();
 		int Time = args.<Integer>getOne("duration").get();
+		if (Time <5)
+		{
+			Time = 5;
+		}
 		String Format = args.<String>getOne("format").get();
 		this.config = prispongemine.plugin.getConfig();
 		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
