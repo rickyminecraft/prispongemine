@@ -106,6 +106,12 @@ public class prispongemine
 		try
 		{
 			reload();
+			if (this.config.getNode("ConfigVersion").getInt() != 2)
+			{
+				getLogger().info("your config file is outdated");
+				getLogger().info("I update it");
+				setupconfig();
+			}
 			if (!Files.exists(getDefaultConfig())) 
 			{
 
@@ -235,7 +241,7 @@ public class prispongemine
 	
 	private void setupconfig()
 	{
-        this.config.getNode("ConfigVersion").setValue(1);
+        this.config.getNode("ConfigVersion").setValue(2);
         this.config.getNode("tool").setValue(ItemTypes.STICK.getId());
         save();
 	}
