@@ -28,7 +28,7 @@ public class commandAddOre implements CommandExecutor
 		int Percentage = args.<Integer>getOne("percentage").get();
 		if (Percentage <0 || Percentage >100)
 		{
-			src.sendMessage(Text.of("wrong percentage"));
+			src.sendMessage(Text.of("Wrong percentage"));
 			return CommandResult.empty();
 		}
 		if (blocks.containsKey(Orename))

@@ -16,7 +16,7 @@ public class commandDefine implements CommandExecutor
 			throws CommandException
 	{
 		interactionevents.Reset();
-		src.sendMessage(Text.of("Prispongemine: ready to define a mine with stick"));
+		src.sendMessage(Text.of("Ready to define a mine"));
 		return CommandResult.success();
 	}
 }

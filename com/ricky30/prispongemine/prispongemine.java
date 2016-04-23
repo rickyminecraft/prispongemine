@@ -108,7 +108,7 @@ public class prispongemine
 			reload();
 			if (this.config.getNode("ConfigVersion").getInt() != 2)
 			{
-				getLogger().info("your config file is outdated");
+				getLogger().info("Your config file is outdated");
 				getLogger().info("I update it");
 				setupconfig();
 			}
