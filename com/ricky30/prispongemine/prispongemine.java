@@ -25,6 +25,7 @@ import org.spongepowered.api.world.extent.ExtentBufferFactory;
 
 import com.google.inject.Inject;
 import com.ricky30.prispongemine.commands.commandAddOre;
+import com.ricky30.prispongemine.commands.commandChangetool;
 import com.ricky30.prispongemine.commands.commandClear;
 import com.ricky30.prispongemine.commands.commandDefine;
 import com.ricky30.prispongemine.commands.commandDelete;
@@ -46,7 +47,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
-@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "1.0.3.2")
+@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "1.0.3.3")
 public class prispongemine
 {
 	public static ExtentBufferFactory EXTENT_BUFFER_FACTORY;
@@ -146,6 +147,11 @@ public class prispongemine
 				.description(Text.of("allow use of stick to define a mine"))
 				.permission("prisponge.define")
 				.executor(new commandDefine())
+				.build());
+		subcommands.put(Arrays.asList("changetool"), CommandSpec.builder()
+				.description(Text.of("change tool used to define a MO"))
+				.permission("prisponge.changetool")
+				.executor(new commandChangetool())
 				.build());
 		subcommands.put(Arrays.asList("save"), CommandSpec.builder()
 				.description(Text.of("save a defined mine"))
