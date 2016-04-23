@@ -16,6 +16,7 @@ import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
+import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.scheduler.Scheduler;
 import org.spongepowered.api.scheduler.Task;
@@ -45,7 +46,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
-@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "1.0.3.1")
+@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "1.0.3.2")
 public class prispongemine
 {
 	public static ExtentBufferFactory EXTENT_BUFFER_FACTORY;
@@ -235,6 +236,7 @@ public class prispongemine
 	private void setupconfig()
 	{
         this.config.getNode("ConfigVersion").setValue(1);
+        this.config.getNode("tool").setValue(ItemTypes.STICK.getId());
         save();
 	}
 	
@@ -258,5 +260,10 @@ public class prispongemine
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public String GetTool()
+	{
+		return this.config.getNode("tool").getString();
 	}
 }

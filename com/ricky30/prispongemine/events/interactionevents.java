@@ -5,10 +5,10 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.event.filter.cause.First;
-import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.text.Text;
 
 import com.flowpowered.math.vector.Vector3i;
+import com.ricky30.prispongemine.prispongemine;
 
 public class interactionevents
 {
@@ -30,7 +30,7 @@ public class interactionevents
 			}
 			if (player.getItemInHand().isPresent())
 			{
-				if (player.getItemInHand().get().getItem() == ItemTypes.STICK)
+				if (player.getItemInHand().get().getItem().getId().equals(prispongemine.plugin.GetTool()))
 				{
 					Event.setCancelled(true);
 				}
@@ -45,7 +45,7 @@ public class interactionevents
 		{
 			if (player.getItemInHand().isPresent())
 			{
-				if (player.getItemInHand().get().getItem() == ItemTypes.STICK)
+				if (player.getItemInHand().get().getItem().getId().equals(prispongemine.plugin.GetTool()))
 				{
 					if (!primaryUsed)
 					{
