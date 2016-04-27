@@ -1,5 +1,8 @@
 package com.ricky30.prispongemine.events;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
@@ -12,21 +15,21 @@ import com.ricky30.prispongemine.prispongemine;
 
 public class interactionevents
 {
-	public static boolean isActive = false;
-	private static boolean Readytofill = false;
-	private static boolean primaryUsed = false;
-	private static boolean secondaryUsed = false;
-	private static Vector3i first;
-	private static Vector3i second;
+	public static Map<String, Boolean> isActive = new HashMap<String, Boolean>();
+	private static Map<String, Boolean> Readytofill = new HashMap<String, Boolean>();
+	private static Map<String, Boolean> primaryUsed = new HashMap<String, Boolean>();
+	private static Map<String, Boolean> secondaryUsed = new HashMap<String, Boolean>();
+	private static Map<String, Vector3i> first = new HashMap<String, Vector3i>();
+	private static Map<String, Vector3i> second = new HashMap<String, Vector3i>();
 	
 	@Listener
 	public void oninteractblockPrimary(ChangeBlockEvent.Break Event, @First Player player)
 	{
-		if (isActive)
+		if (isActive.get(player.getUniqueId()).booleanValue())
 		{
-			if(secondaryUsed)
+			if(secondaryUsed.get(player.getUniqueId()).booleanValue())
 			{
-				isActive = false;
+				isActive.put(player.getUniqueId().toString(), false);
 			}
 			if (player.getItemInHand().isPresent())
 			{
@@ -41,26 +44,26 @@ public class interactionevents
 	@Listener
 	public void oninteractblockPrimary(InteractBlockEvent.Primary Event, @First Player player)
 	{
-		if (isActive)
+		if (isActive.get(player.getUniqueId()).booleanValue())
 		{
 			if (player.getItemInHand().isPresent())
 			{
 				if (player.getItemInHand().get().getItem().getId().equals(prispongemine.plugin.GetTool()))
 				{
-					if (!primaryUsed)
+					if (!primaryUsed.get(player.getUniqueId()).booleanValue())
 					{
-						first = Event.getTargetBlock().getPosition();
-						primaryUsed = true;
+						first.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
+						primaryUsed.put(player.getUniqueId().toString(), true);
 						player.getCommandSource().get().sendMessage(Text.of("First point defined"));
 						
 					}
-					else if (!secondaryUsed)
+					else if (!secondaryUsed.get(player.getUniqueId()).booleanValue())
 					{
-						second = Event.getTargetBlock().getPosition();
-						secondaryUsed = true;
-						if (primaryUsed && secondaryUsed)
+						second.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
+						secondaryUsed.put(player.getUniqueId().toString(), true);
+						if (primaryUsed.get(player.getUniqueId()).booleanValue() && secondaryUsed.get(player.getUniqueId()).booleanValue())
 						{
-							Readytofill = true;
+							Readytofill.put(player.getUniqueId().toString(), true);
 						}
 						player.getCommandSource().get().sendMessage(Text.of("Second point defined"));
 						player.getCommandSource().get().sendMessage(Text.of("Ready to save / update"));
@@ -70,26 +73,33 @@ public class interactionevents
 		}
 	}
 	
-	public static boolean IsreadytoFill()
+	public static boolean IsreadytoFill(Player player)
 	{
-		return Readytofill;
+		return Readytofill.get(player.getUniqueId().toString());
 	}
 	
-	public static Vector3i getFirst()
+	public static Vector3i getFirst(Player player)
 	{
-		return first;
+		return first.get(player.getUniqueId().toString());
 	}
 	
-	public static Vector3i getSecond()
+	public static Vector3i getSecond(Player player)
 	{
-		return second;
+		return second.get(player.getUniqueId().toString());
 	}
 	
-	public static void Reset()
+	public static void Reset(Player player)
 	{
-		isActive = true;
-		Readytofill = false;
-		primaryUsed = false;
-		secondaryUsed = false;
+		isActive.remove(player.getUniqueId().toString());
+		Readytofill.remove(player.getUniqueId().toString());
+		primaryUsed.remove(player.getUniqueId().toString());
+		secondaryUsed.remove(player.getUniqueId().toString());
+		first.remove(player.getUniqueId().toString());
+		second.remove(player.getUniqueId().toString());
+		
+		isActive.put(player.getUniqueId().toString(), true);
+		Readytofill.put(player.getUniqueId().toString(), false);
+		primaryUsed.put(player.getUniqueId().toString(), false);
+		secondaryUsed.put(player.getUniqueId().toString(), false);
 	}
 }

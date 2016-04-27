@@ -30,10 +30,10 @@ public class commandSave implements CommandExecutor
 			src.sendMessage(Text.of("Mine ", Name, " already saved. Use update instead or change name."));
 			return CommandResult.empty();
 		}
-		if (interactionevents.IsreadytoFill())
+		if (interactionevents.IsreadytoFill(player))
 		{
-	        Vector3i positiondepart = interactionevents.getFirst();
-	        Vector3i positionfin = interactionevents.getSecond();
+	        Vector3i positiondepart = interactionevents.getFirst(player);
+	        Vector3i positionfin = interactionevents.getSecond(player);
 	        this.config.getNode("mineName", Name).setValue("");
 	        this.config.getNode("mineName", Name, "world").setValue(world);
 	        this.config.getNode("mineName", Name, "depart_X").setValue(positiondepart.getX());

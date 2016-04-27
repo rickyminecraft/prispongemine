@@ -5,6 +5,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import com.flowpowered.math.vector.Vector3i;
@@ -21,16 +22,17 @@ public class commandUpdate implements CommandExecutor
 			throws CommandException
 	{
 		String Name = args.<String>getOne("name").get();
+		Player player = (Player) src;
 		this.config = prispongemine.plugin.getConfig();
 		if (this.config.getNode("mineName").getChildrenMap().get(Name) == null)
 		{
 			src.sendMessage(Text.of("Mine ", Name, " not found. Use save instead or change name."));
 			return CommandResult.empty();
 		}
-		if (interactionevents.IsreadytoFill())
+		if (interactionevents.IsreadytoFill(player))
 		{
-	        Vector3i positiondepart = interactionevents.getFirst();
-	        Vector3i positionfin = interactionevents.getSecond();
+	        Vector3i positiondepart = interactionevents.getFirst(player);
+	        Vector3i positionfin = interactionevents.getSecond(player);
 
 	        this.config.getNode("mineName", Name, "depart_X").setValue(positiondepart.getX());
 	        this.config.getNode("mineName", Name, "depart_Y").setValue(positiondepart.getY());
