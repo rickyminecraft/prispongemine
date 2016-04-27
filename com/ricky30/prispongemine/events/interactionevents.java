@@ -25,9 +25,9 @@ public class interactionevents
 	@Listener
 	public void oninteractblockPrimary(ChangeBlockEvent.Break Event, @First Player player)
 	{
-		if (isActive.get(player.getUniqueId()).booleanValue())
+		if (isActive.get(player.getUniqueId().toString()).booleanValue())
 		{
-			if(secondaryUsed.get(player.getUniqueId()).booleanValue())
+			if(secondaryUsed.get(player.getUniqueId().toString()).booleanValue())
 			{
 				isActive.put(player.getUniqueId().toString(), false);
 			}
@@ -44,20 +44,20 @@ public class interactionevents
 	@Listener
 	public void oninteractblockPrimary(InteractBlockEvent.Primary Event, @First Player player)
 	{
-		if (isActive.get(player.getUniqueId()).booleanValue())
+		if (isActive.get(player.getUniqueId().toString()).booleanValue())
 		{
 			if (player.getItemInHand().isPresent())
 			{
 				if (player.getItemInHand().get().getItem().getId().equals(prispongemine.plugin.GetTool()))
 				{
-					if (!primaryUsed.get(player.getUniqueId()).booleanValue())
+					if (!primaryUsed.get(player.getUniqueId().toString()).booleanValue())
 					{
 						first.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
 						primaryUsed.put(player.getUniqueId().toString(), true);
 						player.getCommandSource().get().sendMessage(Text.of("First point defined"));
 						
 					}
-					else if (!secondaryUsed.get(player.getUniqueId()).booleanValue())
+					else if (!secondaryUsed.get(player.getUniqueId().toString()).booleanValue())
 					{
 						second.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
 						secondaryUsed.put(player.getUniqueId().toString(), true);
