@@ -61,10 +61,7 @@ public class interactionevents
 					{
 						second.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
 						secondaryUsed.put(player.getUniqueId().toString(), true);
-						if (primaryUsed.get(player.getUniqueId()).booleanValue() && secondaryUsed.get(player.getUniqueId()).booleanValue())
-						{
-							Readytofill.put(player.getUniqueId().toString(), true);
-						}
+						Readytofill.put(player.getUniqueId().toString(), true);
 						player.getCommandSource().get().sendMessage(Text.of("Second point defined"));
 						player.getCommandSource().get().sendMessage(Text.of("Ready to save / update"));
 					}
