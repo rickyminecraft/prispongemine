@@ -25,17 +25,20 @@ public class interactionevents
 	@Listener
 	public void oninteractblockPrimary(ChangeBlockEvent.Break Event, @First Player player)
 	{
-		if (isActive.get(player.getUniqueId().toString()).booleanValue())
+		if (!isActive.isEmpty())
 		{
-			if(secondaryUsed.get(player.getUniqueId().toString()).booleanValue())
+			if (isActive.get(player.getUniqueId().toString()).booleanValue())
 			{
-				isActive.put(player.getUniqueId().toString(), false);
-			}
-			if (player.getItemInHand().isPresent())
-			{
-				if (player.getItemInHand().get().getItem().getId().equals(prispongemine.plugin.GetTool()))
+				if(secondaryUsed.get(player.getUniqueId().toString()).booleanValue())
 				{
-					Event.setCancelled(true);
+					isActive.put(player.getUniqueId().toString(), false);
+				}
+				if (player.getItemInHand().isPresent())
+				{
+					if (player.getItemInHand().get().getItem().getId().equals(prispongemine.plugin.GetTool()))
+					{
+						Event.setCancelled(true);
+					}
 				}
 			}
 		}
@@ -44,26 +47,29 @@ public class interactionevents
 	@Listener
 	public void oninteractblockPrimary(InteractBlockEvent.Primary Event, @First Player player)
 	{
-		if (isActive.get(player.getUniqueId().toString()).booleanValue())
+		if (!isActive.isEmpty())
 		{
-			if (player.getItemInHand().isPresent())
+			if (isActive.get(player.getUniqueId().toString()).booleanValue())
 			{
-				if (player.getItemInHand().get().getItem().getId().equals(prispongemine.plugin.GetTool()))
+				if (player.getItemInHand().isPresent())
 				{
-					if (!primaryUsed.get(player.getUniqueId().toString()).booleanValue())
+					if (player.getItemInHand().get().getItem().getId().equals(prispongemine.plugin.GetTool()))
 					{
-						first.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
-						primaryUsed.put(player.getUniqueId().toString(), true);
-						player.getCommandSource().get().sendMessage(Text.of("First point defined"));
-						
-					}
-					else if (!secondaryUsed.get(player.getUniqueId().toString()).booleanValue())
-					{
-						second.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
-						secondaryUsed.put(player.getUniqueId().toString(), true);
-						Readytofill.put(player.getUniqueId().toString(), true);
-						player.getCommandSource().get().sendMessage(Text.of("Second point defined"));
-						player.getCommandSource().get().sendMessage(Text.of("Ready to save / update"));
+						if (!primaryUsed.get(player.getUniqueId().toString()).booleanValue())
+						{
+							first.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
+							primaryUsed.put(player.getUniqueId().toString(), true);
+							player.getCommandSource().get().sendMessage(Text.of("First point defined"));
+							
+						}
+						else if (!secondaryUsed.get(player.getUniqueId().toString()).booleanValue())
+						{
+							second.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
+							secondaryUsed.put(player.getUniqueId().toString(), true);
+							Readytofill.put(player.getUniqueId().toString(), true);
+							player.getCommandSource().get().sendMessage(Text.of("Second point defined"));
+							player.getCommandSource().get().sendMessage(Text.of("Ready to save / update"));
+						}
 					}
 				}
 			}
