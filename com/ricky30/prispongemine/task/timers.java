@@ -3,6 +3,8 @@ package com.ricky30.prispongemine.task;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
@@ -11,7 +13,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class timers
 {
-	static Map<String, Integer> timer = new HashMap<String, Integer>(256);
+	static Map<String, Integer> timer = new ConcurrentHashMap<String, Integer>(256);
 	static Map<String, Integer> wasted = new HashMap<String, Integer>(256);
 	static Map<String, String> theworld = new HashMap<String, String>(256);
 	
