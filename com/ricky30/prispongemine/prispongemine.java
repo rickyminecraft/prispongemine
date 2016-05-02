@@ -47,7 +47,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
-@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "1.0.5")
+@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "1.0.6")
 public class prispongemine
 {
 	public static ExtentBufferFactory EXTENT_BUFFER_FACTORY;
@@ -241,6 +241,8 @@ public class prispongemine
 	public void onServerStopping(GameStoppingServerEvent event)
 	{
 		getLogger().info("Prispongemine stop.");
+		task.cancel();
+		task = null;
 		save();
 		getLogger().info("Prispongemine stopped.");
 	}
