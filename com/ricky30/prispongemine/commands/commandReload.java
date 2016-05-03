@@ -12,6 +12,7 @@ import com.ricky30.prispongemine.prispongemine;
 public class commandReload implements CommandExecutor
 {
 
+	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{

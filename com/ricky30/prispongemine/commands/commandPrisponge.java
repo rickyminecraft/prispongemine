@@ -10,6 +10,7 @@ import org.spongepowered.api.text.Text;
 public class commandPrisponge implements CommandExecutor
 {
 
+	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{

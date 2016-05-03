@@ -18,9 +18,9 @@ public class commandListBlocks implements CommandExecutor
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-		Map<String, Collection<Entry>> Blocks = Sponge.getDictionary().getAll().asMap();
+		final Map<String, Collection<Entry>> Blocks = Sponge.getDictionary().getAll().asMap();
 		src.sendMessage(Text.of("--Start--"));
-		for (String block: Blocks.keySet())
+		for (final String block: Blocks.keySet())
 		{
 			src.sendMessage(Text.of(block));
 		}

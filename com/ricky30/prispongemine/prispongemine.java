@@ -41,13 +41,15 @@ import com.ricky30.prispongemine.commands.commandStop;
 import com.ricky30.prispongemine.commands.commandTime;
 import com.ricky30.prispongemine.commands.commandUpdate;
 import com.ricky30.prispongemine.events.interactionevents;
+import com.ricky30.prispongemine.task.ClearTask;
+import com.ricky30.prispongemine.task.FillTask;
 import com.ricky30.prispongemine.task.timers;
 
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
-@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "1.0.6")
+@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "1.1")
 public class prispongemine
 {
 	public static ExtentBufferFactory EXTENT_BUFFER_FACTORY;
@@ -55,44 +57,46 @@ public class prispongemine
 	private Logger logger;
 	private ConfigurationNode config = null;
 	public static prispongemine plugin;
-	
+
 	@Inject
 	@DefaultConfig(sharedRoot = true)
 	private Path defaultConfig;
-	
+
 	@Inject
 	@DefaultConfig(sharedRoot = true)
 	private ConfigurationLoader<CommentedConfigurationNode> configManager;
-	
-	private Scheduler scheduler = Sponge.getScheduler();
-	private Task.Builder taskBuilder = scheduler.createTaskBuilder();
+
+	private final Scheduler scheduler = Sponge.getScheduler();
+	private final Task.Builder taskBuilder = scheduler.createTaskBuilder();
 	private Task task;
-	
+	private Task task1 = null;
+	private Task task2 = null;
+
 	public Task gettasks()
 	{
 		return this.task;
 	}
-	
+
 	public Task.Builder getTaskbuilder()
 	{
 		return this.taskBuilder;
 	}
-	
+
 	public ConfigurationNode getConfig()
 	{
 		return this.config;
 	}
-	
+
 	public Path getDefaultConfig() 
 	{
-        return this.defaultConfig;
-    }
-	
+		return this.defaultConfig;
+	}
+
 	public ConfigurationLoader<CommentedConfigurationNode> getConfigManager() 
 	{
-        return this.configManager;
-    }
-	
+		return this.configManager;
+	}
+
 	public Logger getLogger()
 	{
 		return this.logger;
@@ -120,23 +124,32 @@ public class prispongemine
 				setupconfig();
 			}
 		}
-		catch (IOException e)
+		catch (final IOException e)
 		{
 			getLogger().error("Couldn't create default configuration file!");
 		}
-		
+
 		task = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				timers.run();
 			}
 		}).interval(1, TimeUnit.SECONDS).name("prispongemine").submit(this);
-		
+		task1 = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				FillTask.run();
+			}
+		}).interval(100, TimeUnit.MILLISECONDS).name("Filltask").submit(this);
+
 		Sponge.getEventManager().registerListeners(this, new interactionevents());
-		
-		HashMap<List<String>, CommandSpec> subcommands = new HashMap<List<String>, CommandSpec>();
-		
+
+		final HashMap<List<String>, CommandSpec> subcommands = new HashMap<List<String>, CommandSpec>();
+
 		subcommands.put(Arrays.asList("fill"), CommandSpec.builder()
 				.description(Text.of("fill a mine"))
 				.permission("prisponge.fill")
@@ -187,23 +200,23 @@ public class prispongemine
 				.description(Text.of("set refill time of a mine there is few warnings before a mine refill"))
 				.permission("prisponge.time")
 				.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("name")))),
-				GenericArguments.onlyOne(GenericArguments.integer(Text.of("duration"))),
-				GenericArguments.onlyOne(GenericArguments.string(Text.of("format"))))
+						GenericArguments.onlyOne(GenericArguments.integer(Text.of("duration"))),
+						GenericArguments.onlyOne(GenericArguments.string(Text.of("format"))))
 				.executor(new commandTime())
 				.build());
 		subcommands.put(Arrays.asList("addore"), CommandSpec.builder()
 				.description(Text.of("add Ore to a mine, by default, a mine is full of stone"))
 				.permission("prisponge.addore")
 				.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("name")))),
-				GenericArguments.onlyOne(GenericArguments.string(Text.of("orename"))),
-				GenericArguments.onlyOne(GenericArguments.integer(Text.of("percentage"))))
+						GenericArguments.onlyOne(GenericArguments.string(Text.of("orename"))),
+						GenericArguments.onlyOne(GenericArguments.integer(Text.of("percentage"))))
 				.executor(new commandAddOre())
 				.build());
 		subcommands.put(Arrays.asList("removeore"), CommandSpec.builder()
 				.description(Text.of("remove Ore from a mine"))
 				.permission("prisponge.removeore")
 				.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("name")))),
-				GenericArguments.onlyOne(GenericArguments.string(Text.of("orename"))))
+						GenericArguments.onlyOne(GenericArguments.string(Text.of("orename"))))
 				.executor(new commandRemoveOre())
 				.build());
 		subcommands.put(Arrays.asList("reload"), CommandSpec.builder()
@@ -227,57 +240,101 @@ public class prispongemine
 				.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("name"))))
 				.executor(new commandClear())
 				.build());
-				
-		CommandSpec prispongecommand = CommandSpec.builder()
-			    .description(Text.of("list all prispongemine Command"))
-			    .executor(new commandPrisponge())
-			    .children(subcommands)
-			    .build();
+
+		final CommandSpec prispongecommand = CommandSpec.builder()
+				.description(Text.of("list all prispongemine Command"))
+				.executor(new commandPrisponge())
+				.children(subcommands)
+				.build();
 		Sponge.getCommandManager().register(this, prispongecommand, "prisponge");
 		getLogger().info("Prispongemine started.");
 	}
-	
+
 	@Listener
 	public void onServerStopping(GameStoppingServerEvent event)
 	{
 		getLogger().info("Prispongemine stop.");
 		task.cancel();
+		task1.cancel();
 		task = null;
+		task1 = null;
 		save();
 		getLogger().info("Prispongemine stopped.");
 	}
-	
+
 	private void setupconfig()
 	{
-        this.config.getNode("ConfigVersion").setValue(2);
-        this.config.getNode("tool").setValue(ItemTypes.STICK.getId());
-        save();
+		this.config.getNode("ConfigVersion").setValue(2);
+		this.config.getNode("tool").setValue(ItemTypes.STICK.getId());
+		save();
 	}
-	
+
 	public void save()
 	{
 		try
 		{
 			getConfigManager().save(this.config);
-		} catch (IOException e) 
-        {
-            getLogger().error("Failed to save config file!", e);
-        }
+		} catch (final IOException e) 
+		{
+			getLogger().error("Failed to save config file!", e);
+		}
 	}
-	
+
 	public void reload()
 	{
 		try
 		{
 			this.config = getConfigManager().load();
-		} catch (IOException e)
+		} catch (final IOException e)
 		{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public String GetTool()
 	{
 		return this.config.getNode("tool").getString();
+	}
+
+	public void StartTaskFill()
+	{
+		if (task1 == null)
+		{
+			task1 = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					FillTask.run();
+				}
+			}).interval(1, TimeUnit.SECONDS).name("Filltask").submit(this);
+		}
+	}
+
+	public void StopTaskFill()
+	{
+		task1.cancel();
+		task1 = null;
+	}
+
+	public void StartTaskClear()
+	{
+		if (task2 == null)
+		{
+			task2 = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					ClearTask.run();
+				}
+			}).interval(1, TimeUnit.SECONDS).name("Cleartask").submit(this);
+		}
+	}
+
+	public void StopTaskClear()
+	{
+		task2.cancel();
+		task2 = null;
 	}
 }

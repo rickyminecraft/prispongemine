@@ -16,10 +16,11 @@ public class commandDelete implements CommandExecutor
 {
 	private ConfigurationNode config = null;
 
+	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-		String Name = args.<String>getOne("name").get();
+		final String Name = args.<String>getOne("name").get();
 		this.config = prispongemine.plugin.getConfig();
 		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{

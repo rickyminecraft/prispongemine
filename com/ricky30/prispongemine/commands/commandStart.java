@@ -16,16 +16,17 @@ public class commandStart implements CommandExecutor
 {
 	private ConfigurationNode config = null;
 
+	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-		String Name = args.<String>getOne("name").get();
+		final String Name = args.<String>getOne("name").get();
 		this.config = prispongemine.plugin.getConfig();
 		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
-			int time = this.config.getNode("mineName", Name, "renewtime").getInt();
-	        String format = this.config.getNode("mineName", Name, "renewformat").getString();
-	        String world =  this.config.getNode("mineName", Name, "world").getString();
+			final int time = this.config.getNode("mineName", Name, "renewtime").getInt();
+			final String format = this.config.getNode("mineName", Name, "renewformat").getString();
+			final String world =  this.config.getNode("mineName", Name, "world").getString();
 			timers.add(Name, time, format, world);
 			src.sendMessage(Text.of("Mine " , Name, " timer start"));
 			return CommandResult.success();

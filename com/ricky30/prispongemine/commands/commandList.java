@@ -21,7 +21,7 @@ public class commandList implements CommandExecutor
 			throws CommandException
 	{
 		this.config = prispongemine.plugin.getConfig();
-		for (Object text: this.config.getNode("mineName").getChildrenMap().keySet())
+		for (final Object text: this.config.getNode("mineName").getChildrenMap().keySet())
 		{
 			//get the size of the mine
 			int X1, X2, Y1, Y2, Z1, Z2;
@@ -33,8 +33,8 @@ public class commandList implements CommandExecutor
 			Z2 = this.config.getNode("mineName", text.toString(), "fin_Z").getInt();
 
 			//converted to vector
-			Vector3i first = new Vector3i(X1, Y1, Z1);
-			Vector3i second = new Vector3i(X2, Y2, Z2);
+			final Vector3i first = new Vector3i(X1, Y1, Z1);
+			final Vector3i second = new Vector3i(X2, Y2, Z2);
 
 			//here we look for which is greater than
 			int x1, y1, z1;
@@ -67,15 +67,15 @@ public class commandList implements CommandExecutor
 			Vector3i size = new Vector3i(x1, y1, z1);
 			size = size.add(1, 1, 1);
 			//number of block inside the mine
-			int total_block = size.getX() * size.getY() * size.getZ();
+			final int total_block = size.getX() * size.getY() * size.getZ();
 			//get the world of this mine
-			String World = this.config.getNode("mineName", text.toString(), "world").getString();
+			final String World = this.config.getNode("mineName", text.toString(), "world").getString();
 			src.sendMessage(Text.of("Mine: " , text.toString()));
 			src.sendMessage(Text.of("Coordinates: X=" , first.getX()," Y=", first.getY()," Z=", first.getZ(), " to X=" ,second.getX()," Y=", second.getY()," Z=", second.getZ()));
 			src.sendMessage(Text.of("Size: " , total_block, " blocks"));
 			src.sendMessage(Text.of("World: " , World));
 		}
-		
+
 		return CommandResult.success();
 	}
 

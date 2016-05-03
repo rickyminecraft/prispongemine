@@ -17,12 +17,13 @@ import ninja.leaping.configurate.ConfigurationNode;
 public class commandUpdate implements CommandExecutor
 {
 	private ConfigurationNode config = null;
-	
+
+	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-		String Name = args.<String>getOne("name").get();
-		Player player = (Player) src;
+		final String Name = args.<String>getOne("name").get();
+		final Player player = (Player) src;
 		this.config = prispongemine.plugin.getConfig();
 		if (this.config.getNode("mineName").getChildrenMap().get(Name) == null)
 		{
@@ -31,16 +32,16 @@ public class commandUpdate implements CommandExecutor
 		}
 		if (interactionevents.IsreadytoFill(player))
 		{
-	        Vector3i positiondepart = interactionevents.getFirst(player);
-	        Vector3i positionfin = interactionevents.getSecond(player);
+			final Vector3i positiondepart = interactionevents.getFirst(player);
+			final Vector3i positionfin = interactionevents.getSecond(player);
 
-	        this.config.getNode("mineName", Name, "depart_X").setValue(positiondepart.getX());
-	        this.config.getNode("mineName", Name, "depart_Y").setValue(positiondepart.getY());
-	        this.config.getNode("mineName", Name, "depart_Z").setValue(positiondepart.getZ());
-	        this.config.getNode("mineName", Name, "fin_X").setValue(positionfin.getX());
-	        this.config.getNode("mineName", Name, "fin_Y").setValue(positionfin.getY());
-	        this.config.getNode("mineName", Name, "fin_Z").setValue(positionfin.getZ());
-	        prispongemine.plugin.save();
+			this.config.getNode("mineName", Name, "depart_X").setValue(positiondepart.getX());
+			this.config.getNode("mineName", Name, "depart_Y").setValue(positiondepart.getY());
+			this.config.getNode("mineName", Name, "depart_Z").setValue(positiondepart.getZ());
+			this.config.getNode("mineName", Name, "fin_X").setValue(positionfin.getX());
+			this.config.getNode("mineName", Name, "fin_Y").setValue(positionfin.getY());
+			this.config.getNode("mineName", Name, "fin_Z").setValue(positionfin.getZ());
+			prispongemine.plugin.save();
 			src.sendMessage(Text.of("Mine " , Name, " updated"));
 			return CommandResult.success();
 		}

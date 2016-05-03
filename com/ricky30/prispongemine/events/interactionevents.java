@@ -21,7 +21,7 @@ public class interactionevents
 	private static Map<String, Boolean> secondaryUsed = new HashMap<String, Boolean>();
 	private static Map<String, Vector3i> first = new HashMap<String, Vector3i>();
 	private static Map<String, Vector3i> second = new HashMap<String, Vector3i>();
-	
+
 	@Listener
 	public void oninteractblockPrimary(ChangeBlockEvent.Break Event, @First Player player)
 	{
@@ -43,7 +43,7 @@ public class interactionevents
 			}
 		}
 	}
-	
+
 	@Listener
 	public void oninteractblockPrimary(InteractBlockEvent.Primary Event, @First Player player)
 	{
@@ -60,7 +60,7 @@ public class interactionevents
 							first.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
 							primaryUsed.put(player.getUniqueId().toString(), true);
 							player.getCommandSource().get().sendMessage(Text.of("First point defined"));
-							
+
 						}
 						else if (!secondaryUsed.get(player.getUniqueId().toString()).booleanValue())
 						{
@@ -75,22 +75,22 @@ public class interactionevents
 			}
 		}
 	}
-	
+
 	public static boolean IsreadytoFill(Player player)
 	{
 		return Readytofill.get(player.getUniqueId().toString());
 	}
-	
+
 	public static Vector3i getFirst(Player player)
 	{
 		return first.get(player.getUniqueId().toString());
 	}
-	
+
 	public static Vector3i getSecond(Player player)
 	{
 		return second.get(player.getUniqueId().toString());
 	}
-	
+
 	public static void Reset(Player player)
 	{
 		isActive.remove(player.getUniqueId().toString());
@@ -99,7 +99,7 @@ public class interactionevents
 		secondaryUsed.remove(player.getUniqueId().toString());
 		first.remove(player.getUniqueId().toString());
 		second.remove(player.getUniqueId().toString());
-		
+
 		isActive.put(player.getUniqueId().toString(), true);
 		Readytofill.put(player.getUniqueId().toString(), false);
 		primaryUsed.put(player.getUniqueId().toString(), false);

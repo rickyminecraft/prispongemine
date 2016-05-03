@@ -19,12 +19,12 @@ public class commandRemoveOre implements CommandExecutor
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-		String Name = args.<String>getOne("name").get();
-		String Orename = args.<String>getOne("orename").get();
+		final String Name = args.<String>getOne("name").get();
+		final String Orename = args.<String>getOne("orename").get();
 		this.config = prispongemine.plugin.getConfig();
 		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
-			for (Object text: this.config.getNode("mineName", Name, "items").getChildrenMap().keySet())
+			for (final Object text: this.config.getNode("mineName", Name, "items").getChildrenMap().keySet())
 			{
 				String ore = this.config.getNode("mineName", Name, "items", text.toString()).getString();
 				ore = ore.substring(1, ore.indexOf("="));

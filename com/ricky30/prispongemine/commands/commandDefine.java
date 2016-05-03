@@ -13,10 +13,11 @@ import com.ricky30.prispongemine.events.interactionevents;
 public class commandDefine implements CommandExecutor
 {
 
+	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-		Player player = (Player) src;
+		final Player player = (Player) src;
 		interactionevents.Reset(player);
 		src.sendMessage(Text.of("Ready to define a mine"));
 		return CommandResult.success();

@@ -18,14 +18,15 @@ public class commandAddOre implements CommandExecutor
 {
 	private ConfigurationNode config = null;
 
+	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
 
-		SetMultimap<String, Entry> blocks = Sponge.getDictionary().getAll();
-		String Name = args.<String>getOne("name").get();
-		String Orename = args.<String>getOne("orename").get();
-		int Percentage = args.<Integer>getOne("percentage").get();
+		final SetMultimap<String, Entry> blocks = Sponge.getDictionary().getAll();
+		final String Name = args.<String>getOne("name").get();
+		final String Orename = args.<String>getOne("orename").get();
+		final int Percentage = args.<Integer>getOne("percentage").get();
 		if (Percentage <0 || Percentage >100)
 		{
 			src.sendMessage(Text.of("Wrong percentage"));

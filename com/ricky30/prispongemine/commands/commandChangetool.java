@@ -20,8 +20,8 @@ public class commandChangetool implements CommandExecutor
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-		Player player = (Player) src;
-		String tool = player.getItemInHand().get().getItem().getId();
+		final Player player = (Player) src;
+		final String tool = player.getItemInHand().get().getItem().getId();
 		if (tool != null)
 		{
 			this.config = prispongemine.plugin.getConfig();
