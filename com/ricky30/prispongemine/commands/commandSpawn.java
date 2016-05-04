@@ -31,6 +31,7 @@ public class commandSpawn implements CommandExecutor
 			this.config.getNode("mineName", Name, "Spawn", "Spawn_X").setValue(Spawn.getX());
 			this.config.getNode("mineName", Name, "Spawn", "Spawn_Y").setValue(Spawn.getY());
 			this.config.getNode("mineName", Name, "Spawn", "Spawn_Z").setValue(Spawn.getZ());
+			prispongemine.plugin.save();
 			src.sendMessage(Text.of("Mine " , Name, " Spawn saved"));
 			return CommandResult.success();
 		}
