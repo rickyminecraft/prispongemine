@@ -16,17 +16,6 @@
             <enabled>true</enabled>
         </snapshots>
     </repository>
-    <repository>
-        <id>forge-maven-repo</id>
-        <name>Forge maven repo</name>
-        <url>http://files.minecraftforge.net/maven</url>
-        <releases>
-            <enabled>true</enabled>
-        </releases>
-        <snapshots>
-            <enabled>true</enabled>
-        </snapshots>
-    </repository>
 </repositories>
 
 <dependencies>
@@ -34,12 +23,6 @@
         <groupId>org.spongepowered</groupId>
         <artifactId>spongeapi</artifactId>
         <version>4.0.3</version>
-        <scope>provided</scope>
-    </dependency>
-    <dependency>
-        <groupId>net.minecraftforge</groupId>
-        <artifactId>forge</artifactId>
-        <version>1.8.9-11.15.1.1855</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
