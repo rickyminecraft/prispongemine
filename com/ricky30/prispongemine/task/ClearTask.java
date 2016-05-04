@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.world.extent.MutableBlockVolume;
 
@@ -53,15 +52,6 @@ public class ClearTask
 							{
 								volumeOne.setBlock(x, y, z, BlockTypes.AIR.getDefaultState());
 							}
-							for (int h=0; h<2000; h++)
-							{
-								//do nothing
-								//too many setblock call in a short time
-							}
-						}
-						for (int h=0; h<2000; h++)
-						{
-							//do nothing
 						}
 					}
 

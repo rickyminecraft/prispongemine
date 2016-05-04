@@ -25,12 +25,22 @@ public class commandList implements CommandExecutor
 		{
 			//get the size of the mine
 			int X1, X2, Y1, Y2, Z1, Z2;
+			double X3 = 0, Y3 = 0, Z3 = 0;
 			X1 = this.config.getNode("mineName", text.toString(), "depart_X").getInt();
 			Y1 = this.config.getNode("mineName", text.toString(), "depart_Y").getInt();
 			Z1 = this.config.getNode("mineName", text.toString(), "depart_Z").getInt();
 			X2 = this.config.getNode("mineName", text.toString(), "fin_X").getInt();
 			Y2 = this.config.getNode("mineName", text.toString(), "fin_Y").getInt();
 			Z2 = this.config.getNode("mineName", text.toString(), "fin_Z").getInt();
+
+			boolean HasSpawn = false;
+			if (config.getNode("mineName", text.toString()).getChildrenMap().get("Spawn") != null)
+			{
+				HasSpawn = true;
+				X3 = config.getNode("mineName", text.toString(), "Spawn", "Spawn_X").getDouble();
+				Y3 = config.getNode("mineName", text.toString(), "Spawn", "Spawn_Y").getDouble();
+				Z3 = config.getNode("mineName", text.toString(), "Spawn", "Spawn_Z").getDouble();
+			}
 
 			//converted to vector
 			final Vector3i first = new Vector3i(X1, Y1, Z1);
@@ -72,6 +82,10 @@ public class commandList implements CommandExecutor
 			final String World = this.config.getNode("mineName", text.toString(), "world").getString();
 			src.sendMessage(Text.of("Mine: " , text.toString()));
 			src.sendMessage(Text.of("Coordinates: X=" , first.getX()," Y=", first.getY()," Z=", first.getZ(), " to X=" ,second.getX()," Y=", second.getY()," Z=", second.getZ()));
+			if (HasSpawn)
+			{
+				src.sendMessage(Text.of("Spawn: X=" , X3," Y=", Y3," Z=", Z3));
+			}
 			src.sendMessage(Text.of("Size: " , total_block, " blocks"));
 			src.sendMessage(Text.of("World: " , World));
 		}

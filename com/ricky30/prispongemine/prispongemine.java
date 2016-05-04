@@ -36,6 +36,7 @@ import com.ricky30.prispongemine.commands.commandPrisponge;
 import com.ricky30.prispongemine.commands.commandReload;
 import com.ricky30.prispongemine.commands.commandRemoveOre;
 import com.ricky30.prispongemine.commands.commandSave;
+import com.ricky30.prispongemine.commands.commandSpawn;
 import com.ricky30.prispongemine.commands.commandStart;
 import com.ricky30.prispongemine.commands.commandStop;
 import com.ricky30.prispongemine.commands.commandTime;
@@ -49,7 +50,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
-@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "1.1")
+@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "1.2")
 public class prispongemine
 {
 	public static ExtentBufferFactory EXTENT_BUFFER_FACTORY;
@@ -209,7 +210,7 @@ public class prispongemine
 				.permission("prisponge.addore")
 				.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("name")))),
 						GenericArguments.onlyOne(GenericArguments.string(Text.of("orename"))),
-						GenericArguments.onlyOne(GenericArguments.integer(Text.of("percentage"))))
+						GenericArguments.onlyOne(GenericArguments.doubleNum(Text.of("percentage"))))
 				.executor(new commandAddOre())
 				.build());
 		subcommands.put(Arrays.asList("removeore"), CommandSpec.builder()
@@ -239,6 +240,12 @@ public class prispongemine
 				.permission("prisponge.clear")
 				.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("name"))))
 				.executor(new commandClear())
+				.build());
+		subcommands.put(Arrays.asList("spawn"), CommandSpec.builder()
+				.description(Text.of("Set the spawn for players inside the mine"))
+				.permission("prisponge.spawn")
+				.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("name"))))
+				.executor(new commandSpawn())
 				.build());
 
 		final CommandSpec prispongecommand = CommandSpec.builder()

@@ -26,8 +26,8 @@ public class commandAddOre implements CommandExecutor
 		final SetMultimap<String, Entry> blocks = Sponge.getDictionary().getAll();
 		final String Name = args.<String>getOne("name").get();
 		final String Orename = args.<String>getOne("orename").get();
-		final int Percentage = args.<Integer>getOne("percentage").get();
-		if (Percentage <0 || Percentage >100)
+		final float Percentage = args.<Double>getOne("percentage").get().floatValue();
+		if (Percentage <0.0f || Percentage >100.0f)
 		{
 			src.sendMessage(Text.of("Wrong percentage"));
 			return CommandResult.empty();

@@ -30,7 +30,7 @@ public class commandFill implements CommandExecutor
 
 	private final Map<String, org.spongepowered.api.GameDictionary.Entry> TEST_BLOCKS = new HashMap<String, org.spongepowered.api.GameDictionary.Entry>(256);;
 
-	private final Map<String, Integer> ore= new HashMap<String, Integer>();
+	private final Map<String, Float> ore= new HashMap<String, Float>();
 	private final Map<String, Integer> orecount= new HashMap<String, Integer>();
 	private final Map<String, Integer> totaux= new HashMap<String, Integer>();
 
@@ -90,7 +90,7 @@ public class commandFill implements CommandExecutor
 			//number of block inside the mine
 			final int total_block = size.getX() * size.getY() * size.getZ();
 
-			int percentage_global = 0;
+			float percentage_global = 0.0f;
 			int remplissage = 0;
 			for (final Object text: this.config.getNode("mineName", Name, "items").getChildrenMap().keySet())
 			{
@@ -99,7 +99,7 @@ public class commandFill implements CommandExecutor
 				//remove useless things: {minecraft:stone=10 -> minecraft:stone
 				orename = orename.substring(1, orename.indexOf("="));
 				//get the percentage
-				final int percentage = this.config.getNode("mineName", Name, "items", text.toString(), orename).getInt();
+				final float percentage = this.config.getNode("mineName", Name, "items", text.toString(), orename).getFloat();
 				ore.put(orename, percentage);
 				orecount.put(orename, 0);
 				//add percentage to total;
@@ -108,13 +108,15 @@ public class commandFill implements CommandExecutor
 			//100% is all block
 			//we check for equal to prevent jump to else
 			//prevent bad percentages
-			if (percentage_global >= 100)
+			if (percentage_global >= 100.0f)
 			{
-				percentage_global = 100;
-				for (final Entry<String, Integer> ore_number:ore.entrySet())
+				percentage_global = 100.0f;
+				for (final Entry<String, Float> ore_number:ore.entrySet())
 				{
 					//get number of block for each percentage
-					int total_tmp = (total_block*ore_number.getValue())/100;
+					final float total_block_float = total_block;
+					final float total_tmp_float = (total_block_float*ore_number.getValue())/100.0f;
+					int total_tmp = (int) total_tmp_float;
 					//prevent an infinite loop
 					if (total_tmp == 0)
 					{
@@ -128,14 +130,17 @@ public class commandFill implements CommandExecutor
 			else
 			{
 				//here we reduce percentage_global who is equal to all percentages defined for 'ore' from 100%
-				final int percentage = 100 - percentage_global;
+				final float percentage = 100.0f - percentage_global;
 				//add stone to ore list
 				ore.put("stone", percentage);
 				orecount.put("stone", 0);
-				for (final Entry<String, Integer> ore_number:ore.entrySet())
+				for (final Entry<String, Float> ore_number:ore.entrySet())
 				{
 					//get number of block for each percentage
-					int total_tmp = (total_block*ore_number.getValue())/100;
+					final float total_block_float = total_block;
+					final float total_tmp_float = (total_block_float*ore_number.getValue())/100.0f;
+					int total_tmp = (int) total_tmp_float;
+					//int total_tmp = (total_block*ore_number.getValue().intValue())/100;
 					//prevent an infinite loop
 					if (total_tmp == 0)
 					{
@@ -155,7 +160,7 @@ public class commandFill implements CommandExecutor
 			//we add all ore to TEST_BLOCKS
 			//this way we only include defined ore
 			org.spongepowered.api.GameDictionary.Entry entry;
-			for (final Entry<String, Integer> ore_name:ore.entrySet())
+			for (final Entry<String, Float> ore_name:ore.entrySet())
 			{
 				entry = Sponge.getDictionary().get(ore_name.getKey()).iterator().next();
 				TEST_BLOCKS.put(ore_name.getKey(), entry);
@@ -215,7 +220,7 @@ public class commandFill implements CommandExecutor
 		BlockState block = null;
 		int number_tmp = -1;
 
-		for (final Entry<String, Integer> theore:ore.entrySet())
+		for (final Entry<String, Float> theore:ore.entrySet())
 		{
 			number_tmp++;
 			final String orename = theore.getKey();
@@ -245,7 +250,7 @@ public class commandFill implements CommandExecutor
 			entry = TEST_BLOCKS.values().toArray(new org.spongepowered.api.GameDictionary.Entry[0]);
 			block = entry[RANDOM.nextInt(entry.length)].getType().getBlock().get().getDefaultState();
 			number = -1;
-			for (final Entry<String, Integer> theore:ore.entrySet())
+			for (final Entry<String, Float> theore:ore.entrySet())
 			{
 				number++;
 				final String orename = theore.getKey();

@@ -38,11 +38,10 @@ public class FillTask
 					final MutableBlockVolume volumeOne = one.get(Names);
 					final MutableBlockVolume volumeTwo = two.get(Names);
 
-					int WorldX, WorldY , WorldZ;
+					int WorldX, WorldY , WorldZ, MaxX, MaxY, MaxZ;
 					WorldX = Start.get(Names).getX();
 					WorldY = Start.get(Names).getY();
 					WorldZ = Start.get(Names).getZ();
-					int MaxX, MaxY, MaxZ;
 					MaxX = End.get(Names).getX();
 					MaxY = End.get(Names).getY();
 					MaxZ = End.get(Names).getZ();
@@ -54,16 +53,6 @@ public class FillTask
 							{
 								volumeTwo.setBlock(WorldX+x, WorldY+y, WorldZ+z, volumeOne.getBlock(x, y, z));
 							}
-							for (int h=0; h<2000; h++)
-							{
-								//do nothing
-								//too many setblock call in a short time
-								//then we do this to let the server retrieve is mind
-							}
-						}
-						for (int h=0; h<2000; h++)
-						{
-							//do nothing
 						}
 					}
 					one.remove(Names);
