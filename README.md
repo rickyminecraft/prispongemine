@@ -66,3 +66,7 @@ LIST OF BLOCKS/ITEMS USABLE:
 if you can't see all, look at the log file 'latest.log'
 
 1 - use /prisponge listblocks
+
+SET SPAWN FOR MINE
+
+1 - use /prisponge spawn -name of mine- while standing at spawn location.
