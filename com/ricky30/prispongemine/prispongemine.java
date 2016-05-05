@@ -304,7 +304,10 @@ public class prispongemine
 	{
 		getLogger().info("Prispongemine stop.");
 		task.cancel();
-		task1.cancel();
+		if (task1 != null)
+		{
+			task1.cancel();
+		}
 		task = null;
 		task1 = null;
 		save();
