@@ -45,8 +45,9 @@ public class interactionevents
 				}
 			}
 		}
-		if (setAltar)
+		if (altar.IsSaved() && setAltar)
 		{
+			setAltar = false;
 			Event.setCancelled(true);
 		}
 	}
