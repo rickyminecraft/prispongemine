@@ -12,6 +12,7 @@ import org.spongepowered.api.text.Text;
 
 import com.flowpowered.math.vector.Vector3i;
 import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.utility.altar;
 
 public class interactionevents
 {
@@ -21,9 +22,11 @@ public class interactionevents
 	private static Map<String, Boolean> secondaryUsed = new HashMap<String, Boolean>();
 	private static Map<String, Vector3i> first = new HashMap<String, Vector3i>();
 	private static Map<String, Vector3i> second = new HashMap<String, Vector3i>();
+	private static boolean setAltar = false;
+	private static Vector3i Altar;
 
 	@Listener
-	public void oninteractblockPrimary(ChangeBlockEvent.Break Event, @First Player player)
+	public void oninteractblockBreak(ChangeBlockEvent.Break Event, @First Player player)
 	{
 		if (!isActive.isEmpty())
 		{
@@ -42,11 +45,21 @@ public class interactionevents
 				}
 			}
 		}
+		if (setAltar)
+		{
+			Event.setCancelled(true);
+		}
 	}
 
 	@Listener
 	public void oninteractblockPrimary(InteractBlockEvent.Primary Event, @First Player player)
 	{
+		if (setAltar)
+		{
+			Altar = Event.getTargetBlock().getPosition();
+			altar.SaveAltar(Altar);
+			player.getCommandSource().get().sendMessage(Text.of("Altar defined"));
+		}
 		if (!isActive.isEmpty())
 		{
 			if (isActive.get(player.getUniqueId().toString()).booleanValue())
@@ -104,5 +117,15 @@ public class interactionevents
 		Readytofill.put(player.getUniqueId().toString(), false);
 		primaryUsed.put(player.getUniqueId().toString(), false);
 		secondaryUsed.put(player.getUniqueId().toString(), false);
+	}
+
+	public static void SetAltar()
+	{
+		setAltar = true;
+	}
+
+	public static void ResetAltar()
+	{
+		setAltar = false;
 	}
 }

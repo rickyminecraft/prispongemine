@@ -9,17 +9,22 @@ import java.util.Map.Entry;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.data.DataContainer;
+import org.spongepowered.api.data.translator.ConfigurateTranslator;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.extent.MutableBlockVolume;
 import com.flowpowered.math.vector.Vector3i;
 import com.ricky30.prispongemine.prispongemine;
 import com.ricky30.prispongemine.task.FillTask;
+import com.ricky30.prispongemine.utility.teleport;
+
 import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandFill implements CommandExecutor
@@ -28,11 +33,11 @@ public class commandFill implements CommandExecutor
 
 	private ConfigurationNode config = null;
 
-	private final Map<String, org.spongepowered.api.GameDictionary.Entry> TEST_BLOCKS = new HashMap<String, org.spongepowered.api.GameDictionary.Entry>(256);;
+	private final Map<String, BlockState> TEST_BLOCKS = new HashMap<String, BlockState>();;
 
-	private final Map<String, Float> ore= new HashMap<String, Float>();
-	private final Map<String, Integer> orecount= new HashMap<String, Integer>();
-	private final Map<String, Integer> totaux= new HashMap<String, Integer>();
+	private final Map<BlockState, Float> ore= new HashMap<BlockState, Float>();
+	private final Map<BlockState, Integer> orecount= new HashMap<BlockState, Integer>();
+	private final Map<BlockState, Integer> totaux= new HashMap<BlockState, Integer>();
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException
@@ -94,14 +99,17 @@ public class commandFill implements CommandExecutor
 			int remplissage = 0;
 			for (final Object text: this.config.getNode("mineName", Name, "items").getChildrenMap().keySet())
 			{
-				//get the ore name
-				String orename = this.config.getNode("mineName", Name, "items", text.toString()).getString();
-				//remove useless things: {minecraft:stone=10 -> minecraft:stone
-				orename = orename.substring(1, orename.indexOf("="));
+				//here we convert string to blockstate
+				//if the string is not like "BlockState="minecraft:stone[variant=smooth_granite]" it will never work
+				final ConfigurateTranslator  tr = ConfigurateTranslator.instance();
+				final ConfigurationNode node = this.config.getNode("mineName", Name, "items", text.toString());
+				final DataContainer cont = tr.translateFrom(node);
+				final BlockState state = BlockState.builder().build(cont).get();
+
 				//get the percentage
-				final float percentage = this.config.getNode("mineName", Name, "items", text.toString(), orename).getFloat();
-				ore.put(orename, percentage);
-				orecount.put(orename, 0);
+				final float percentage = this.config.getNode("mineName", Name, "items", text.toString(), "percentage").getFloat();
+				ore.put(state, percentage);
+				orecount.put(state, 0);
 				//add percentage to total;
 				percentage_global += percentage;
 			}
@@ -111,7 +119,7 @@ public class commandFill implements CommandExecutor
 			if (percentage_global >= 100.0f)
 			{
 				percentage_global = 100.0f;
-				for (final Entry<String, Float> ore_number:ore.entrySet())
+				for (final Entry<BlockState, Float> ore_number:ore.entrySet())
 				{
 					//get number of block for each percentage
 					final float total_block_float = total_block;
@@ -132,15 +140,14 @@ public class commandFill implements CommandExecutor
 				//here we reduce percentage_global who is equal to all percentages defined for 'ore' from 100%
 				final float percentage = 100.0f - percentage_global;
 				//add stone to ore list
-				ore.put("stone", percentage);
-				orecount.put("stone", 0);
-				for (final Entry<String, Float> ore_number:ore.entrySet())
+				ore.put(BlockTypes.STONE.getDefaultState(), percentage);
+				orecount.put(BlockTypes.STONE.getDefaultState(), 0);
+				for (final Entry<BlockState, Float> ore_number:ore.entrySet())
 				{
 					//get number of block for each percentage
 					final float total_block_float = total_block;
 					final float total_tmp_float = (total_block_float*ore_number.getValue())/100.0f;
 					int total_tmp = (int) total_tmp_float;
-					//int total_tmp = (total_block*ore_number.getValue().intValue())/100;
 					//prevent an infinite loop
 					if (total_tmp == 0)
 					{
@@ -154,16 +161,14 @@ public class commandFill implements CommandExecutor
 				}
 				//if there is block left then put stone to fill hole
 				remplissage = total_block - remplissage;
-				totaux.put("stone",totaux.get("stone")+ remplissage);
+				totaux.put(BlockTypes.STONE.getDefaultState(),totaux.get(BlockTypes.STONE.getDefaultState())+ remplissage);
 			}
 
 			//we add all ore to TEST_BLOCKS
 			//this way we only include defined ore
-			org.spongepowered.api.GameDictionary.Entry entry;
-			for (final Entry<String, Float> ore_name:ore.entrySet())
+			for (final Entry<BlockState, Float> ore_name:ore.entrySet())
 			{
-				entry = Sponge.getDictionary().get(ore_name.getKey()).iterator().next();
-				TEST_BLOCKS.put(ore_name.getKey(), entry);
+				TEST_BLOCKS.put(ore_name.getKey().getId(), ore_name.getKey());
 			}
 
 			final MutableBlockVolume volume = prispongemine.EXTENT_BUFFER_FACTORY.createBlockBuffer(size);
@@ -200,6 +205,8 @@ public class commandFill implements CommandExecutor
 			final World world = Sponge.getServer().getWorld(this.config.getNode("mineName", Name, "world").getString()).get();
 			//next location in the world of our blocks inside a volume
 			final MutableBlockVolume Mvolume = world.getBlockView(com.ricky30.prispongemine.utility.size.Min(first, second), com.ricky30.prispongemine.utility.size.Max(first, second));
+			//teleport all player inside the mine if there is a spawn
+			teleport.Doteleport(Name);
 			//fill the mine with buffer blocks
 			FillTask.Fill(volume, Mvolume, com.ricky30.prispongemine.utility.size.Min(first, second), size, Name);
 			prispongemine.plugin.StartTaskFill();
@@ -220,13 +227,13 @@ public class commandFill implements CommandExecutor
 		BlockState block = null;
 		int number_tmp = -1;
 
-		for (final Entry<String, Float> theore:ore.entrySet())
+		for (final Entry<BlockState, Float> theore:ore.entrySet())
 		{
 			number_tmp++;
-			final String orename = theore.getKey();
-			org.spongepowered.api.GameDictionary.Entry entry;
+			final String orename = theore.getKey().getId();
+			BlockState entry;
 			entry = TEST_BLOCKS.get(orename);
-			block = entry.getType().getBlock().get().getDefaultState();
+			block = entry;
 			if (number_tmp == number)
 			{
 				break;
@@ -239,7 +246,7 @@ public class commandFill implements CommandExecutor
 	{
 		boolean isOk = false;
 		BlockState block = null;
-		org.spongepowered.api.GameDictionary.Entry entry[];
+		BlockState entry[];
 		int number = 0;
 		int numberok = 0;
 
@@ -247,16 +254,14 @@ public class commandFill implements CommandExecutor
 		{
 			RANDOM = new Random();
 			//get a random block between all ore
-			entry = TEST_BLOCKS.values().toArray(new org.spongepowered.api.GameDictionary.Entry[0]);
-			block = entry[RANDOM.nextInt(entry.length)].getType().getBlock().get().getDefaultState();
+			entry = TEST_BLOCKS.values().toArray(new BlockState[0]);
+			block = entry[RANDOM.nextInt(entry.length)];
 			number = -1;
-			for (final Entry<String, Float> theore:ore.entrySet())
+			for (final Entry<BlockState, Float> theore:ore.entrySet())
 			{
 				number++;
-				final String orename = theore.getKey();
-				final org.spongepowered.api.GameDictionary.Entry theentry = Sponge.getDictionary().get(orename).iterator().next();
-				final BlockState blockore = theentry.getType().getBlock().get().getDefaultState();
-				if (blockore == block)
+				final BlockState orename = theore.getKey();
+				if (orename.equals(block))
 				{
 					//if equal, check if we already have all block for this ore
 					if (totaux.get(orename) > orecount.get(orename))

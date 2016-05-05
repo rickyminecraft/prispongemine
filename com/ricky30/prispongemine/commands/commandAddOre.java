@@ -1,15 +1,16 @@
 package com.ricky30.prispongemine.commands;
 
-import org.spongepowered.api.GameDictionary.Entry;
-import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
-import com.google.common.collect.SetMultimap;
+import com.flowpowered.math.vector.Vector3i;
 import com.ricky30.prispongemine.prispongemine;
 
 import ninja.leaping.configurate.ConfigurationNode;
@@ -22,19 +23,25 @@ public class commandAddOre implements CommandExecutor
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-
-		final SetMultimap<String, Entry> blocks = Sponge.getDictionary().getAll();
 		final String Name = args.<String>getOne("name").get();
-		final String Orename = args.<String>getOne("orename").get();
 		final float Percentage = args.<Double>getOne("percentage").get().floatValue();
-		if (Percentage <0.0f || Percentage >100.0f)
+		final Player player = (Player) src;
+		this.config = prispongemine.plugin.getConfig();
+		if (!config.getNode("altar").isVirtual())
 		{
-			src.sendMessage(Text.of("Wrong percentage"));
-			return CommandResult.empty();
-		}
-		if (blocks.containsKey(Orename))
-		{
-			this.config = prispongemine.plugin.getConfig();
+			if (Percentage <0.0f || Percentage >100.0f)
+			{
+				src.sendMessage(Text.of("Wrong percentage"));
+				return CommandResult.empty();
+			}
+			int X, Y, Z;
+			X = config.getNode("altar", "altar_X").getInt();
+			Y = config.getNode("altar", "altar_Y").getInt();
+			Z = config.getNode("altar", "altar_Z").getInt();
+			final Vector3i position_block = new Vector3i(X, Y, Z);
+
+			final BlockState data = player.getWorld().getBlock(position_block);
+			player.getWorld().setBlock(position_block, BlockTypes.AIR.getDefaultState());
 			if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 			{
 				boolean Isnothere = false;
@@ -47,16 +54,16 @@ public class commandAddOre implements CommandExecutor
 						Isnothere = true;
 					}
 				}
-				this.config.getNode("mineName", Name, "items", "item_".concat(String.valueOf(position))).setValue(Orename);
-				this.config.getNode("mineName", Name, "items", "item_".concat(String.valueOf(position)), Orename).setValue(Percentage);
+				this.config.getNode("mineName", Name, "items", "item_".concat(String.valueOf(position)), "BlockState").setValue(data.toString());
+				this.config.getNode("mineName", Name, "items", "item_".concat(String.valueOf(position)), "percentage").setValue(Percentage);
 				prispongemine.plugin.save();
-				src.sendMessage(Text.of("Mine " , Name, " add ore ", Orename));
+				src.sendMessage(Text.of("Mine " , Name, " add altar ore"));
 				return CommandResult.success();
 			}
 			src.sendMessage(Text.of("Mine " + Name + " not found"));
 			return CommandResult.empty();
 		}
-		src.sendMessage(Text.of("Ore not found"));
+		src.sendMessage(Text.of("you must define an altar"));
 		return CommandResult.empty();
 	}
 

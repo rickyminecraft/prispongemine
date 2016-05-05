@@ -35,7 +35,7 @@ public class commandSave implements CommandExecutor
 		{
 			final Vector3i positiondepart = interactionevents.getFirst(player);
 			final Vector3i positionfin = interactionevents.getSecond(player);
-			this.config.getNode("mineName", Name).setValue("");
+			//this.config.getNode("mineName", Name).setValue("");
 			this.config.getNode("mineName", Name, "world").setValue(world);
 			this.config.getNode("mineName", Name, "depart_X").setValue(positiondepart.getX());
 			this.config.getNode("mineName", Name, "depart_Y").setValue(positiondepart.getY());
@@ -45,6 +45,8 @@ public class commandSave implements CommandExecutor
 			this.config.getNode("mineName", Name, "fin_Z").setValue(positionfin.getZ());
 			this.config.getNode("mineName", Name, "renewtime").setValue(24);
 			this.config.getNode("mineName", Name, "renewformat").setValue("HOURS");
+			this.config.getNode("mineName", Name, "autorun").setValue(false);
+			this.config.getNode("mineName", Name, "random").setValue(false);
 			prispongemine.plugin.save();
 			src.sendMessage(Text.of("Mine " , Name, " saved"));
 			return CommandResult.success();

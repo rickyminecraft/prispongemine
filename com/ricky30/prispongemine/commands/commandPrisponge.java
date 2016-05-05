@@ -17,9 +17,12 @@ public class commandPrisponge implements CommandExecutor
 		src.sendMessage(Text.of("Prispongemine plugin"));
 		src.sendMessage(Text.of("Usage:"));
 		src.sendMessage(Text.of("/prisponge define"));
+		src.sendMessage(Text.of("/prisponge altar"));
+		src.sendMessage(Text.of("/prisponge startall"));
+		src.sendMessage(Text.of("/prisponge random"));
+		src.sendMessage(Text.of("/prisponge autorun"));
 		src.sendMessage(Text.of("/prisponge reload"));
 		src.sendMessage(Text.of("/prisponge list"));
-		src.sendMessage(Text.of("/prisponge listblocks"));
 		src.sendMessage(Text.of("/prisponge spawn NAME"));
 		src.sendMessage(Text.of("/prisponge clear NAME"));
 		src.sendMessage(Text.of("/prisponge fill NAME"));
@@ -29,8 +32,8 @@ public class commandPrisponge implements CommandExecutor
 		src.sendMessage(Text.of("/prisponge time NAME time format"));
 		src.sendMessage(Text.of("/prisponge start NAME"));
 		src.sendMessage(Text.of("/prisponge stop NAME"));
-		src.sendMessage(Text.of("/prisponge addore NAME orename percentage"));
-		src.sendMessage(Text.of("/prisponge removeore NAME orename"));
+		src.sendMessage(Text.of("/prisponge addore NAME percentage"));
+		src.sendMessage(Text.of("/prisponge removeore NAME"));
 		return CommandResult.success();
 	}
 

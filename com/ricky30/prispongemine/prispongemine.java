@@ -15,6 +15,7 @@ import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
+import org.spongepowered.api.event.game.state.GameLoadCompleteEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.plugin.Plugin;
@@ -25,16 +26,19 @@ import org.spongepowered.api.world.extent.ExtentBufferFactory;
 
 import com.google.inject.Inject;
 import com.ricky30.prispongemine.commands.commandAddOre;
+import com.ricky30.prispongemine.commands.commandAltar;
+import com.ricky30.prispongemine.commands.commandAutorun;
 import com.ricky30.prispongemine.commands.commandChangetool;
 import com.ricky30.prispongemine.commands.commandClear;
 import com.ricky30.prispongemine.commands.commandDefine;
 import com.ricky30.prispongemine.commands.commandDelete;
 import com.ricky30.prispongemine.commands.commandFill;
 import com.ricky30.prispongemine.commands.commandList;
-import com.ricky30.prispongemine.commands.commandListBlocks;
 import com.ricky30.prispongemine.commands.commandPrisponge;
+import com.ricky30.prispongemine.commands.commandRandomOre;
 import com.ricky30.prispongemine.commands.commandReload;
 import com.ricky30.prispongemine.commands.commandRemoveOre;
+import com.ricky30.prispongemine.commands.commandRunall;
 import com.ricky30.prispongemine.commands.commandSave;
 import com.ricky30.prispongemine.commands.commandSpawn;
 import com.ricky30.prispongemine.commands.commandStart;
@@ -50,7 +54,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
-@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "1.2.1")
+@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "2.0")
 public class prispongemine
 {
 	public static ExtentBufferFactory EXTENT_BUFFER_FACTORY;
@@ -205,19 +209,31 @@ public class prispongemine
 						GenericArguments.onlyOne(GenericArguments.string(Text.of("format"))))
 				.executor(new commandTime())
 				.build());
+		subcommands.put(Arrays.asList("autorun"), CommandSpec.builder()
+				.description(Text.of("change autorun value of a mine"))
+				.permission("prisponge.autorun")
+				.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("name")))),
+						GenericArguments.onlyOne(GenericArguments.bool(Text.of("autorun"))))
+				.executor(new commandAutorun())
+				.build());
+		subcommands.put(Arrays.asList("random"), CommandSpec.builder()
+				.description(Text.of("change random value of a mine"))
+				.permission("prisponge.random")
+				.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("name")))),
+						GenericArguments.onlyOne(GenericArguments.bool(Text.of("random"))))
+				.executor(new commandRandomOre())
+				.build());
 		subcommands.put(Arrays.asList("addore"), CommandSpec.builder()
 				.description(Text.of("add Ore to a mine, by default, a mine is full of stone"))
 				.permission("prisponge.addore")
 				.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("name")))),
-						GenericArguments.onlyOne(GenericArguments.string(Text.of("orename"))),
 						GenericArguments.onlyOne(GenericArguments.doubleNum(Text.of("percentage"))))
 				.executor(new commandAddOre())
 				.build());
 		subcommands.put(Arrays.asList("removeore"), CommandSpec.builder()
 				.description(Text.of("remove Ore from a mine"))
 				.permission("prisponge.removeore")
-				.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("name")))),
-						GenericArguments.onlyOne(GenericArguments.string(Text.of("orename"))))
+				.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("name"))))
 				.executor(new commandRemoveOre())
 				.build());
 		subcommands.put(Arrays.asList("reload"), CommandSpec.builder()
@@ -230,10 +246,10 @@ public class prispongemine
 				.permission("prisponge.list")
 				.executor(new commandList())
 				.build());
-		subcommands.put(Arrays.asList("listblocks"), CommandSpec.builder()
-				.description(Text.of("list all block"))
-				.permission("prisponge.listblocks")
-				.executor(new commandListBlocks())
+		subcommands.put(Arrays.asList("altar"), CommandSpec.builder()
+				.description(Text.of("define an altar"))
+				.permission("prisponge.altar")
+				.executor(new commandAltar())
 				.build());
 		subcommands.put(Arrays.asList("clear"), CommandSpec.builder()
 				.description(Text.of("clear a mine"))
@@ -247,6 +263,11 @@ public class prispongemine
 				.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("name"))))
 				.executor(new commandSpawn())
 				.build());
+		subcommands.put(Arrays.asList("startall"), CommandSpec.builder()
+				.description(Text.of("start all mine"))
+				.permission("prisponge.startall")
+				.executor(new commandRunall())
+				.build());
 
 		final CommandSpec prispongecommand = CommandSpec.builder()
 				.description(Text.of("list all prispongemine Command"))
@@ -255,6 +276,22 @@ public class prispongemine
 				.build();
 		Sponge.getCommandManager().register(this, prispongecommand, "prisponge");
 		getLogger().info("Prispongemine started.");
+	}
+
+	//autorun
+	@Listener
+	public void onServerReady(GameLoadCompleteEvent event)
+	{
+		for (final Object text: this.config.getNode("mineName").getChildrenMap().keySet())
+		{
+			if (this.config.getNode("mineName", text.toString(), "autorun").getBoolean())
+			{
+				final int time = this.config.getNode("mineName", text.toString(), "renewtime").getInt();
+				final String format = this.config.getNode("mineName", text.toString(), "renewformat").getString();
+				final String world =  this.config.getNode("mineName", text.toString(), "world").getString();
+				timers.add(text.toString(), time, format, world);
+			}
+		}
 	}
 
 	@Listener
