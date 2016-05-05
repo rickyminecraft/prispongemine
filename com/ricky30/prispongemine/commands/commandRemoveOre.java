@@ -1,6 +1,7 @@
 package com.ricky30.prispongemine.commands;
 
 import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -48,6 +49,7 @@ public class commandRemoveOre implements CommandExecutor
 
 					if (data.equals(state))
 					{
+						player.getWorld().setBlock(position_block, BlockTypes.AIR.getDefaultState());
 						this.config.getNode("mineName", Name, "items").removeChild(text);
 						prispongemine.plugin.save();
 						src.sendMessage(Text.of("Mine " + Name + " ore removed"));

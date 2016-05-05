@@ -25,6 +25,7 @@ public class commandRandomOre implements CommandExecutor
 		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
 			this.config.getNode("mineName", Name, "random").setValue(Random);
+			prispongemine.plugin.save();
 			src.sendMessage(Text.of("Mine " , Name, " updated random gen"));
 			return CommandResult.success();
 		}

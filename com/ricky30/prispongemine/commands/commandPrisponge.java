@@ -19,6 +19,7 @@ public class commandPrisponge implements CommandExecutor
 		src.sendMessage(Text.of("/prisponge define"));
 		src.sendMessage(Text.of("/prisponge altar"));
 		src.sendMessage(Text.of("/prisponge startall"));
+		src.sendMessage(Text.of("/prisponge stopall"));
 		src.sendMessage(Text.of("/prisponge random"));
 		src.sendMessage(Text.of("/prisponge autorun"));
 		src.sendMessage(Text.of("/prisponge reload"));

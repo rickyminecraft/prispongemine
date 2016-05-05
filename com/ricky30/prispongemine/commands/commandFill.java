@@ -113,6 +113,38 @@ public class commandFill implements CommandExecutor
 				//add percentage to total;
 				percentage_global += percentage;
 			}
+			//if random is set
+			if (this.config.getNode("mineName", Name, "random").getBoolean())
+			{
+				//get number of ore
+				final int Size = ore.size();
+				//random with only one ore is useless
+				if (Size > 1)
+				{
+					RANDOM = new Random();
+					//random with half the ore
+					for (int loop = 0; loop < (Size/2); loop++)
+					{
+						//get rand int
+						final int Key = RANDOM.nextInt(Size);
+						//an array of blockstate who get smaller with each loop
+						final BlockState[] All = new BlockState[ore.size()];
+						int number = 0;
+						//copy all blockstate left
+						for (final BlockState Bstate : ore.keySet())
+						{
+							All[number] = Bstate;
+							number++;
+						}
+						//get the rand blockstate
+						final BlockState state = All[Key];
+						//remove it
+						ore.remove(state);
+						orecount.remove(state);
+					}
+				}
+			}
+
 			//100% is all block
 			//we check for equal to prevent jump to else
 			//prevent bad percentages

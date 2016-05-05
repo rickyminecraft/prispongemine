@@ -8,10 +8,11 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.text.Text;
 
 import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.task.timers;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
-public class commandAutorun implements CommandExecutor
+public class commandStopall implements CommandExecutor
 {
 	private ConfigurationNode config = null;
 
@@ -20,17 +21,12 @@ public class commandAutorun implements CommandExecutor
 			throws CommandException
 	{
 		this.config = prispongemine.plugin.getConfig();
-		final String Name = args.<String>getOne("name").get();
-		final boolean Autorun = args.<Boolean>getOne("autorun").get();
-		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
+		for (final Object text: this.config.getNode("mineName").getChildrenMap().keySet())
 		{
-			this.config.getNode("mineName", Name, "autorun").setValue(Autorun);
-			prispongemine.plugin.save();
-			src.sendMessage(Text.of("Mine " , Name, " updated autorun"));
-			return CommandResult.success();
+			timers.remove(text.toString());
+			src.sendMessage(Text.of("Mine ", text.toString(), " stop"));
 		}
-		src.sendMessage(Text.of("Mine " + Name + " not found"));
-		return CommandResult.empty();
+		src.sendMessage(Text.of("All mines stopped now"));
+		return CommandResult.success();
 	}
-
 }

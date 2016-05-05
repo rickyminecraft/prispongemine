@@ -167,7 +167,7 @@ public class prispongemine
 				.executor(new commandDefine())
 				.build());
 		subcommands.put(Arrays.asList("changetool"), CommandSpec.builder()
-				.description(Text.of("change tool used to define a MO"))
+				.description(Text.of("change tool used to define a mine"))
 				.permission("prisponge.changetool")
 				.executor(new commandChangetool())
 				.build());
@@ -268,6 +268,11 @@ public class prispongemine
 				.permission("prisponge.startall")
 				.executor(new commandRunall())
 				.build());
+		subcommands.put(Arrays.asList("stopall"), CommandSpec.builder()
+				.description(Text.of("stop all mine"))
+				.permission("prisponge.stopall")
+				.executor(new commandRunall())
+				.build());
 
 		final CommandSpec prispongecommand = CommandSpec.builder()
 				.description(Text.of("list all prispongemine Command"))
@@ -308,7 +313,7 @@ public class prispongemine
 
 	private void setupconfig()
 	{
-		this.config.getNode("ConfigVersion").setValue(2);
+		this.config.getNode("ConfigVersion").setValue(3);
 		this.config.getNode("tool").setValue(ItemTypes.STICK.getId());
 		save();
 	}
