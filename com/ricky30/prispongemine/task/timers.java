@@ -3,23 +3,19 @@ package com.ricky30.prispongemine.task;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
-import com.ricky30.prispongemine.prispongemine;
 import com.ricky30.prispongemine.utility.teleport;
-
-import ninja.leaping.configurate.ConfigurationNode;
 
 public class timers
 {
-	static Map<String, Integer> timer = new ConcurrentHashMap<String, Integer>(256);
-	static Map<String, Integer> wasted = new HashMap<String, Integer>(256);
-	static Map<String, String> theworld = new HashMap<String, String>(256);
-
-	private static ConfigurationNode config = null;
+	static Map<String, Integer> timer = new ConcurrentHashMap<String, Integer>();
+	static Map<String, Integer> wasted = new HashMap<String, Integer>();
+	static Map<String, UUID> theworld = new HashMap<String, UUID>();
 
 	public static void run() 
 	{
@@ -37,7 +33,7 @@ public class timers
 					{
 						for (final Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
+							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
 							{
 								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " five minute left"));
 							}
@@ -47,7 +43,7 @@ public class timers
 					{
 						for (final Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
+							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
 							{
 								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " one minute left"));
 							}
@@ -57,7 +53,7 @@ public class timers
 					{
 						for (final Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
+							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
 							{
 								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 30 seconds left"));
 							}
@@ -67,7 +63,7 @@ public class timers
 					{
 						for (final Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
+							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
 							{
 								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 10 seconds left"));
 							}
@@ -77,7 +73,7 @@ public class timers
 					{
 						for (final Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
+							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
 							{
 								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 5 seconds left"));
 							}
@@ -87,7 +83,7 @@ public class timers
 					{
 						for (final Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
+							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
 							{
 								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 4 seconds left"));
 							}
@@ -97,7 +93,7 @@ public class timers
 					{
 						for (final Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
+							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
 							{
 								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 3 seconds left"));
 							}
@@ -107,7 +103,7 @@ public class timers
 					{
 						for (final Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
+							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
 							{
 								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 2 seconds left"));
 							}
@@ -117,7 +113,7 @@ public class timers
 					{
 						for (final Player player: Sponge.getServer().getOnlinePlayers())
 						{
-							if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
+							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
 							{
 								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 1 second left"));
 							}
@@ -134,7 +130,7 @@ public class timers
 					Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "prisponge" +" fill " + Mine_name.getKey());
 					for (final Player player: Sponge.getServer().getOnlinePlayers())
 					{
-						if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name.getKey(), "world").getString()))
+						if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
 						{
 							player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " refill done"));
 						}
@@ -145,9 +141,8 @@ public class timers
 		}
 	}
 
-	public static void add(String name, int duration, String format, String world)
+	public static void add(String name, int duration, String format, UUID uuid)
 	{
-		config = prispongemine.plugin.getConfig();
 		if (timer.get(name) == null)
 		{
 			if (format.equals("SECONDS") || format.equals("MINUTES") || format.equals("HOURS") || format.equals("DAYS"))
@@ -171,7 +166,7 @@ public class timers
 				}
 
 				timer.put(name, durationsecond);
-				theworld.put(name, world);
+				theworld.put(name, uuid);
 				wasted.put(name, -1);
 			}
 		}

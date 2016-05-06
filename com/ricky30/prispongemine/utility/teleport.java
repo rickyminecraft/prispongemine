@@ -1,5 +1,7 @@
 package com.ricky30.prispongemine.utility;
 
+import java.util.UUID;
+
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.world.Location;
@@ -36,6 +38,8 @@ public class teleport
 			X3 = config.getNode("mineName", Mine_name, "Spawn", "Spawn_X").getDouble();
 			Y3 = config.getNode("mineName", Mine_name, "Spawn", "Spawn_Y").getDouble();
 			Z3 = config.getNode("mineName", Mine_name, "Spawn", "Spawn_Z").getDouble();
+			final String world = config.getNode("mineName", Mine_name, "Spawn", "world").getString();
+			final World Spawn_World = Sponge.getServer().getWorld(UUID.fromString(world)).get();
 
 			//converted to vector
 			final Vector3i first = new Vector3i(X1, Y1, Z1);
@@ -43,13 +47,14 @@ public class teleport
 			final Vector3d spawn = new Vector3d(X3, Y3, Z3);
 			for (final Player player: Sponge.getServer().getOnlinePlayers())
 			{
-				if (player.getWorld().getName().equals(config.getNode("mineName", Mine_name, "world").getString()))
+				if (player.getWorld().getUniqueId().equals(UUID.fromString(config.getNode("mineName", Mine_name, "world").getString())))
 				{
 					final Location<World> location = player.getLocation();
 					if (IsInside(location.getBlockPosition(), first, second))
 					{
-						final Location<World> SpawnLoc = new Location<World>(player.getWorld(), spawn);
-						player.setLocation(SpawnLoc);
+						player.transferToWorld(Spawn_World.getName(), spawn);
+						//final Location<World> SpawnLoc = new Location<World>(player.getWorld(), spawn);
+						//player.setLocation(SpawnLoc);
 					}
 				}
 			}

@@ -1,5 +1,8 @@
 package com.ricky30.prispongemine.commands;
 
+import java.util.UUID;
+
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -79,7 +82,7 @@ public class commandList implements CommandExecutor
 			//number of block inside the mine
 			final int total_block = size.getX() * size.getY() * size.getZ();
 			//get the world of this mine
-			final String World = this.config.getNode("mineName", text.toString(), "world").getString();
+			final UUID World = UUID.fromString(this.config.getNode("mineName", text.toString(), "world").getString());
 			src.sendMessage(Text.of("Mine: " , text.toString()));
 			src.sendMessage(Text.of("Coordinates: X=" , first.getX()," Y=", first.getY()," Z=", first.getZ(), " to X=" ,second.getX()," Y=", second.getY()," Z=", second.getZ()));
 			if (HasSpawn)
@@ -87,7 +90,7 @@ public class commandList implements CommandExecutor
 				src.sendMessage(Text.of("Spawn: X=" , X3," Y=", Y3," Z=", Z3));
 			}
 			src.sendMessage(Text.of("Size: " , total_block, " blocks"));
-			src.sendMessage(Text.of("World: " , World));
+			src.sendMessage(Text.of("World: " , Sponge.getServer().getWorld(World).get().getName()));
 		}
 
 		return CommandResult.success();

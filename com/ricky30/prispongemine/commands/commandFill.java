@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 import java.util.Map.Entry;
 
 import org.spongepowered.api.Sponge;
@@ -33,7 +34,7 @@ public class commandFill implements CommandExecutor
 
 	private ConfigurationNode config = null;
 
-	private final Map<String, BlockState> TEST_BLOCKS = new HashMap<String, BlockState>();;
+	private final Map<String, BlockState> TEST_BLOCKS = new HashMap<String, BlockState>();
 
 	private final Map<BlockState, Float> ore= new HashMap<BlockState, Float>();
 	private final Map<BlockState, Integer> orecount= new HashMap<BlockState, Integer>();
@@ -234,7 +235,7 @@ public class commandFill implements CommandExecutor
 				}
 			}
 			//get the world where the mine is located
-			final World world = Sponge.getServer().getWorld(this.config.getNode("mineName", Name, "world").getString()).get();
+			final World world = Sponge.getServer().getWorld(UUID.fromString(this.config.getNode("mineName", Name, "world").getString())).get();
 			//next location in the world of our blocks inside a volume
 			final MutableBlockVolume Mvolume = world.getBlockView(com.ricky30.prispongemine.utility.size.Min(first, second), com.ricky30.prispongemine.utility.size.Max(first, second));
 			//teleport all player inside the mine if there is a spawn

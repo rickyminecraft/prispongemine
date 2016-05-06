@@ -58,7 +58,7 @@ public class interactionevents
 		if (setAltar)
 		{
 			Altar = Event.getTargetBlock().getPosition();
-			altar.SaveAltar(Altar);
+			altar.SaveAltar(Altar, player.getWorld().getUniqueId());
 			player.getCommandSource().get().sendMessage(Text.of("Altar defined"));
 		}
 		if (!isActive.isEmpty())

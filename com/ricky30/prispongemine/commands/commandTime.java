@@ -25,7 +25,7 @@ public class commandTime implements CommandExecutor
 		{
 			Time = 5;
 		}
-		final String Format = args.<String>getOne("format").get();
+		final String Format = args.<String>getOne("format").get().toUpperCase();
 		this.config = prispongemine.plugin.getConfig();
 		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{

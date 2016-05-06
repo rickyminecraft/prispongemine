@@ -1,5 +1,7 @@
 package com.ricky30.prispongemine.commands;
 
+import java.util.UUID;
+
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -26,7 +28,7 @@ public class commandRunall implements CommandExecutor
 			final int time = this.config.getNode("mineName", text.toString(), "renewtime").getInt();
 			final String format = this.config.getNode("mineName", text.toString(), "renewformat").getString();
 			final String world =  this.config.getNode("mineName", text.toString(), "world").getString();
-			timers.add(text.toString(), time, format, world);
+			timers.add(text.toString(), time, format, UUID.fromString(world));
 			src.sendMessage(Text.of("Mine ", text.toString(), " start"));
 		}
 		src.sendMessage(Text.of("All mines started now"));

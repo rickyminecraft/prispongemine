@@ -1,5 +1,7 @@
 package com.ricky30.prispongemine.commands;
 
+import java.util.UUID;
+
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -24,7 +26,7 @@ public class commandSave implements CommandExecutor
 	{
 		final String Name = args.<String>getOne("name").get();
 		final Player player = (Player) src;
-		final String world = player.getWorld().getName();
+		final UUID world = player.getWorld().getUniqueId();
 		this.config = prispongemine.plugin.getConfig();
 		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
@@ -35,8 +37,7 @@ public class commandSave implements CommandExecutor
 		{
 			final Vector3i positiondepart = interactionevents.getFirst(player);
 			final Vector3i positionfin = interactionevents.getSecond(player);
-			//this.config.getNode("mineName", Name).setValue("");
-			this.config.getNode("mineName", Name, "world").setValue(world);
+			this.config.getNode("mineName", Name, "world").setValue(world.toString());
 			this.config.getNode("mineName", Name, "depart_X").setValue(positiondepart.getX());
 			this.config.getNode("mineName", Name, "depart_Y").setValue(positiondepart.getY());
 			this.config.getNode("mineName", Name, "depart_Z").setValue(positiondepart.getZ());

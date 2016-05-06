@@ -1,5 +1,7 @@
 package com.ricky30.prispongemine.commands;
 
+import java.util.UUID;
+
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -27,7 +29,7 @@ public class commandStart implements CommandExecutor
 			final int time = this.config.getNode("mineName", Name, "renewtime").getInt();
 			final String format = this.config.getNode("mineName", Name, "renewformat").getString();
 			final String world =  this.config.getNode("mineName", Name, "world").getString();
-			timers.add(Name, time, format, world);
+			timers.add(Name, time, format, UUID.fromString(world));
 			src.sendMessage(Text.of("Mine " , Name, " timer start"));
 			return CommandResult.success();
 		}

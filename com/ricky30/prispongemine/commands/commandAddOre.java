@@ -1,5 +1,8 @@
 package com.ricky30.prispongemine.commands;
 
+import java.util.UUID;
+
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.command.CommandException;
@@ -7,8 +10,8 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.World;
 
 import com.flowpowered.math.vector.Vector3i;
 import com.ricky30.prispongemine.prispongemine;
@@ -25,7 +28,6 @@ public class commandAddOre implements CommandExecutor
 	{
 		final String Name = args.<String>getOne("name").get();
 		final float Percentage = args.<Double>getOne("percentage").get().floatValue();
-		final Player player = (Player) src;
 		this.config = prispongemine.plugin.getConfig();
 		if (!config.getNode("altar").isVirtual())
 		{
@@ -38,10 +40,12 @@ public class commandAddOre implements CommandExecutor
 			X = config.getNode("altar", "altar_X").getInt();
 			Y = config.getNode("altar", "altar_Y").getInt();
 			Z = config.getNode("altar", "altar_Z").getInt();
+			final String world = config.getNode("altar", "world").getString();
+			final World Altar_World = Sponge.getServer().getWorld(UUID.fromString(world)).get();
 			final Vector3i position_block = new Vector3i(X, Y, Z);
 
-			final BlockState data = player.getWorld().getBlock(position_block);
-			player.getWorld().setBlock(position_block, BlockTypes.AIR.getDefaultState());
+			final BlockState data = Altar_World.getBlock(position_block);
+			Altar_World.setBlock(position_block, BlockTypes.AIR.getDefaultState());
 			if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 			{
 				boolean Isnothere = false;

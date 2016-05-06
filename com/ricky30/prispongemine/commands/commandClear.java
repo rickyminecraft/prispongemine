@@ -1,5 +1,7 @@
 package com.ricky30.prispongemine.commands;
 
+import java.util.UUID;
+
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.command.CommandException;
@@ -88,7 +90,7 @@ public class commandClear implements CommandExecutor
 				}
 			}
 			//get the world where the prison is located
-			final World world = Sponge.getServer().getWorld(this.config.getNode("mineName", Name, "world").getString()).get();
+			final World world = Sponge.getServer().getWorld(UUID.fromString(this.config.getNode("mineName", Name, "world").getString())).get();
 			final MutableBlockVolume Mvolume = world.getBlockView(com.ricky30.prispongemine.utility.size.Min(first, second), com.ricky30.prispongemine.utility.size.Max(first, second));
 			//fill the prison with buffer blocks
 			ClearTask.Fill(Mvolume, com.ricky30.prispongemine.utility.size.Min(first, second), com.ricky30.prispongemine.utility.size.Max(first, second), Name);

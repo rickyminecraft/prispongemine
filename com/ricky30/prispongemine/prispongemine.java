@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -45,6 +46,7 @@ import com.ricky30.prispongemine.commands.commandStart;
 import com.ricky30.prispongemine.commands.commandStop;
 import com.ricky30.prispongemine.commands.commandTime;
 import com.ricky30.prispongemine.commands.commandUpdate;
+import com.ricky30.prispongemine.commands.commandUpdateconfig;
 import com.ricky30.prispongemine.events.interactionevents;
 import com.ricky30.prispongemine.task.ClearTask;
 import com.ricky30.prispongemine.task.FillTask;
@@ -54,7 +56,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
-@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "2.0")
+@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "2.0.1")
 public class prispongemine
 {
 	public static ExtentBufferFactory EXTENT_BUFFER_FACTORY;
@@ -116,12 +118,6 @@ public class prispongemine
 		try
 		{
 			reload();
-			if (this.config.getNode("ConfigVersion").getInt() != 2)
-			{
-				getLogger().info("Your config file is outdated");
-				getLogger().info("I update it");
-				setupconfig();
-			}
 			if (!Files.exists(getDefaultConfig())) 
 			{
 
@@ -273,6 +269,11 @@ public class prispongemine
 				.permission("prisponge.stopall")
 				.executor(new commandRunall())
 				.build());
+		subcommands.put(Arrays.asList("updateconfig"), CommandSpec.builder()
+				.description(Text.of("update config file"))
+				.permission("prisponge.updateconfig")
+				.executor(new commandUpdateconfig())
+				.build());
 
 		final CommandSpec prispongecommand = CommandSpec.builder()
 				.description(Text.of("list all prispongemine Command"))
@@ -294,7 +295,7 @@ public class prispongemine
 				final int time = this.config.getNode("mineName", text.toString(), "renewtime").getInt();
 				final String format = this.config.getNode("mineName", text.toString(), "renewformat").getString();
 				final String world =  this.config.getNode("mineName", text.toString(), "world").getString();
-				timers.add(text.toString(), time, format, world);
+				timers.add(text.toString(), time, format, UUID.fromString(world));
 			}
 		}
 	}
