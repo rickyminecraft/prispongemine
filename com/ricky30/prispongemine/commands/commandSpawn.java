@@ -31,6 +31,9 @@ public class commandSpawn implements CommandExecutor
 			this.config.getNode("mineName", Name, "Spawn", "Spawn_X").setValue(Spawn.getX());
 			this.config.getNode("mineName", Name, "Spawn", "Spawn_Y").setValue(Spawn.getY());
 			this.config.getNode("mineName", Name, "Spawn", "Spawn_Z").setValue(Spawn.getZ());
+			this.config.getNode("mineName", Name, "Spawn", "Spawn_Pitch").setValue(player.getRotation().getX());
+			this.config.getNode("mineName", Name, "Spawn", "Spawn_Yaw").setValue(player.getRotation().getY());
+			this.config.getNode("mineName", Name, "Spawn", "Spawn_Roll").setValue(player.getRotation().getZ());
 			this.config.getNode("mineName", Name, "Spawn", "world").setValue(player.getWorld().getUniqueId().toString());
 			prispongemine.plugin.save();
 			src.sendMessage(Text.of("Mine " , Name, " Spawn saved"));

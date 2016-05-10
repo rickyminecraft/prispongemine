@@ -28,7 +28,7 @@ public class teleport
 		if (HasSpawn)
 		{
 			int X1, X2, Y1, Y2, Z1, Z2;
-			double X3 = 0, Y3 = 0, Z3 = 0;
+			double X3 = 0, Y3 = 0, Z3 = 0, X4 = 0, Y4 = 0, Z4 = 0;
 			X1 = config.getNode("mineName", Mine_name, "depart_X").getInt();
 			Y1 = config.getNode("mineName", Mine_name, "depart_Y").getInt();
 			Z1 = config.getNode("mineName", Mine_name, "depart_Z").getInt();
@@ -38,6 +38,9 @@ public class teleport
 			X3 = config.getNode("mineName", Mine_name, "Spawn", "Spawn_X").getDouble();
 			Y3 = config.getNode("mineName", Mine_name, "Spawn", "Spawn_Y").getDouble();
 			Z3 = config.getNode("mineName", Mine_name, "Spawn", "Spawn_Z").getDouble();
+			X4 = config.getNode("mineName", Mine_name, "Spawn", "Spawn_Pitch").getDouble();
+			Y4 = config.getNode("mineName", Mine_name, "Spawn", "Spawn_Yaw").getDouble();
+			Z4 = config.getNode("mineName", Mine_name, "Spawn", "Spawn_Roll").getDouble();
 			final String world = config.getNode("mineName", Mine_name, "Spawn", "world").getString();
 			final World Spawn_World = Sponge.getServer().getWorld(UUID.fromString(world)).get();
 
@@ -45,6 +48,7 @@ public class teleport
 			final Vector3i first = new Vector3i(X1, Y1, Z1);
 			final Vector3i second = new Vector3i(X2, Y2, Z2);
 			final Vector3d spawn = new Vector3d(X3, Y3, Z3);
+			final Vector3d spawnRotation = new Vector3d(X4, Y4, Z4);
 			for (final Player player: Sponge.getServer().getOnlinePlayers())
 			{
 				if (player.getWorld().getUniqueId().equals(UUID.fromString(config.getNode("mineName", Mine_name, "world").getString())))
@@ -53,6 +57,7 @@ public class teleport
 					if (IsInside(location.getBlockPosition(), first, second))
 					{
 						player.transferToWorld(Spawn_World.getName(), spawn);
+						player.setRotation(spawnRotation);
 					}
 				}
 			}

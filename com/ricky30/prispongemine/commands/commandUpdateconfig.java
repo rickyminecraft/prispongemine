@@ -111,6 +111,12 @@ public class commandUpdateconfig implements CommandExecutor
 				{
 					this.config.getNode("mineName", text.toString(), "Spawn", "world").setValue(player.getWorld().getUniqueId().toString());
 				}
+				if (this.config.getNode("mineName", text.toString(), "Spawn").getChildrenMap().get("Spawn_Pitch") == null)
+				{
+					this.config.getNode("mineName", text.toString(), "Spawn", "Spawn_Pitch").setValue(player.getRotation().getX());
+					this.config.getNode("mineName", text.toString(), "Spawn", "Spawn_Yaw").setValue(player.getRotation().getY());
+					this.config.getNode("mineName", text.toString(), "Spawn", "Spawn_Roll").setValue(player.getRotation().getZ());
+				}
 			}
 		}
 	}
