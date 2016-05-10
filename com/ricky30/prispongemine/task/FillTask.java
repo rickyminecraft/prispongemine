@@ -1,6 +1,5 @@
 package com.ricky30.prispongemine.task;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -11,10 +10,10 @@ import com.ricky30.prispongemine.prispongemine;
 
 public class FillTask
 {
-	private static Map<String, MutableBlockVolume> one = new HashMap<String, MutableBlockVolume>();
-	private static Map<String, MutableBlockVolume> two = new HashMap<String, MutableBlockVolume>();
-	private static Map<String, Vector3i> Start = new HashMap<String, Vector3i>();
-	private static Map<String, Vector3i> End = new HashMap<String, Vector3i>();
+	private static Map<String, MutableBlockVolume> one = new ConcurrentHashMap<String, MutableBlockVolume>();
+	private static Map<String, MutableBlockVolume> two = new ConcurrentHashMap<String, MutableBlockVolume>();
+	private static Map<String, Vector3i> Start = new ConcurrentHashMap<String, Vector3i>();
+	private static Map<String, Vector3i> End = new ConcurrentHashMap<String, Vector3i>();
 	private static Map<String, Boolean> CanStart = new ConcurrentHashMap<String, Boolean>();
 
 	public static void Fill( MutableBlockVolume origin, MutableBlockVolume destination, Vector3i start, Vector3i end, String Name)

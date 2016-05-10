@@ -53,8 +53,6 @@ public class teleport
 					if (IsInside(location.getBlockPosition(), first, second))
 					{
 						player.transferToWorld(Spawn_World.getName(), spawn);
-						//final Location<World> SpawnLoc = new Location<World>(player.getWorld(), spawn);
-						//player.setLocation(SpawnLoc);
 					}
 				}
 			}
