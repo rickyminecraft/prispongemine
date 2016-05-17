@@ -37,20 +37,20 @@ public class FillTask
 					final MutableBlockVolume volumeOne = one.get(Names);
 					final MutableBlockVolume volumeTwo = two.get(Names);
 
-					int WorldX, WorldY , WorldZ, MaxX, MaxY, MaxZ;
-					WorldX = Start.get(Names).getX();
-					WorldY = Start.get(Names).getY();
-					WorldZ = Start.get(Names).getZ();
-					MaxX = End.get(Names).getX();
-					MaxY = End.get(Names).getY();
-					MaxZ = End.get(Names).getZ();
-					for (int x = 0;x< MaxX;x++)
+					int StartX, StartY , StartZ, EndX, EndY, EndZ;
+					StartX = Start.get(Names).getX();
+					StartY = Start.get(Names).getY();
+					StartZ = Start.get(Names).getZ();
+					EndX = End.get(Names).getX();
+					EndY = End.get(Names).getY();
+					EndZ = End.get(Names).getZ();
+					for (int x = 0;x< EndX;x++)
 					{
-						for (int y = 0; y< MaxY; y++)
+						for (int y = 0; y< EndY; y++)
 						{
-							for (int z = 0; z< MaxZ;z++)
+							for (int z = 0; z< EndZ;z++)
 							{
-								volumeTwo.setBlock(WorldX+x, WorldY+y, WorldZ+z, volumeOne.getBlock(x, y, z));
+								volumeTwo.setBlock(StartX+x, StartY+y, StartZ+z, volumeOne.getBlock(x, y, z));
 							}
 						}
 					}

@@ -21,11 +21,11 @@ public class commandTime implements CommandExecutor
 	{
 		final String Name = args.<String>getOne("name").get();
 		int Time = args.<Integer>getOne("duration").get();
-		if (Time <5)
-		{
-			Time = 5;
-		}
 		final String Format = args.<String>getOne("format").get().toUpperCase();
+		if (Time <10 && Format.equals("SECONDS"))
+		{
+			Time = 10;
+		}
 		this.config = prispongemine.plugin.getConfig();
 		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{

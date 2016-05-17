@@ -36,19 +36,18 @@ public class ClearTask
 					CanStart.put(Names, false);
 					final MutableBlockVolume volumeOne = Volume.get(Names);
 
-					int StartX, StartY , StartZ;
+					int StartX, StartY , StartZ, EndX, EndY, EndZ;
 					StartX = Start.get(Names).getX();
 					StartY = Start.get(Names).getY();
 					StartZ = Start.get(Names).getZ();
-					int MaxX, MaxY, MaxZ;
-					MaxX = End.get(Names).getX();
-					MaxY = End.get(Names).getY();
-					MaxZ = End.get(Names).getZ();
-					for (int x = StartX; x<= MaxX;x++)
+					EndX = End.get(Names).getX();
+					EndY = End.get(Names).getY();
+					EndZ = End.get(Names).getZ();
+					for (int x = StartX; x<= EndX;x++)
 					{
-						for (int y = StartY; y<= MaxY; y++)
+						for (int y = StartY; y<= EndY; y++)
 						{
-							for (int z = StartZ; z<= MaxZ;z++)
+							for (int z = StartZ; z<= EndZ;z++)
 							{
 								volumeOne.setBlock(x, y, z, BlockTypes.AIR.getDefaultState());
 							}

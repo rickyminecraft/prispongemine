@@ -8,7 +8,7 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.text.Text;
 
 import com.ricky30.prispongemine.prispongemine;
-import com.ricky30.prispongemine.task.timers;
+import com.ricky30.prispongemine.task.Timers;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -24,7 +24,7 @@ public class commandDelete implements CommandExecutor
 		this.config = prispongemine.plugin.getConfig();
 		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
-			timers.remove(Name);
+			Timers.remove(Name);
 			this.config.getNode("mineName").removeChild(Name);
 			prispongemine.plugin.save();
 			src.sendMessage(Text.of("Mine " , Name, " deleted"));

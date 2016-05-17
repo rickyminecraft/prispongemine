@@ -16,6 +16,7 @@ import org.spongepowered.api.world.extent.MutableBlockVolume;
 import com.flowpowered.math.vector.Vector3i;
 import com.ricky30.prispongemine.prispongemine;
 import com.ricky30.prispongemine.task.ClearTask;
+import com.ricky30.prispongemine.utility.size;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -32,7 +33,7 @@ public class commandClear implements CommandExecutor
 		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
 			//get the size of the prison
-			int X1, X2, Y1, Y2, Z1, Z2;
+			int X1, X2, X3, Y1, Y2, Y3, Z1, Z2, Z3;
 			X1 = this.config.getNode("mineName", Name, "depart_X").getInt();
 			Y1 = this.config.getNode("mineName", Name, "depart_Y").getInt();
 			Z1 = this.config.getNode("mineName", Name, "depart_Z").getInt();
@@ -45,35 +46,34 @@ public class commandClear implements CommandExecutor
 			final Vector3i second = new Vector3i(X2, Y2, Z2);
 
 			//here we look for which is greater than
-			int x1, y1, z1;
 			if (first.getX() < second.getX())
 			{
-				x1 = second.getX() - first.getX();
+				X3 = second.getX() - first.getX();
 			}
 			else
 			{
-				x1 = first.getX() - second.getX();
+				X3 = first.getX() - second.getX();
 
 			}
 			if (first.getY() < second.getY())
 			{
-				y1 = second.getY() - first.getY();
+				Y3 = second.getY() - first.getY();
 			}
 			else
 			{
-				y1 = first.getY() - second.getY();
+				Y3 = first.getY() - second.getY();
 			}
 			if (first.getZ() < second.getZ())
 			{
-				z1 = second.getZ() - first.getZ();
+				Z3 = second.getZ() - first.getZ();
 			}
 			else
 			{
-				z1 = first.getZ() - second.getZ();
+				Z3 = first.getZ() - second.getZ();
 			}
 
 			//set the size of the prison
-			Vector3i taille = new Vector3i(x1, y1, z1);
+			Vector3i taille = new Vector3i(X3, Y3, Z3);
 			taille = taille.add(1, 1, 1);
 
 			final MutableBlockVolume volume = prispongemine.EXTENT_BUFFER_FACTORY.createBlockBuffer(taille);
@@ -91,9 +91,9 @@ public class commandClear implements CommandExecutor
 			}
 			//get the world where the prison is located
 			final World world = Sponge.getServer().getWorld(UUID.fromString(this.config.getNode("mineName", Name, "world").getString())).get();
-			final MutableBlockVolume Mvolume = world.getBlockView(com.ricky30.prispongemine.utility.size.Min(first, second), com.ricky30.prispongemine.utility.size.Max(first, second));
+			final MutableBlockVolume Mvolume = world.getBlockView(size.Min(first, second), size.Max(first, second));
 			//fill the prison with buffer blocks
-			ClearTask.Fill(Mvolume, com.ricky30.prispongemine.utility.size.Min(first, second), com.ricky30.prispongemine.utility.size.Max(first, second), Name);
+			ClearTask.Fill(Mvolume, size.Min(first, second), size.Max(first, second), Name);
 			prispongemine.plugin.StartTaskClear();
 			prispongemine.plugin.getLogger().info("Mine " + Name + " start clear");
 			return CommandResult.success();

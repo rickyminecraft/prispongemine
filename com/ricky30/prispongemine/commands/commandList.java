@@ -27,7 +27,7 @@ public class commandList implements CommandExecutor
 		for (final Object text: this.config.getNode("mineName").getChildrenMap().keySet())
 		{
 			//get the size of the mine
-			int X1, X2, Y1, Y2, Z1, Z2;
+			int X1, X2, X4, Y1, Y2, Y4, Z1, Z2, Z4;
 			double X3 = 0, Y3 = 0, Z3 = 0;
 			X1 = this.config.getNode("mineName", text.toString(), "depart_X").getInt();
 			Y1 = this.config.getNode("mineName", text.toString(), "depart_Y").getInt();
@@ -50,34 +50,33 @@ public class commandList implements CommandExecutor
 			final Vector3i second = new Vector3i(X2, Y2, Z2);
 
 			//here we look for which is greater than
-			int x1, y1, z1;
 			if (first.getX() < second.getX())
 			{
-				x1 = second.getX() - first.getX();
+				X4 = second.getX() - first.getX();
 			}
 			else
 			{
-				x1 = first.getX() - second.getX();
+				X4 = first.getX() - second.getX();
 
 			}
 			if (first.getY() < second.getY())
 			{
-				y1 = second.getY() - first.getY();
+				Y4 = second.getY() - first.getY();
 			}
 			else
 			{
-				y1 = first.getY() - second.getY();
+				Y4 = first.getY() - second.getY();
 			}
 			if (first.getZ() < second.getZ())
 			{
-				z1 = second.getZ() - first.getZ();
+				Z4 = second.getZ() - first.getZ();
 			}
 			else
 			{
-				z1 = first.getZ() - second.getZ();
+				Z4 = first.getZ() - second.getZ();
 			}
 			//set the size of the mine
-			Vector3i size = new Vector3i(x1, y1, z1);
+			Vector3i size = new Vector3i(X4, Y4, Z4);
 			size = size.add(1, 1, 1);
 			//number of block inside the mine
 			final int total_block = size.getX() * size.getY() * size.getZ();

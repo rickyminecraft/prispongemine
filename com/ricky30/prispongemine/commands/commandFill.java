@@ -51,7 +51,7 @@ public class commandFill implements CommandExecutor
 		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
 			//get the size of the mine
-			int X1, X2, Y1, Y2, Z1, Z2;
+			int X1, X2, X3, Y1, Y2, Y3, Z1, Z2, Z3;
 			X1 = this.config.getNode("mineName", Name, "depart_X").getInt();
 			Y1 = this.config.getNode("mineName", Name, "depart_Y").getInt();
 			Z1 = this.config.getNode("mineName", Name, "depart_Z").getInt();
@@ -64,34 +64,33 @@ public class commandFill implements CommandExecutor
 			final Vector3i second = new Vector3i(X2, Y2, Z2);
 
 			//here we look for which is greater than
-			int x1, y1, z1;
 			if (first.getX() < second.getX())
 			{
-				x1 = second.getX() - first.getX();
+				X3 = second.getX() - first.getX();
 			}
 			else
 			{
-				x1 = first.getX() - second.getX();
+				X3 = first.getX() - second.getX();
 
 			}
 			if (first.getY() < second.getY())
 			{
-				y1 = second.getY() - first.getY();
+				Y3 = second.getY() - first.getY();
 			}
 			else
 			{
-				y1 = first.getY() - second.getY();
+				Y3 = first.getY() - second.getY();
 			}
 			if (first.getZ() < second.getZ())
 			{
-				z1 = second.getZ() - first.getZ();
+				Z3 = second.getZ() - first.getZ();
 			}
 			else
 			{
-				z1 = first.getZ() - second.getZ();
+				Z3 = first.getZ() - second.getZ();
 			}
 			//set the size of the mine
-			Vector3i size = new Vector3i(x1, y1, z1);
+			Vector3i size = new Vector3i(X3, Y3, Z3);
 			size = size.add(1, 1, 1);
 			//number of block inside the mine
 			final int total_block = size.getX() * size.getY() * size.getZ();
@@ -117,17 +116,15 @@ public class commandFill implements CommandExecutor
 			//if random is set
 			if (this.config.getNode("mineName", Name, "random").getBoolean())
 			{
-				//get number of ore
-				final int Size = ore.size();
 				//random with only one ore is useless
-				if (Size > 1)
+				if (ore.size() > 1)
 				{
 					RANDOM = new Random();
 					//random with half the ore
-					for (int loop = 0; loop < (Size/2); loop++)
+					for (int loop = 0; loop < (ore.size()/2); loop++)
 					{
 						//get rand int
-						final int Key = RANDOM.nextInt(Size);
+						final int Key = RANDOM.nextInt(ore.size());
 						//an array of blockstate who get smaller with each loop
 						final BlockState[] All = new BlockState[ore.size()];
 						int number = 0;

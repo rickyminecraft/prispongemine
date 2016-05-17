@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -48,9 +47,10 @@ import com.ricky30.prispongemine.commands.commandTime;
 import com.ricky30.prispongemine.commands.commandUpdate;
 import com.ricky30.prispongemine.commands.commandUpdateconfig;
 import com.ricky30.prispongemine.events.interactionevents;
+import com.ricky30.prispongemine.task.AutorunTask;
 import com.ricky30.prispongemine.task.ClearTask;
 import com.ricky30.prispongemine.task.FillTask;
-import com.ricky30.prispongemine.task.timers;
+import com.ricky30.prispongemine.task.Timers;
 
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -76,8 +76,9 @@ public class prispongemine
 	private final Scheduler scheduler = Sponge.getScheduler();
 	private final Task.Builder taskBuilder = scheduler.createTaskBuilder();
 	private Task task;
-	private Task task1 = null;
-	private Task task2 = null;
+	private Task task_fill;
+	private Task task_clear;
+	public Task task_autorun;
 
 	public Task gettasks()
 	{
@@ -135,10 +136,10 @@ public class prispongemine
 			@Override
 			public void run()
 			{
-				timers.run();
+				Timers.run();
 			}
 		}).interval(1, TimeUnit.SECONDS).name("prispongemine").submit(this);
-		task1 = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
+		task_fill = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
 		{
 			@Override
 			public void run()
@@ -288,16 +289,7 @@ public class prispongemine
 	@Listener
 	public void onServerReady(GameLoadCompleteEvent event)
 	{
-		for (final Object text: this.config.getNode("mineName").getChildrenMap().keySet())
-		{
-			if (this.config.getNode("mineName", text.toString(), "autorun").getBoolean())
-			{
-				final int time = this.config.getNode("mineName", text.toString(), "renewtime").getInt();
-				final String format = this.config.getNode("mineName", text.toString(), "renewformat").getString();
-				final String world =  this.config.getNode("mineName", text.toString(), "world").getString();
-				timers.add(text.toString(), time, format, UUID.fromString(world));
-			}
-		}
+		StartRunnningAll();
 	}
 
 	@Listener
@@ -305,14 +297,27 @@ public class prispongemine
 	{
 		getLogger().info("Prispongemine stop.");
 		task.cancel();
-		if (task1 != null)
+		if (task_fill != null)
 		{
-			task1.cancel();
+			task_fill.cancel();
 		}
 		task = null;
-		task1 = null;
+		task_fill = null;
 		save();
 		getLogger().info("Prispongemine stopped.");
+	}
+	
+	public void StartRunnningAll()
+	{
+		//runnning the autorun in a task make it run in a separate thread
+		task_autorun = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				AutorunTask.run();
+			}
+		}).interval(2, TimeUnit.MINUTES).name("Autoruntask").submit(this);
 	}
 
 	private void setupconfig()
@@ -351,9 +356,9 @@ public class prispongemine
 
 	public void StartTaskFill()
 	{
-		if (task1 == null)
+		if (task_fill == null)
 		{
-			task1 = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
+			task_fill = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
 			{
 				@Override
 				public void run()
@@ -366,15 +371,15 @@ public class prispongemine
 
 	public void StopTaskFill()
 	{
-		task1.cancel();
-		task1 = null;
+		task_fill.cancel();
+		task_fill = null;
 	}
 
 	public void StartTaskClear()
 	{
-		if (task2 == null)
+		if (task_clear == null)
 		{
-			task2 = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
+			task_clear = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
 			{
 				@Override
 				public void run()
@@ -387,7 +392,7 @@ public class prispongemine
 
 	public void StopTaskClear()
 	{
-		task2.cancel();
-		task2 = null;
+		task_clear.cancel();
+		task_clear = null;
 	}
 }

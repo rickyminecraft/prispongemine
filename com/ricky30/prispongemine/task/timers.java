@@ -11,7 +11,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import com.ricky30.prispongemine.utility.teleport;
 
-public class timers
+public class Timers
 {
 	static Map<String, Integer> timer = new ConcurrentHashMap<String, Integer>();
 	static Map<String, Integer> wasted = new HashMap<String, Integer>();

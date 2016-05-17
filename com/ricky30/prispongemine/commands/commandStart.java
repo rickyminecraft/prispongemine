@@ -10,7 +10,7 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.text.Text;
 
 import com.ricky30.prispongemine.prispongemine;
-import com.ricky30.prispongemine.task.timers;
+import com.ricky30.prispongemine.task.Timers;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -29,7 +29,7 @@ public class commandStart implements CommandExecutor
 			final int time = this.config.getNode("mineName", Name, "renewtime").getInt();
 			final String format = this.config.getNode("mineName", Name, "renewformat").getString();
 			final String world =  this.config.getNode("mineName", Name, "world").getString();
-			timers.add(Name, time, format, UUID.fromString(world));
+			Timers.add(Name, time, format, UUID.fromString(world));
 			src.sendMessage(Text.of("Mine " , Name, " timer start"));
 			return CommandResult.success();
 		}

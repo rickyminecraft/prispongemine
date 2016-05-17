@@ -8,7 +8,7 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.text.Text;
 
 import com.ricky30.prispongemine.prispongemine;
-import com.ricky30.prispongemine.task.timers;
+import com.ricky30.prispongemine.task.Timers;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -23,7 +23,7 @@ public class commandStopall implements CommandExecutor
 		this.config = prispongemine.plugin.getConfig();
 		for (final Object text: this.config.getNode("mineName").getChildrenMap().keySet())
 		{
-			timers.remove(text.toString());
+			Timers.remove(text.toString());
 			src.sendMessage(Text.of("Mine ", text.toString(), " stop"));
 		}
 		src.sendMessage(Text.of("All mines stopped now"));
