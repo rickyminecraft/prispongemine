@@ -51,12 +51,11 @@ import com.ricky30.prispongemine.task.AutorunTask;
 import com.ricky30.prispongemine.task.ClearTask;
 import com.ricky30.prispongemine.task.FillTask;
 import com.ricky30.prispongemine.task.Timers;
-
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
-@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "2.0.3")
+@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "2.0.4")
 public class prispongemine
 {
 	public static ExtentBufferFactory EXTENT_BUFFER_FACTORY;

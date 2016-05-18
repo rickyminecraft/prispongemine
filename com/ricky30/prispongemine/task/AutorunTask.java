@@ -3,7 +3,6 @@ package com.ricky30.prispongemine.task;
 import java.util.UUID;
 
 import com.ricky30.prispongemine.prispongemine;
-
 import ninja.leaping.configurate.ConfigurationNode;
 
 public class AutorunTask
