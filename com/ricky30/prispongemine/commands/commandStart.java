@@ -14,18 +14,14 @@ import com.ricky30.prispongemine.task.Timers;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
-public class commandStart implements CommandExecutor
-{
+public class commandStart implements CommandExecutor {
 	private ConfigurationNode config = null;
 
 	@Override
-	public CommandResult execute(CommandSource src, CommandContext args)
-			throws CommandException
-	{
+	public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 		final String Name = args.<String>getOne("name").get();
 		this.config = prispongemine.plugin.getConfig();
-		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
-		{
+		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null) {
 			final int time = this.config.getNode("mineName", Name, "renewtime").getInt();
 			final String format = this.config.getNode("mineName", Name, "renewformat").getString();
 			final String world =  this.config.getNode("mineName", Name, "world").getString();

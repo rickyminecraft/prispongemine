@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.ricky30.prispongemine.task.*;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.args.GenericArguments;
@@ -47,10 +48,6 @@ import com.ricky30.prispongemine.commands.commandTime;
 import com.ricky30.prispongemine.commands.commandUpdate;
 import com.ricky30.prispongemine.commands.commandUpdateconfig;
 import com.ricky30.prispongemine.events.interactionevents;
-import com.ricky30.prispongemine.task.AutorunTask;
-import com.ricky30.prispongemine.task.ClearTask;
-import com.ricky30.prispongemine.task.FillTask;
-import com.ricky30.prispongemine.task.Timers;
 
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -137,6 +134,7 @@ public class prispongemine
 			public void run()
 			{
 				Timers.run();
+				MineMessages.sendMessages();
 			}
 		}).interval(1, TimeUnit.SECONDS).name("prispongemine").submit(this);
 		task_fill = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
