@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.ricky30.prispongemine.task.*;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.args.GenericArguments;
@@ -47,10 +48,6 @@ import com.ricky30.prispongemine.commands.commandTime;
 import com.ricky30.prispongemine.commands.commandUpdate;
 import com.ricky30.prispongemine.commands.commandUpdateconfig;
 import com.ricky30.prispongemine.events.interactionevents;
-import com.ricky30.prispongemine.task.AutorunTask;
-import com.ricky30.prispongemine.task.ClearTask;
-import com.ricky30.prispongemine.task.FillTask;
-import com.ricky30.prispongemine.task.Timers;
 
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -80,73 +77,62 @@ public class prispongemine
 	private Task task_clear;
 	public Task task_autorun;
 
-	public Task gettasks()
-	{
+	public Task gettasks() {
 		return this.task;
 	}
 
-	public Task.Builder getTaskbuilder()
-	{
+	public Task.Builder getTaskbuilder() {
 		return this.taskBuilder;
 	}
 
-	public ConfigurationNode getConfig()
-	{
+	public ConfigurationNode getConfig() {
 		return this.config;
 	}
 
-	public Path getDefaultConfig() 
-	{
+	public Path getDefaultConfig() {
 		return this.defaultConfig;
 	}
 
-	public ConfigurationLoader<CommentedConfigurationNode> getConfigManager() 
-	{
+	public ConfigurationLoader<CommentedConfigurationNode> getConfigManager() {
 		return this.configManager;
 	}
 
-	public Logger getLogger()
-	{
+	public Logger getLogger() {
 		return this.logger;
 	}
 
 	@Listener
-	public void onServerStart(GameInitializationEvent event)
-	{
+	public void onServerStart(GameInitializationEvent event) {
 		getLogger().info("Prispongemine start.");
 		EXTENT_BUFFER_FACTORY = Sponge.getRegistry().getExtentBufferFactory();
 		plugin = this;
-		try
-		{
+		try {
 			reload();
-			if (!Files.exists(getDefaultConfig())) 
-			{
+			if (!Files.exists(getDefaultConfig())) {
 
 				Files.createFile(getDefaultConfig());
 				setupconfig();
 			}
-		}
-		catch (final IOException e)
-		{
+		} catch (final IOException e) {
 			getLogger().error("Couldn't create default configuration file!");
 		}
 
-		task = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
-		{
+		task = prispongemine.plugin.getTaskbuilder().execute(new Runnable() {
 			@Override
-			public void run()
-			{
+			public void run() {
 				Timers.run();
+				MineMessages.sendMessages();
 			}
-		}).interval(1, TimeUnit.SECONDS).name("prispongemine").submit(this);
-		task_fill = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
-		{
+		})
+				.interval(1, TimeUnit.SECONDS).name("prispongemine").submit(this);
+		task_fill = prispongemine.plugin.getTaskbuilder().execute(new Runnable() {
 			@Override
 			public void run()
 			{
 				FillTask.run();
 			}
-		}).interval(100, TimeUnit.MILLISECONDS).name("Filltask").submit(this);
+		})
+				.interval(100, TimeUnit.MILLISECONDS).name("Filltask").submit(this);
 
 		Sponge.getEventManager().registerListeners(this, new interactionevents());
 
@@ -287,18 +273,15 @@ public class prispongemine
 
 	//autorun
 	@Listener
-	public void onServerReady(GameLoadCompleteEvent event)
-	{
+	public void onServerReady(GameLoadCompleteEvent event) {
 		StartRunnningAll();
 	}
 
 	@Listener
-	public void onServerStopping(GameStoppingServerEvent event)
-	{
+	public void onServerStopping(GameStoppingServerEvent event) {
 		getLogger().info("Prispongemine stop.");
 		task.cancel();
-		if (task_fill != null)
-		{
+		if (task_fill != null) {
 			task_fill.cancel();
 		}
 		task = null;
@@ -307,91 +290,81 @@ public class prispongemine
 		getLogger().info("Prispongemine stopped.");
 	}
 	
-	public void StartRunnningAll()
-	{
+	public void StartRunnningAll() {
 		//runnning the autorun in a task make it run in a separate thread
-		task_autorun = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
-		{
+		task_autorun = prispongemine.plugin.getTaskbuilder().execute(new Runnable() {
 			@Override
-			public void run()
-			{
+			public void run() {
 				AutorunTask.run();
 			}
-		}).interval(2, TimeUnit.MINUTES).name("Autoruntask").submit(this);
+		})
+				.interval(2, TimeUnit.MINUTES).name("Autoruntask")
+				.submit(this);
 	}
 
-	private void setupconfig()
-	{
+	private void setupconfig() {
 		this.config.getNode("ConfigVersion").setValue(3);
+		this.config.getNode("RemindSecondList").setValue("1, 2, 3, 4, 5, 10, 15, 30, 60, 90, 120, 180, 300");
 		this.config.getNode("tool").setValue(ItemTypes.STICK.getId());
+		this.config.getNode("messageDump").setValue("NoMessages");
 		save();
 	}
 
-	public void save()
-	{
-		try
-		{
+	public void save() {
+		try {
 			getConfigManager().save(this.config);
-		} catch (final IOException e) 
-		{
+		} catch (final IOException e) {
 			getLogger().error("Failed to save config file!", e);
 		}
 	}
 
-	public void reload()
-	{
-		try
-		{
+	public void reload() {
+		try {
 			this.config = getConfigManager().load();
-		} catch (final IOException e)
-		{
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public String GetTool()
-	{
+	public String GetTool() {
 		return this.config.getNode("tool").getString();
 	}
 
-	public void StartTaskFill()
-	{
+	public void StartTaskFill() {
 		if (task_fill == null)
 		{
 			task_fill = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
 			{
 				@Override
-				public void run()
-				{
+				public void run() {
 					FillTask.run();
 				}
-			}).interval(1, TimeUnit.SECONDS).name("Filltask").submit(this);
+			})
+					.interval(1, TimeUnit.SECONDS)
+					.name("Filltask").submit(this);
 		}
 	}
 
-	public void StopTaskFill()
-	{
+	public void StopTaskFill() {
 		task_fill.cancel();
 		task_fill = null;
 	}
 
-	public void StartTaskClear()
-	{
-		if (task_clear == null)
-		{
-			task_clear = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
-			{
+	public void StartTaskClear() {
+		if (task_clear == null) {
+			task_clear = prispongemine.plugin.getTaskbuilder().execute(new Runnable() {
 				@Override
-				public void run()
-				{
+				public void run() {
 					ClearTask.run();
 				}
-			}).interval(1, TimeUnit.SECONDS).name("Cleartask").submit(this);
+			})
+					.interval(1, TimeUnit.SECONDS)
+					.name("Cleartask")
+					.submit(this);
 		}
 	}
 
-	public void StopTaskClear()
-	{
+	public void StopTaskClear() {
 		task_clear.cancel();
 		task_clear = null;
 	}
