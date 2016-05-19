@@ -46,11 +46,6 @@ public class Timers {
 
 						MineMessages.buildMessages(Mine_name.getKey(), remainingTime);
 
-//						for (final Player player: Sponge.getServer().getOnlinePlayers()) {
-//							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey()))) {
-//								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " will reset in " + secondsToString.secondsToString(remainingTime) + "."));
-//							}
-//						}
 					}
 
 				} else {
@@ -62,11 +57,6 @@ public class Timers {
 
 					MineMessages.buildMessages(Mine_name.getKey(), 0);
 
-//					for (final Player player: Sponge.getServer().getOnlinePlayers()) {
-//						if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey()))) {
-//							player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " refill done"));
-//						}
-//					}
 					wasted.put(Mine_name.getKey(), -1);
 				}
 			}
