@@ -4,12 +4,9 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.ricky30.prispongemine.dataManipulation.secondsToString;
 import com.ricky30.prispongemine.prispongemine;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
 import com.ricky30.prispongemine.utility.teleport;
 
 public class Timers {
@@ -43,9 +40,7 @@ public class Timers {
 					int remainingTime = currentduration - duration;
 
 					if(remindTimes.contains(Integer.toString(remainingTime))) {
-
 						MineMessages.buildMessages(Mine_name.getKey(), remainingTime);
-
 					}
 
 				} else {

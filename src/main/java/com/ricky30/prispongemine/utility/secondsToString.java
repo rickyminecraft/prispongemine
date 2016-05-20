@@ -1,4 +1,4 @@
-package com.ricky30.prispongemine.dataManipulation;
+package com.ricky30.prispongemine.utility;
 
 /**
  * Created by Jamie on 19-May-16.

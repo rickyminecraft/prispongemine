@@ -1,6 +1,6 @@
 package com.ricky30.prispongemine.task;
 
-import com.ricky30.prispongemine.dataManipulation.secondsToString;
+import com.ricky30.prispongemine.utility.secondsToString;
 import com.ricky30.prispongemine.prispongemine;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.spongepowered.api.Sponge;
