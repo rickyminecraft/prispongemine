@@ -7,8 +7,8 @@ public class TimeToString
 {
 	public static String secondsToString(int totalSeconds) 
 	{
-		final int seconds = totalSeconds % 60;
-		final int mins = (totalSeconds - seconds) / 60;
+		final int seconds = totalSeconds % 60; // Seconds more then int minutes
+		final int mins = (totalSeconds - seconds) / 60; // Minutes rounded down
 
 		String secondUnit = "seconds";
 		String minuteUnit = "minutes";
@@ -23,7 +23,7 @@ public class TimeToString
 			minuteUnit = "minute";
 		}
 
-		if (mins == 0) 
+		if (mins == 0) // If mins are 0 don't return "0 minutes"
 		{
 			return seconds + secondUnit;
 		} 
