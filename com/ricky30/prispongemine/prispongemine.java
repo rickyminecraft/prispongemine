@@ -305,7 +305,7 @@ public class prispongemine
 		save();
 		getLogger().info("Prispongemine stopped.");
 	}
-	
+
 	public void StartRunnningAll()
 	{
 		//runnning the autorun in a task make it run in a separate thread
@@ -323,6 +323,8 @@ public class prispongemine
 	{
 		this.config.getNode("ConfigVersion").setValue(3);
 		this.config.getNode("tool").setValue(ItemTypes.STICK.getId());
+		this.config.getNode("RemindSecondList").setValue("1, 2, 3, 4, 5, 10, 15, 30, 60, 90, 120, 180, 300");
+		this.config.getNode("messageDump").setValue("NoMessages");
 		save();
 	}
 

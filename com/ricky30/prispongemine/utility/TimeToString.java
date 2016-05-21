@@ -7,8 +7,8 @@ public class TimeToString
 {
 	public static String secondsToString(int totalSeconds) 
 	{
-		int seconds = totalSeconds % 60;
-		int mins = (totalSeconds - seconds) / 60;
+		final int seconds = totalSeconds % 60;
+		final int mins = (totalSeconds - seconds) / 60;
 
 		String secondUnit = "seconds";
 		String minuteUnit = "minutes";

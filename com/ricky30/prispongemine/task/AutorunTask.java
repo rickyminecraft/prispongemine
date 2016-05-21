@@ -8,13 +8,13 @@ import ninja.leaping.configurate.ConfigurationNode;
 public class AutorunTask
 {
 	private static ConfigurationNode config = null;
-	
+
 	public static void run()
 	{
 		config = prispongemine.plugin.getConfig();
 		for (final Object text: config.getNode("mineName").getChildrenMap().keySet())
 		{
-			long Tempo = java.lang.System.currentTimeMillis();
+			final long Tempo = java.lang.System.currentTimeMillis();
 			if (config.getNode("mineName", text.toString(), "autorun").getBoolean())
 			{
 				long tempo2 = Tempo;

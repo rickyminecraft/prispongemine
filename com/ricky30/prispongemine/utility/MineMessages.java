@@ -18,10 +18,9 @@ public class MineMessages
 	public static void buildMessages(String mineName, int time) 
 	{
 		config = prispongemine.plugin.getConfig();
-
 		String currentMessage = config.getNode("messageDump").getString();
 		String spacing = ", ";
-		if (currentMessage.equals("NoMessages")) 
+		if (currentMessage.equalsIgnoreCase("NoMessages")) 
 		{
 			currentMessage = "";
 			spacing = "";
@@ -37,19 +36,26 @@ public class MineMessages
 
 	public static void sendMessages() 
 	{
+
 		config = prispongemine.plugin.getConfig();
-		String finalMessage = "";
-		if (!config.getNode("messageDump").isVirtual())
+
+		if (config.getNode("messageDump").getString() == null) 
 		{
-			finalMessage = config.getNode("messageDump").getString();
-		}
-		if (!finalMessage.equals("NoMessages")) 
-		{
-			for (final Player player: Sponge.getServer().getOnlinePlayers()) 
-			{
-				player.sendMessage(Text.of("[Mines] " + finalMessage));
-			}
 			config.getNode("messageDump").setValue("NoMessages");
+			prispongemine.plugin.save();
+		}
+		else 
+		{
+
+			final String finalMessage = config.getNode("messageDump").getString();
+			if (!finalMessage.equalsIgnoreCase("NoMessages")) 
+			{
+				for (final Player player : Sponge.getServer().getOnlinePlayers()) 
+				{
+					player.sendMessage(Text.of("[Mines] " + finalMessage + "."));
+				}
+				config.getNode("messageDump").setValue("NoMessages");
+			}
 		}
 	}
 }

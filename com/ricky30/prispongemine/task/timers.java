@@ -1,24 +1,32 @@
 package com.ricky30.prispongemine.task;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.spongepowered.api.Sponge;
+
+import com.ricky30.prispongemine.prispongemine;
 import com.ricky30.prispongemine.utility.MineMessages;
 import com.ricky30.prispongemine.utility.teleport;
+
+import ninja.leaping.configurate.ConfigurationNode;
 
 public class Timers
 {
 	static Map<String, Integer> timer = new ConcurrentHashMap<String, Integer>();
 	static Map<String, Integer> wasted = new HashMap<String, Integer>();
 	static Map<String, UUID> theworld = new HashMap<String, UUID>();
+	private static ConfigurationNode config = null;
 
 	public static void run() 
 	{
+		config = prispongemine.plugin.getConfig();
 		if (!timer.isEmpty())
 		{
 			for (final Entry<String, Integer> Mine_name: timer.entrySet()) 
@@ -34,9 +42,20 @@ public class Timers
 				{
 					wasted.put(Mine_name.getKey(), duration);
 
-					if(Arrays.asList(1, 2, 3, 4, 5, 10, 15, 30, 60, 90, 120, 180, 300).contains(currentduration - duration)) 
+					if (config.getNode("RemindSecondList").getValue() == null) 
 					{
-						MineMessages.buildMessages(Mine_name.getKey(), (currentduration - duration));
+						config.getNode("RemindSecondList").setValue("1, 2, 3, 4, 5, 10, 15, 30, 60, 90, 120, 180, 300");
+						prispongemine.plugin.save();
+					}
+
+					final String configReminderTimes = config.getNode("RemindSecondList").getString();
+					final List<String> remindTimes = new ArrayList<String>(Arrays.asList(configReminderTimes.split(", ")));
+					final int remainingTime = currentduration - duration;
+
+					if(remindTimes.contains(Integer.toString(remainingTime))) 
+					{
+						MineMessages.buildMessages(Mine_name.getKey(), remainingTime);
+
 					}
 				}
 				else 
@@ -49,126 +68,10 @@ public class Timers
 					MineMessages.buildMessages(Mine_name.getKey(), (currentduration - duration));
 					wasted.put(Mine_name.getKey(), -1);
 				}
-				MineMessages.sendMessages();
 			}
-//			for (final Entry<String, Integer> Mine_name: timer.entrySet()) 
-//			{
-//				int duration = wasted.get(Mine_name.getKey());
-//				final int currentduration = Mine_name.getValue();
-//				duration ++;
-//				if (duration < currentduration)
-//				{
-//					wasted.put(Mine_name.getKey(), duration);
-//					if (currentduration - duration == 300)
-//					{
-//						for (final Player player: Sponge.getServer().getOnlinePlayers())
-//						{
-//							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
-//							{
-//								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " five minute left"));
-//							}
-//						}
-//					}
-//					if (currentduration - duration == 60)
-//					{
-//						for (final Player player: Sponge.getServer().getOnlinePlayers())
-//						{
-//							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
-//							{
-//								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " one minute left"));
-//							}
-//						}
-//					}
-//					if (currentduration - duration == 30)
-//					{
-//						for (final Player player: Sponge.getServer().getOnlinePlayers())
-//						{
-//							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
-//							{
-//								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 30 seconds left"));
-//							}
-//						}
-//					}
-//					if (currentduration - duration == 10)
-//					{
-//						for (final Player player: Sponge.getServer().getOnlinePlayers())
-//						{
-//							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
-//							{
-//								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 10 seconds left"));
-//							}
-//						}
-//					}
-//					if (currentduration - duration == 5)
-//					{
-//						for (final Player player: Sponge.getServer().getOnlinePlayers())
-//						{
-//							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
-//							{
-//								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 5 seconds left"));
-//							}
-//						}
-//					}
-//					if (currentduration - duration == 4)
-//					{
-//						for (final Player player: Sponge.getServer().getOnlinePlayers())
-//						{
-//							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
-//							{
-//								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 4 seconds left"));
-//							}
-//						}
-//					}
-//					if (currentduration - duration == 3)
-//					{
-//						for (final Player player: Sponge.getServer().getOnlinePlayers())
-//						{
-//							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
-//							{
-//								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 3 seconds left"));
-//							}
-//						}
-//					}
-//					if (currentduration - duration == 2)
-//					{
-//						for (final Player player: Sponge.getServer().getOnlinePlayers())
-//						{
-//							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
-//							{
-//								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 2 seconds left"));
-//							}
-//						}
-//					}
-//					if (currentduration - duration == 1)
-//					{
-//						for (final Player player: Sponge.getServer().getOnlinePlayers())
-//						{
-//							if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
-//							{
-//								player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " 1 second left"));
-//							}
-//						}
-//					}
-
-//				}
-//				else
-//				{
-//					//here launch event
-//					//teleport all player inside the mine if there is a spawn
-//					teleport.Doteleport(Mine_name.getKey());
-//					//and launch fill command
-//					Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "prisponge" +" fill " + Mine_name.getKey());
-//					for (final Player player: Sponge.getServer().getOnlinePlayers())
-//					{
-//						if (player.getWorld().getUniqueId().equals(theworld.get(Mine_name.getKey())))
-//						{
-//							player.sendMessage(Text.of("Mine " , Mine_name.getKey(), " refill done"));
-//						}
-//					}
-//					wasted.put(Mine_name.getKey(), -1);
-//				}
-//			}
 		}
+		//it's better here
+		MineMessages.sendMessages();
 	}
 
 	public static void add(String name, int duration, String format, UUID uuid)
