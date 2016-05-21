@@ -9,3 +9,6 @@ build
 out
 bin
 Thumbs.db
+gradlew.bat
+gradlew
+
