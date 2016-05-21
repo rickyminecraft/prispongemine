@@ -16,7 +16,8 @@ public class FillTask
 	private static Map<String, Vector3i> End = new ConcurrentHashMap<String, Vector3i>();
 	private static Map<String, Boolean> CanStart = new ConcurrentHashMap<String, Boolean>();
 
-	public static void Fill( MutableBlockVolume origin, MutableBlockVolume destination, Vector3i start, Vector3i end, String Name) {
+	public static void Fill( MutableBlockVolume origin, MutableBlockVolume destination, Vector3i start, Vector3i end, String Name)
+	{
 		one.put(Name, origin);
 		two.put(Name, destination);
 		Start.put(Name, start);
@@ -24,10 +25,14 @@ public class FillTask
 		CanStart.put(Name, true);
 	}
 
-	public static void run() {
-		if (!one.isEmpty()) {
-			for (final String Names: one.keySet()) {
-				if (CanStart.get(Names)) {
+	public static void run()
+	{
+		if (!one.isEmpty())
+		{
+			for (final String Names: one.keySet())
+			{
+				if (CanStart.get(Names))
+				{
 					CanStart.put(Names, false);
 					final MutableBlockVolume volumeOne = one.get(Names);
 					final MutableBlockVolume volumeTwo = two.get(Names);
@@ -39,9 +44,12 @@ public class FillTask
 					EndX = End.get(Names).getX();
 					EndY = End.get(Names).getY();
 					EndZ = End.get(Names).getZ();
-					for (int x = 0;x< EndX;x++) {
-						for (int y = 0; y< EndY; y++) {
-							for (int z = 0; z< EndZ;z++) {
+					for (int x = 0;x< EndX;x++)
+					{
+						for (int y = 0; y< EndY; y++)
+						{
+							for (int z = 0; z< EndZ;z++)
+							{
 								volumeTwo.setBlock(StartX+x, StartY+y, StartZ+z, volumeOne.getBlock(x, y, z));
 							}
 						}
@@ -53,7 +61,9 @@ public class FillTask
 					CanStart.put(Names, true);
 				}
 			}
-		} else {
+		}
+		else
+		{
 			prispongemine.plugin.StopTaskFill();
 		}
 	}

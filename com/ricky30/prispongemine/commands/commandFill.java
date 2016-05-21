@@ -64,25 +64,31 @@ public class commandFill implements CommandExecutor
 			final Vector3i second = new Vector3i(X2, Y2, Z2);
 
 			//here we look for which is greater than
-			if (first.getX() < second.getX()) {
+			if (first.getX() < second.getX())
+			{
 				X3 = second.getX() - first.getX();
-			} else {
+			}
+			else
+			{
 				X3 = first.getX() - second.getX();
 
 			}
-
-			if (first.getY() < second.getY()) {
+			if (first.getY() < second.getY())
+			{
 				Y3 = second.getY() - first.getY();
-			} else {
+			}
+			else
+			{
 				Y3 = first.getY() - second.getY();
 			}
-
-			if (first.getZ() < second.getZ()) {
+			if (first.getZ() < second.getZ())
+			{
 				Z3 = second.getZ() - first.getZ();
-			} else {
+			}
+			else
+			{
 				Z3 = first.getZ() - second.getZ();
 			}
-
 			//set the size of the mine
 			Vector3i size = new Vector3i(X3, Y3, Z3);
 			size = size.add(1, 1, 1);
@@ -158,19 +164,23 @@ public class commandFill implements CommandExecutor
 					//totaux equal number of block
 					totaux.put(ore_number.getKey(), total_tmp);
 				}
-			} else {
+			}
+			else
+			{
 				//here we reduce percentage_global who is equal to all percentages defined for 'ore' from 100%
 				final float percentage = 100.0f - percentage_global;
 				//add stone to ore list
 				ore.put(BlockTypes.STONE.getDefaultState(), percentage);
 				orecount.put(BlockTypes.STONE.getDefaultState(), 0);
-				for (final Entry<BlockState, Float> ore_number:ore.entrySet()) {
+				for (final Entry<BlockState, Float> ore_number:ore.entrySet())
+				{
 					//get number of block for each percentage
 					final float total_block_float = total_block;
 					final float total_tmp_float = (total_block_float*ore_number.getValue())/100.0f;
 					int total_tmp = (int) total_tmp_float;
 					//prevent an infinite loop
-					if (total_tmp == 0) {
+					if (total_tmp == 0)
+					{
 						//at last one block
 						total_tmp = 1;
 					}
@@ -186,7 +196,8 @@ public class commandFill implements CommandExecutor
 
 			//we add all ore to TEST_BLOCKS
 			//this way we only include defined ore
-			for (final Entry<BlockState, Float> ore_name:ore.entrySet()) {
+			for (final Entry<BlockState, Float> ore_name:ore.entrySet())
+			{
 				TEST_BLOCKS.put(ore_name.getKey().getId(), ore_name.getKey());
 			}
 
@@ -195,9 +206,12 @@ public class commandFill implements CommandExecutor
 			final List<Integer> hazard = new ArrayList<Integer>();
 			final Vector3i min = volume.getBlockMin();
 			final Vector3i max = volume.getBlockMax();
-			for (int x = min.getX(); x <= max.getX(); x++) {
-				for (int y = min.getY(); y <= max.getY(); y++) {
-					for (int z = min.getZ(); z <= max.getZ(); z++) {
+			for (int x = min.getX(); x <= max.getX(); x++) 
+			{
+				for (int y = min.getY(); y <= max.getY(); y++) 
+				{
+					for (int z = min.getZ(); z <= max.getZ(); z++) 
+					{
 						hazard.add(getRandomBlockint());
 					}
 				}
@@ -206,9 +220,12 @@ public class commandFill implements CommandExecutor
 			java.util.Collections.shuffle(hazard);
 			//then we fill a buffer with corresponding block
 			int hazard_number = -1;
-			for (int x = min.getX(); x <= max.getX(); x++) {
-				for (int y = min.getY(); y <= max.getY(); y++) {
-					for (int z = min.getZ(); z <= max.getZ(); z++) {
+			for (int x = min.getX(); x <= max.getX(); x++) 
+			{
+				for (int y = min.getY(); y <= max.getY(); y++) 
+				{
+					for (int z = min.getZ(); z <= max.getZ(); z++) 
+					{
 						hazard_number++;
 						volume.setBlock(x, y, z, getRandomBlock(hazard.get(hazard_number)));
 					}
@@ -240,7 +257,8 @@ public class commandFill implements CommandExecutor
 		BlockState block = null;
 		int number_tmp = -1;
 
-		for (final Entry<BlockState, Float> theore:ore.entrySet()) {
+		for (final Entry<BlockState, Float> theore:ore.entrySet())
+		{
 			number_tmp++;
 			final String orename = theore.getKey().getId();
 			BlockState entry;
@@ -254,14 +272,16 @@ public class commandFill implements CommandExecutor
 		return block;
 	}
 
-	private int getRandomBlockint() {
+	private int getRandomBlockint() 
+	{
 		boolean isOk = false;
 		BlockState block = null;
 		BlockState entry[];
 		int number = 0;
 		int numberok = 0;
 
-		while (!isOk) {
+		while (!isOk)
+		{
 			RANDOM = new Random();
 			//get a random block between all ore
 			entry = TEST_BLOCKS.values().toArray(new BlockState[0]);
