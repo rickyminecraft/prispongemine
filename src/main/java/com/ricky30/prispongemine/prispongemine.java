@@ -316,7 +316,7 @@ public class prispongemine
 			{
 				AutorunTask.run();
 			}
-		}).interval(2, TimeUnit.MINUTES).name("Autoruntask").async().submit(this);
+		}).name("Autoruntask").async().submit(this);
 
 	}
 
