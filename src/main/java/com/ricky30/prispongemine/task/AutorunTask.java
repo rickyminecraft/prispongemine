@@ -14,18 +14,20 @@ public class AutorunTask
 		config = prispongemine.plugin.getConfig();
 		for (final Object text: config.getNode("mineName").getChildrenMap().keySet())
 		{
-			final long Tempo = java.lang.System.currentTimeMillis();
 			if (config.getNode("mineName", text.toString(), "autorun").getBoolean())
 			{
-				long tempo2 = Tempo;
-				while (tempo2 - Tempo < 60000)
-				{
-					tempo2 = java.lang.System.currentTimeMillis();
-				}
 				final int time = config.getNode("mineName", text.toString(), "renewtime").getInt();
 				final String format = config.getNode("mineName", text.toString(), "renewformat").getString();
-				final String world =  config.getNode("mineName", text.toString(), "world").getString();
-				Timers.add(text.toString(), time, format, UUID.fromString(world));
+				final String world = config.getNode("mineName", text.toString(), "world").getString();
+
+				if(config.getNode("mineName", text.toString(), "initialdelay").getValue() == null) {
+					config.getNode("mineName", text.toString(), "initialdelay").setValue(0);
+					prispongemine.plugin.save();
+				}
+
+				final int initialDelay = config.getNode("mineName", text.toString(), "initialdelay").getInt();
+
+				Timers.add(text.toString(), time, initialDelay, format, UUID.fromString(world));
 			}
 		}
 		prispongemine.plugin.task_autorun.cancel();

@@ -7,6 +7,8 @@ import org.spongepowered.api.text.Text;
 import com.ricky30.prispongemine.prispongemine;
 
 import ninja.leaping.configurate.ConfigurationNode;
+import org.spongepowered.api.text.serializer.TextSerializer;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 /**
  * Created by Jamie on 18-May-16.
@@ -52,7 +54,7 @@ public class MineMessages
 			{
 				for (final Player player : Sponge.getServer().getOnlinePlayers()) 
 				{
-					player.sendMessage(Text.of("[Mines] " + finalMessage + "."));
+					player.sendMessage(TextSerializers.FORMATTING_CODE.deserialize(("&9&l[Mines]&r &e" + finalMessage + ".")));
 				}
 				config.getNode("messageDump").setValue("NoMessages");
 			}

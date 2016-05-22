@@ -20,8 +20,8 @@ import ninja.leaping.configurate.ConfigurationNode;
 public class Timers
 {
 	static Map<String, Integer> timer = new ConcurrentHashMap<String, Integer>();
-	static Map<String, Integer> wasted = new HashMap<String, Integer>();
-	static Map<String, UUID> theworld = new HashMap<String, UUID>();
+	static Map<String, Integer> wasted = new ConcurrentHashMap<String, Integer>();
+	static Map<String, UUID> theworld = new ConcurrentHashMap<String, UUID>();
 	private static ConfigurationNode config = null;
 
 	public static void run() 
@@ -32,7 +32,7 @@ public class Timers
 			for (final Entry<String, Integer> Mine_name: timer.entrySet()) 
 			{
 				int duration = wasted.get(Mine_name.getKey());
-				final int currentduration = Mine_name.getValue();
+				final int currentduration = Mine_name.getValue(); // Time between reset.
 				duration ++;
 
 				/**
@@ -73,7 +73,6 @@ public class Timers
 		//it's better here
 		MineMessages.sendMessages();
 	}
-
 	public static void add(String name, int duration, String format, UUID uuid)
 	{
 		if (timer.get(name) == null)
@@ -101,6 +100,42 @@ public class Timers
 				timer.put(name, durationsecond);
 				theworld.put(name, uuid);
 				wasted.put(name, -1);
+			}
+		}
+	}
+
+	public static void add(String name, int duration, int initialDelay, String format, UUID uuid)
+	{
+		if (timer.get(name) == null)
+		{
+			if (format.equals("SECONDS") || format.equals("MINUTES") || format.equals("HOURS") || format.equals("DAYS"))
+			{
+				int durationsecond = 0;
+				int initialDelaySecond = -1;
+				if (format.equals("SECONDS"))
+				{
+					durationsecond = duration;
+					initialDelaySecond = (-1 * initialDelay);
+				}
+				else if (format.equals("MINUTES"))
+				{
+					durationsecond = (60 * duration);
+					initialDelaySecond = (-1 * 60* initialDelay);
+				}
+				else if (format.equals("HOURS"))
+				{
+					durationsecond = (3600 * duration);
+					initialDelaySecond = (-1 * 3600 * initialDelay);
+				}
+				else if (format.equals("DAYS"))
+				{
+					durationsecond = (86400 * duration);
+					initialDelaySecond = (-1 * 86400 * initialDelay);
+				}
+
+				timer.put(name, durationsecond);
+				theworld.put(name, uuid);
+				wasted.put(name, initialDelaySecond);
 			}
 		}
 	}
