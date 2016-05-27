@@ -2,7 +2,6 @@ package com.ricky30.prispongemine.task;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,7 +9,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.spongepowered.api.Sponge;
-
 import com.ricky30.prispongemine.prispongemine;
 import com.ricky30.prispongemine.utility.MineMessages;
 import com.ricky30.prispongemine.utility.teleport;
@@ -20,8 +18,9 @@ import ninja.leaping.configurate.ConfigurationNode;
 public class Timers
 {
 	static Map<String, Integer> timer = new ConcurrentHashMap<String, Integer>();
-	static Map<String, Integer> wasted = new HashMap<String, Integer>();
-	static Map<String, UUID> theworld = new HashMap<String, UUID>();
+	static Map<String, Integer> wasted = new ConcurrentHashMap<String, Integer>();
+	static Map<String, UUID> theworld = new ConcurrentHashMap<String, UUID>();
+	
 	private static ConfigurationNode config = null;
 
 	public static void run() 
@@ -42,7 +41,7 @@ public class Timers
 				{
 					wasted.put(Mine_name.getKey(), duration);
 
-					if (config.getNode("RemindSecondList").getValue() == null) 
+					if (config.getNode("RemindSecondList").isVirtual()) 
 					{
 						config.getNode("RemindSecondList").setValue("1, 2, 3, 4, 5, 10, 15, 30, 60, 90, 120, 180, 300");
 						prispongemine.plugin.save();
@@ -55,7 +54,6 @@ public class Timers
 					if(remindTimes.contains(Integer.toString(remainingTime))) 
 					{
 						MineMessages.buildMessages(Mine_name.getKey(), remainingTime);
-
 					}
 				}
 				else 

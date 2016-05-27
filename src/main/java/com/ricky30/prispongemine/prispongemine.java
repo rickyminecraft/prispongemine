@@ -15,7 +15,7 @@ import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
-import org.spongepowered.api.event.game.state.GameLoadCompleteEvent;
+import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.plugin.Plugin;
@@ -40,6 +40,7 @@ import com.ricky30.prispongemine.commands.commandReload;
 import com.ricky30.prispongemine.commands.commandRemoveOre;
 import com.ricky30.prispongemine.commands.commandRunall;
 import com.ricky30.prispongemine.commands.commandSave;
+import com.ricky30.prispongemine.commands.commandSet;
 import com.ricky30.prispongemine.commands.commandSpawn;
 import com.ricky30.prispongemine.commands.commandStart;
 import com.ricky30.prispongemine.commands.commandStop;
@@ -77,11 +78,16 @@ public class prispongemine
 	private Task task;
 	private Task task_fill;
 	private Task task_clear;
-	public Task task_autorun;
+	public Task task_autorun = null;
 
-	public Task gettasks()
+	public Task gettask()
 	{
 		return this.task;
+	}
+
+	public Task gettask_fill()
+	{
+		return this.task_fill;
 	}
 
 	public Task.Builder getTaskbuilder()
@@ -120,7 +126,6 @@ public class prispongemine
 			reload();
 			if (!Files.exists(getDefaultConfig())) 
 			{
-
 				Files.createFile(getDefaultConfig());
 				setupconfig();
 			}
@@ -138,14 +143,6 @@ public class prispongemine
 				Timers.run();
 			}
 		}).interval(1, TimeUnit.SECONDS).name("prispongemine").submit(this);
-		task_fill = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				FillTask.run();
-			}
-		}).interval(100, TimeUnit.MILLISECONDS).name("Filltask").submit(this);
 
 		Sponge.getEventManager().registerListeners(this, new interactionevents());
 
@@ -274,6 +271,20 @@ public class prispongemine
 				.permission("prisponge.updateconfig")
 				.executor(new commandUpdateconfig())
 				.build());
+		subcommands.put(Arrays.asList("set"), CommandSpec.builder()
+				.description(Text.of("change set of a mine"))
+				.permission("prisponge.set")
+				.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("name")))),
+						GenericArguments.onlyOne(GenericArguments.integer(Text.of("setnumber"))))
+				.executor(new commandSet())
+				.build());
+		subcommands.put(Arrays.asList("autorundelay"), CommandSpec.builder()
+				.description(Text.of("change autorun delay of a mine"))
+				.permission("prisponge.delay")
+				.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("name")))),
+						GenericArguments.onlyOne(GenericArguments.integer(Text.of("delay"))))
+				.executor(new commandSet())
+				.build());
 
 		final CommandSpec prispongecommand = CommandSpec.builder()
 				.description(Text.of("list all prispongemine Command"))
@@ -286,7 +297,7 @@ public class prispongemine
 
 	//autorun
 	@Listener
-	public void onServerReady(GameLoadCompleteEvent event)
+	public void onServerReady(GameStartedServerEvent event)
 	{
 		StartRunnningAll();
 	}
@@ -309,6 +320,7 @@ public class prispongemine
 	public void StartRunnningAll()
 	{
 		//runnning the autorun in a task make it run in a separate thread
+		AutorunTask.Init();
 		task_autorun = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
 		{
 			@Override
@@ -316,12 +328,12 @@ public class prispongemine
 			{
 				AutorunTask.run();
 			}
-		}).interval(2, TimeUnit.MINUTES).name("Autoruntask").submit(this);
+		}).interval(1, TimeUnit.SECONDS).name("Autoruntask").submit(this);
 	}
 
 	private void setupconfig()
 	{
-		this.config.getNode("ConfigVersion").setValue(3);
+		this.config.getNode("ConfigVersion").setValue(4);
 		this.config.getNode("tool").setValue(ItemTypes.STICK.getId());
 		this.config.getNode("RemindSecondList").setValue("1, 2, 3, 4, 5, 10, 15, 30, 60, 90, 120, 180, 300");
 		this.config.getNode("messageDump").setValue("NoMessages");

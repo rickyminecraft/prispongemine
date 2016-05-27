@@ -48,6 +48,8 @@ public class commandSave implements CommandExecutor
 			this.config.getNode("mineName", Name, "renewformat").setValue("HOURS");
 			this.config.getNode("mineName", Name, "autorun").setValue(false);
 			this.config.getNode("mineName", Name, "random").setValue(false);
+			this.config.getNode("mineName", Name, "set").setValue(0);
+			this.config.getNode("mineName", Name, "startupdelay").setValue(300);
 			prispongemine.plugin.save();
 			src.sendMessage(Text.of("Mine " , Name, " saved"));
 			return CommandResult.success();

@@ -30,7 +30,9 @@ public class commandUpdateconfig implements CommandExecutor
 	{
 		this.config = prispongemine.plugin.getConfig();
 		final Player player = (Player) src;
-		this.config.getNode("ConfigVersion").setValue(3);
+		this.config.getNode("ConfigVersion").setValue(4);
+		this.config.getNode("RemindSecondList").setValue("1, 2, 3, 4, 5, 10, 15, 30, 60, 90, 120, 180, 300");
+		this.config.getNode("messageDump").setValue("NoMessages");
 		updateMine(player);
 		updateAltar(player);
 		updateOre();
@@ -116,6 +118,18 @@ public class commandUpdateconfig implements CommandExecutor
 					this.config.getNode("mineName", text.toString(), "Spawn", "Spawn_Pitch").setValue(player.getRotation().getX());
 					this.config.getNode("mineName", text.toString(), "Spawn", "Spawn_Yaw").setValue(player.getRotation().getY());
 					this.config.getNode("mineName", text.toString(), "Spawn", "Spawn_Roll").setValue(player.getRotation().getZ());
+				}
+				//				if (this.config.getNode("mineName", text.toString()).getChildrenMap().get("startupdelay") == null)
+				//				{
+				//					this.config.getNode("mineName", text.toString(), "startupdelay").setValue(0);
+				//				}
+				if (this.config.getNode("mineName", text.toString()).getChildrenMap().get("set") == null)
+				{
+					this.config.getNode("mineName", text.toString(), "set").setValue(0);
+				}
+				if (this.config.getNode("mineName", text.toString()).getChildrenMap().get("startupdelay") == null)
+				{
+					this.config.getNode("mineName", text.toString(), "startupdelay").setValue(300);
 				}
 			}
 		}

@@ -21,7 +21,7 @@ public class commandPrisponge implements CommandExecutor
 		src.sendMessage(Text.of("/prisponge startall"));
 		src.sendMessage(Text.of("/prisponge stopall"));
 		src.sendMessage(Text.of("/prisponge random"));
-		src.sendMessage(Text.of("/prisponge autorun"));
+		src.sendMessage(Text.of("/prisponge autorun NAME boolean"));
 		src.sendMessage(Text.of("/prisponge reload"));
 		src.sendMessage(Text.of("/prisponge list"));
 		src.sendMessage(Text.of("/prisponge updateconfig"));
@@ -36,6 +36,8 @@ public class commandPrisponge implements CommandExecutor
 		src.sendMessage(Text.of("/prisponge stop NAME"));
 		src.sendMessage(Text.of("/prisponge addore NAME percentage"));
 		src.sendMessage(Text.of("/prisponge removeore NAME"));
+		src.sendMessage(Text.of("/prisponge set NAME set_number"));
+		src.sendMessage(Text.of("/prisponge autorundelay NAME delay"));
 		return CommandResult.success();
 	}
 

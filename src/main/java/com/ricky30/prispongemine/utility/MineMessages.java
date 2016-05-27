@@ -2,7 +2,7 @@ package com.ricky30.prispongemine.utility;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 import com.ricky30.prispongemine.prispongemine;
 
@@ -46,13 +46,12 @@ public class MineMessages
 		}
 		else 
 		{
-
 			final String finalMessage = config.getNode("messageDump").getString();
 			if (!finalMessage.equalsIgnoreCase("NoMessages")) 
 			{
 				for (final Player player : Sponge.getServer().getOnlinePlayers()) 
 				{
-					player.sendMessage(Text.of("[Mines] " + finalMessage + "."));
+					player.sendMessage(TextSerializers.FORMATTING_CODE.deserialize(("&9&l[Mines]&r &e" + finalMessage + ".")));
 				}
 				config.getNode("messageDump").setValue("NoMessages");
 			}

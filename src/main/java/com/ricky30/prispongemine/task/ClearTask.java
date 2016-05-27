@@ -63,6 +63,9 @@ public class ClearTask
 		}
 		else
 		{
+			Start.clear();
+			End.clear();
+			CanStart.clear();
 			prispongemine.plugin.StopTaskClear();
 		}
 	}
