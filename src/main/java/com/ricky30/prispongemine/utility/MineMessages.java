@@ -36,25 +36,36 @@ public class MineMessages
 
 	public static void sendMessages() 
 	{
-
 		config = prispongemine.plugin.getConfig();
-
-		if (config.getNode("messageDump").getString() == null) 
+		if (config.getNode("showwarning").isVirtual())
 		{
-			config.getNode("messageDump").setValue("NoMessages");
+			config.getNode("showwarning").setValue(true);
 			prispongemine.plugin.save();
 		}
-		else 
+		if (config.getNode("showwarning").getBoolean())
 		{
-			final String finalMessage = config.getNode("messageDump").getString();
-			if (!finalMessage.equalsIgnoreCase("NoMessages")) 
+			if (config.getNode("messageDump").getString() == null) 
 			{
-				for (final Player player : Sponge.getServer().getOnlinePlayers()) 
-				{
-					player.sendMessage(TextSerializers.FORMATTING_CODE.deserialize(("&9&l[Mines]&r &e" + finalMessage + ".")));
-				}
 				config.getNode("messageDump").setValue("NoMessages");
+				prispongemine.plugin.save();
 			}
+			else 
+			{
+				final String finalMessage = config.getNode("messageDump").getString();
+				if (!finalMessage.equalsIgnoreCase("NoMessages")) 
+				{
+					for (final Player player : Sponge.getServer().getOnlinePlayers()) 
+					{
+						player.sendMessage(TextSerializers.FORMATTING_CODE.deserialize(("&9&l[Mines]&r &e" + finalMessage + ".")));
+					}
+					config.getNode("messageDump").setValue("NoMessages");
+					prispongemine.plugin.save();
+				}
+			}
+		}
+		else
+		{
+			config.getNode("messageDump").setValue("NoMessages");
 		}
 	}
 }

@@ -10,7 +10,7 @@ import com.ricky30.prispongemine.prispongemine;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
-public class commandSet implements CommandExecutor
+public class commandShowWarnings implements CommandExecutor
 {
 	private ConfigurationNode config = null;
 
@@ -18,15 +18,11 @@ public class commandSet implements CommandExecutor
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-		final String Name = args.<String>getOne("name").get();
-		final int SetNumber = args.<Integer>getOne("setnumber").get();
+		final Boolean ShowWarning = args.<Boolean>getOne("show").get();
 		this.config = prispongemine.plugin.getConfig();
-		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
-		{
-			this.config.getNode("mineName", Name, "set").setValue(SetNumber);
-			prispongemine.plugin.save();
-			return CommandResult.success();
-		}
-		return CommandResult.empty();
+		this.config.getNode("showwarning").setValue(ShowWarning);
+		prispongemine.plugin.save();
+		return CommandResult.success();
 	}
+
 }

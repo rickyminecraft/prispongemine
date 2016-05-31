@@ -41,6 +41,7 @@ import com.ricky30.prispongemine.commands.commandRemoveOre;
 import com.ricky30.prispongemine.commands.commandRunall;
 import com.ricky30.prispongemine.commands.commandSave;
 import com.ricky30.prispongemine.commands.commandSet;
+import com.ricky30.prispongemine.commands.commandShowWarnings;
 import com.ricky30.prispongemine.commands.commandSpawn;
 import com.ricky30.prispongemine.commands.commandStart;
 import com.ricky30.prispongemine.commands.commandStop;
@@ -209,8 +210,14 @@ public class prispongemine
 						GenericArguments.onlyOne(GenericArguments.bool(Text.of("autorun"))))
 				.executor(new commandAutorun())
 				.build());
+		subcommands.put(Arrays.asList("warning"), CommandSpec.builder()
+				.description(Text.of("show or hide mine warnings"))
+				.permission("prisponge.warning")
+				.arguments(GenericArguments.onlyOne(GenericArguments.bool(Text.of("show"))))
+				.executor(new commandShowWarnings())
+				.build());
 		subcommands.put(Arrays.asList("random"), CommandSpec.builder()
-				.description(Text.of("change random value of a mine"))
+				.description(Text.of("allow mine to use random ore between added ore for this mine"))
 				.permission("prisponge.random")
 				.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("name")))),
 						GenericArguments.onlyOne(GenericArguments.bool(Text.of("random"))))
@@ -299,6 +306,11 @@ public class prispongemine
 	@Listener
 	public void onServerReady(GameStartedServerEvent event)
 	{
+		if (this.config.getNode("ConfigVersion").getInt() != 5)
+		{
+			getLogger().warn("Prispongemine config must be updated");
+			getLogger().warn("Please use /prisponge updateconfig");
+		}
 		StartRunnningAll();
 	}
 
@@ -333,7 +345,7 @@ public class prispongemine
 
 	private void setupconfig()
 	{
-		this.config.getNode("ConfigVersion").setValue(4);
+		this.config.getNode("ConfigVersion").setValue(5);
 		this.config.getNode("tool").setValue(ItemTypes.STICK.getId());
 		this.config.getNode("RemindSecondList").setValue("1, 2, 3, 4, 5, 10, 15, 30, 60, 90, 120, 180, 300");
 		this.config.getNode("messageDump").setValue("NoMessages");
