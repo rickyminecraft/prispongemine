@@ -24,12 +24,16 @@ public class commandAutorunDelay implements CommandExecutor
 		this.config = prispongemine.plugin.getConfig();
 		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
-			if (Delay < 60)
+			if (Delay >= 60)
 			{
 				this.config.getNode("mineName", Name, "startupdelay").setValue(Delay);
 				return CommandResult.success();
 			}
-			src.sendMessage(Text.of("Delay must be at last 60"));
+			else
+			{
+				this.config.getNode("mineName", Name, "startupdelay").setValue(60);
+				src.sendMessage(Text.of("Delay must be at last 60 seconds"));
+			}
 			return CommandResult.empty();
 		}
 		return CommandResult.empty();
