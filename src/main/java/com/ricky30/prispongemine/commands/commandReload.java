@@ -7,7 +7,7 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.text.Text;
 
-import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageConfig;
 
 public class commandReload implements CommandExecutor
 {
@@ -16,8 +16,8 @@ public class commandReload implements CommandExecutor
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-		prispongemine.plugin.reload();
-		src.sendMessage(Text.of("Done reloading"));
+		ManageConfig.Load();
+		src.sendMessage(Text.of("Done reloading config file"));
 		return CommandResult.success();
 	}
 

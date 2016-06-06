@@ -1,7 +1,5 @@
 package com.ricky30.prispongemine;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,7 +15,6 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
-import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.scheduler.Scheduler;
 import org.spongepowered.api.scheduler.Task;
@@ -48,16 +45,15 @@ import com.ricky30.prispongemine.commands.commandStop;
 import com.ricky30.prispongemine.commands.commandTime;
 import com.ricky30.prispongemine.commands.commandUpdate;
 import com.ricky30.prispongemine.commands.commandUpdateconfig;
+import com.ricky30.prispongemine.config.ManageConfig;
 import com.ricky30.prispongemine.events.interactionevents;
 import com.ricky30.prispongemine.task.AutorunTask;
 import com.ricky30.prispongemine.task.ClearTask;
 import com.ricky30.prispongemine.task.FillTask;
 import com.ricky30.prispongemine.task.Timers;
 import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.loader.ConfigurationLoader;
 
-@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "2.0.4")
+@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "2.1.0")
 public class prispongemine
 {
 	public static ExtentBufferFactory EXTENT_BUFFER_FACTORY;
@@ -69,10 +65,6 @@ public class prispongemine
 	@Inject
 	@DefaultConfig(sharedRoot = true)
 	private Path defaultConfig;
-
-	@Inject
-	@DefaultConfig(sharedRoot = true)
-	private ConfigurationLoader<CommentedConfigurationNode> configManager;
 
 	private final Scheduler scheduler = Sponge.getScheduler();
 	private final Task.Builder taskBuilder = scheduler.createTaskBuilder();
@@ -96,21 +88,6 @@ public class prispongemine
 		return this.taskBuilder;
 	}
 
-	public ConfigurationNode getConfig()
-	{
-		return this.config;
-	}
-
-	public Path getDefaultConfig() 
-	{
-		return this.defaultConfig;
-	}
-
-	public ConfigurationLoader<CommentedConfigurationNode> getConfigManager() 
-	{
-		return this.configManager;
-	}
-
 	public Logger getLogger()
 	{
 		return this.logger;
@@ -122,19 +99,8 @@ public class prispongemine
 		getLogger().info("Prispongemine start.");
 		EXTENT_BUFFER_FACTORY = Sponge.getRegistry().getExtentBufferFactory();
 		plugin = this;
-		try
-		{
-			reload();
-			if (!Files.exists(getDefaultConfig())) 
-			{
-				Files.createFile(getDefaultConfig());
-				setupconfig();
-			}
-		}
-		catch (final IOException e)
-		{
-			getLogger().error("Couldn't create default configuration file!");
-		}
+		ManageConfig.Init(defaultConfig);
+		this.config = ManageConfig.getConfig();
 
 		task = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
 		{
@@ -196,7 +162,7 @@ public class prispongemine
 				.executor(new commandStop())
 				.build());
 		subcommands.put(Arrays.asList("time"), CommandSpec.builder()
-				.description(Text.of("set refill time of a mine there is few warnings before a mine refill"))
+				.description(Text.of("set refill time of a mine. There is few warnings before a mine refill"))
 				.permission("prisponge.time")
 				.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("name")))),
 						GenericArguments.onlyOne(GenericArguments.integer(Text.of("duration"))),
@@ -306,7 +272,8 @@ public class prispongemine
 	@Listener
 	public void onServerReady(GameStartedServerEvent event)
 	{
-		if (this.config.getNode("ConfigVersion").getInt() != 5)
+		final boolean OK = this.config.getNode("ConfigVersion").getValue().equals(5);
+		if (!OK)
 		{
 			getLogger().warn("Prispongemine config must be updated");
 			getLogger().warn("Please use /prisponge updateconfig");
@@ -325,7 +292,7 @@ public class prispongemine
 		}
 		task = null;
 		task_fill = null;
-		save();
+		ManageConfig.Save();
 		getLogger().info("Prispongemine stopped.");
 	}
 
@@ -341,37 +308,6 @@ public class prispongemine
 				AutorunTask.run();
 			}
 		}).interval(1, TimeUnit.SECONDS).name("Autoruntask").submit(this);
-	}
-
-	private void setupconfig()
-	{
-		this.config.getNode("ConfigVersion").setValue(5);
-		this.config.getNode("tool").setValue(ItemTypes.STICK.getId());
-		this.config.getNode("RemindSecondList").setValue("1, 2, 3, 4, 5, 10, 15, 30, 60, 90, 120, 180, 300");
-		this.config.getNode("messageDump").setValue("NoMessages");
-		save();
-	}
-
-	public void save()
-	{
-		try
-		{
-			getConfigManager().save(this.config);
-		} catch (final IOException e) 
-		{
-			getLogger().error("Failed to save config file!", e);
-		}
-	}
-
-	public void reload()
-	{
-		try
-		{
-			this.config = getConfigManager().load();
-		} catch (final IOException e)
-		{
-			getLogger().error("Failed to load config file!", e);
-		}
 	}
 
 	public String GetTool()

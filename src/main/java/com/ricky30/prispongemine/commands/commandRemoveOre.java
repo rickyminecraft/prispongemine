@@ -16,12 +16,14 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 
 import com.flowpowered.math.vector.Vector3i;
-import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageConfig;
+import com.ricky30.prispongemine.config.ManageMines;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandRemoveOre implements CommandExecutor
 {
+	private ConfigurationNode Mine = null;
 	private ConfigurationNode config = null;
 
 	@Override
@@ -29,15 +31,17 @@ public class commandRemoveOre implements CommandExecutor
 			throws CommandException
 	{
 		final String Name = args.<String>getOne("name").get();
-		this.config = prispongemine.plugin.getConfig();
+		final boolean OK = ManageMines.LoadMine(Name);
+		this.Mine = ManageMines.getConfig();
+		this.config = ManageConfig.getConfig();
 		if (!config.getNode("altar").isVirtual())
 		{
-			if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
+			if (OK)
 			{
-				for (final Object text: this.config.getNode("mineName", Name, "items").getChildrenMap().keySet())
+				for (final Object text: this.Mine.getNode("items").getChildrenMap().keySet())
 				{
 					final ConfigurateTranslator  tr = ConfigurateTranslator.instance();
-					final ConfigurationNode node = this.config.getNode("mineName", Name, "items", text.toString());
+					final ConfigurationNode node = this.Mine.getNode("items", text.toString());
 					final DataContainer cont = tr.translateFrom(node);
 					final BlockState state = BlockState.builder().build(cont).get();
 
@@ -54,8 +58,8 @@ public class commandRemoveOre implements CommandExecutor
 					if (data.equals(state))
 					{
 						Altar_World.setBlock(position_block, BlockTypes.AIR.getDefaultState());
-						this.config.getNode("mineName", Name, "items").removeChild(text);
-						prispongemine.plugin.save();
+						this.Mine.getNode("items").removeChild(text);
+						ManageMines.SaveMine(Name, true);
 						src.sendMessage(Text.of("Mine " + Name + " ore removed"));
 					}
 				}

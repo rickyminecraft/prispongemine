@@ -10,7 +10,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
-import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageMines;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -23,19 +23,20 @@ public class commandSpawn implements CommandExecutor
 			throws CommandException
 	{
 		final String Name = args.<String>getOne("name").get();
-		this.config = prispongemine.plugin.getConfig();
+		final boolean OK = ManageMines.LoadMine(Name);
+		this.config = ManageMines.getConfig();
 		final Player player = (Player) src;
-		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
+		if (OK)
 		{
 			final Location<World> Spawn = player.getLocation();
-			this.config.getNode("mineName", Name, "Spawn", "Spawn_X").setValue(Spawn.getX());
-			this.config.getNode("mineName", Name, "Spawn", "Spawn_Y").setValue(Spawn.getY());
-			this.config.getNode("mineName", Name, "Spawn", "Spawn_Z").setValue(Spawn.getZ());
-			this.config.getNode("mineName", Name, "Spawn", "Spawn_Pitch").setValue(player.getRotation().getX());
-			this.config.getNode("mineName", Name, "Spawn", "Spawn_Yaw").setValue(player.getRotation().getY());
-			this.config.getNode("mineName", Name, "Spawn", "Spawn_Roll").setValue(player.getRotation().getZ());
-			this.config.getNode("mineName", Name, "Spawn", "world").setValue(player.getWorld().getUniqueId().toString());
-			prispongemine.plugin.save();
+			this.config.getNode("Spawn", "Spawn_X").setValue(Spawn.getX());
+			this.config.getNode("Spawn", "Spawn_Y").setValue(Spawn.getY());
+			this.config.getNode("Spawn", "Spawn_Z").setValue(Spawn.getZ());
+			this.config.getNode("Spawn", "Spawn_Pitch").setValue(player.getRotation().getX());
+			this.config.getNode("Spawn", "Spawn_Yaw").setValue(player.getRotation().getY());
+			this.config.getNode("Spawn", "Spawn_Roll").setValue(player.getRotation().getZ());
+			this.config.getNode("Spawn", "world").setValue(player.getWorld().getUniqueId().toString());
+			ManageMines.SaveMine(Name, true);
 			src.sendMessage(Text.of("Mine " , Name, " Spawn saved"));
 			return CommandResult.success();
 		}

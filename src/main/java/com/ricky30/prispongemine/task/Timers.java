@@ -9,8 +9,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.spongepowered.api.Sponge;
-import com.ricky30.prispongemine.prispongemine;
-import com.ricky30.prispongemine.utility.MineMessages;
+import com.ricky30.prispongemine.config.ManageConfig;
+import com.ricky30.prispongemine.utility.mineMessages;
 import com.ricky30.prispongemine.utility.teleport;
 
 import ninja.leaping.configurate.ConfigurationNode;
@@ -20,12 +20,12 @@ public class Timers
 	static Map<String, Integer> timer = new ConcurrentHashMap<String, Integer>();
 	static Map<String, Integer> wasted = new ConcurrentHashMap<String, Integer>();
 	static Map<String, UUID> theworld = new ConcurrentHashMap<String, UUID>();
-	
+
 	private static ConfigurationNode config = null;
 
 	public static void run() 
 	{
-		config = prispongemine.plugin.getConfig();
+		config = ManageConfig.getConfig();
 		if (!timer.isEmpty())
 		{
 			for (final Entry<String, Integer> Mine_name: timer.entrySet()) 
@@ -44,7 +44,7 @@ public class Timers
 					if (config.getNode("RemindSecondList").isVirtual()) 
 					{
 						config.getNode("RemindSecondList").setValue("1, 2, 3, 4, 5, 10, 15, 30, 60, 90, 120, 180, 300");
-						prispongemine.plugin.save();
+						ManageConfig.Save();
 					}
 
 					final String configReminderTimes = config.getNode("RemindSecondList").getString();
@@ -53,7 +53,7 @@ public class Timers
 
 					if(remindTimes.contains(Integer.toString(remainingTime))) 
 					{
-						MineMessages.buildMessages(Mine_name.getKey(), remainingTime);
+						mineMessages.buildMessages(Mine_name.getKey(), remainingTime);
 					}
 				}
 				else 
@@ -63,13 +63,13 @@ public class Timers
 					teleport.Doteleport(Mine_name.getKey());
 					//and launch fill command
 					Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "prisponge" +" fill " + Mine_name.getKey());
-					MineMessages.buildMessages(Mine_name.getKey(), (currentduration - duration));
+					mineMessages.buildMessages(Mine_name.getKey(), (currentduration - duration));
 					wasted.put(Mine_name.getKey(), -1);
 				}
 			}
 		}
 		//it's better here
-		MineMessages.sendMessages();
+		mineMessages.sendMessages();
 	}
 
 	public static void add(String name, int duration, String format, UUID uuid)
@@ -111,5 +111,12 @@ public class Timers
 			wasted.remove(name);
 			theworld.remove(name);
 		}
+	}
+
+	public static void removeAll()
+	{
+		timer.clear();
+		wasted.clear();
+		theworld.clear();
 	}
 }

@@ -8,6 +8,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageMines;
+
 import ninja.leaping.configurate.ConfigurationNode;
 
 public class AutorunTask
@@ -20,16 +22,19 @@ public class AutorunTask
 
 	public static void Init()
 	{
-		config = prispongemine.plugin.getConfig();
-		for (final Object text: config.getNode("mineName").getChildrenMap().keySet())
+		for (String Name:ManageMines.GetAllMines())
 		{
-			if (config.getNode("mineName", text.toString(), "autorun").getBoolean())
+			//remove the ".conf" at end
+			Name = Name.substring(0,  Name.length() -5);
+			ManageMines.LoadMine(Name);
+			config = ManageMines.getConfig();
+			if (config.getNode("autorun").getBoolean())
 			{
-				final int Set = config.getNode("mineName", text.toString(), "set").getInt();
-				final int Delay = config.getNode("mineName", text.toString(), "startupdelay").getInt();
-				Mine_startupdelay.put(text.toString(), Delay);
-				Mine_actualdelay.put(text.toString(), Delay);
-				Mine_set.put(text.toString(), Set);
+				final int Set = config.getNode("set").getInt();
+				final int Delay = config.getNode("startupdelay").getInt();
+				Mine_startupdelay.put(Name, Delay);
+				Mine_actualdelay.put(Name, Delay);
+				Mine_set.put(Name, Set);
 			}
 		}
 	}

@@ -15,6 +15,7 @@ import org.spongepowered.api.world.extent.MutableBlockVolume;
 
 import com.flowpowered.math.vector.Vector3i;
 import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageMines;
 import com.ricky30.prispongemine.task.ClearTask;
 import com.ricky30.prispongemine.utility.size;
 
@@ -29,17 +30,18 @@ public class commandClear implements CommandExecutor
 			throws CommandException
 	{
 		final String Name = args.<String>getOne("name").get();
-		this.config = prispongemine.plugin.getConfig();
-		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
+		final boolean OK = ManageMines.LoadMine(Name);
+		this.config = ManageMines.getConfig();
+		if (OK)
 		{
 			//get the size of the prison
 			int X1, X2, X3, Y1, Y2, Y3, Z1, Z2, Z3;
-			X1 = this.config.getNode("mineName", Name, "depart_X").getInt();
-			Y1 = this.config.getNode("mineName", Name, "depart_Y").getInt();
-			Z1 = this.config.getNode("mineName", Name, "depart_Z").getInt();
-			X2 = this.config.getNode("mineName", Name, "fin_X").getInt();
-			Y2 = this.config.getNode("mineName", Name, "fin_Y").getInt();
-			Z2 = this.config.getNode("mineName", Name, "fin_Z").getInt();
+			X1 = this.config.getNode("depart_X").getInt();
+			Y1 = this.config.getNode("depart_Y").getInt();
+			Z1 = this.config.getNode("depart_Z").getInt();
+			X2 = this.config.getNode("fin_X").getInt();
+			Y2 = this.config.getNode("fin_Y").getInt();
+			Z2 = this.config.getNode("fin_Z").getInt();
 
 			//converted to vector
 			final Vector3i first = new Vector3i(X1, Y1, Z1);
@@ -90,7 +92,7 @@ public class commandClear implements CommandExecutor
 				}
 			}
 			//get the world where the prison is located
-			final World world = Sponge.getServer().getWorld(UUID.fromString(this.config.getNode("mineName", Name, "world").getString())).get();
+			final World world = Sponge.getServer().getWorld(UUID.fromString(this.config.getNode("world").getString())).get();
 			final MutableBlockVolume Mvolume = world.getBlockView(size.Min(first, second), size.Max(first, second));
 			//fill the prison with buffer blocks
 			ClearTask.Fill(Mvolume, size.Min(first, second), size.Max(first, second), Name);

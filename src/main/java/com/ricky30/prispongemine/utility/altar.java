@@ -3,7 +3,8 @@ package com.ricky30.prispongemine.utility;
 import java.util.UUID;
 
 import com.flowpowered.math.vector.Vector3i;
-import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageConfig;
+
 import ninja.leaping.configurate.ConfigurationNode;
 
 public class altar
@@ -13,12 +14,12 @@ public class altar
 
 	public static void SaveAltar(Vector3i position, UUID uuid)
 	{
-		config = prispongemine.plugin.getConfig();
+		config = ManageConfig.getConfig();
 		config.getNode("altar", "altar_X").setValue(position.getX());
 		config.getNode("altar", "altar_Y").setValue(position.getY()+1);
 		config.getNode("altar", "altar_Z").setValue(position.getZ());
 		config.getNode("altar", "world").setValue(uuid.toString());
-		prispongemine.plugin.save();
+		ManageConfig.Save();
 		saved = true;
 	}
 

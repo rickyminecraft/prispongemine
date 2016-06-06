@@ -3,7 +3,7 @@ package com.ricky30.prispongemine.utility;
 /**
  * Created by Jamie on 18-May-16.
  */
-public class TimeToString
+public class timeToString
 {
 	public static String secondsToString(int totalSeconds) 
 	{

@@ -6,7 +6,7 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 
-import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageMines;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -20,11 +20,12 @@ public class commandSet implements CommandExecutor
 	{
 		final String Name = args.<String>getOne("name").get();
 		final int SetNumber = args.<Integer>getOne("setnumber").get();
-		this.config = prispongemine.plugin.getConfig();
-		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
+		final boolean OK = ManageMines.LoadMine(Name);
+		this.config = ManageMines.getConfig();
+		if (OK)
 		{
-			this.config.getNode("mineName", Name, "set").setValue(SetNumber);
-			prispongemine.plugin.save();
+			this.config.getNode("set").setValue(SetNumber);
+			ManageMines.SaveMine(Name, true);
 			return CommandResult.success();
 		}
 		return CommandResult.empty();

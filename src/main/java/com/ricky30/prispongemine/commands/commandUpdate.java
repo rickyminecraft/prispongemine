@@ -9,7 +9,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import com.flowpowered.math.vector.Vector3i;
-import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageMines;
 import com.ricky30.prispongemine.events.interactionevents;
 
 import ninja.leaping.configurate.ConfigurationNode;
@@ -24,8 +24,9 @@ public class commandUpdate implements CommandExecutor
 	{
 		final String Name = args.<String>getOne("name").get();
 		final Player player = (Player) src;
-		this.config = prispongemine.plugin.getConfig();
-		if (this.config.getNode("mineName").getChildrenMap().get(Name) == null)
+		final boolean OK = ManageMines.LoadMine(Name);
+		this.config = ManageMines.getConfig();
+		if (!OK)
 		{
 			src.sendMessage(Text.of("Mine ", Name, " not found. Use save instead or change name."));
 			return CommandResult.empty();
@@ -35,13 +36,13 @@ public class commandUpdate implements CommandExecutor
 			final Vector3i positiondepart = interactionevents.getFirst(player);
 			final Vector3i positionfin = interactionevents.getSecond(player);
 
-			this.config.getNode("mineName", Name, "depart_X").setValue(positiondepart.getX());
-			this.config.getNode("mineName", Name, "depart_Y").setValue(positiondepart.getY());
-			this.config.getNode("mineName", Name, "depart_Z").setValue(positiondepart.getZ());
-			this.config.getNode("mineName", Name, "fin_X").setValue(positionfin.getX());
-			this.config.getNode("mineName", Name, "fin_Y").setValue(positionfin.getY());
-			this.config.getNode("mineName", Name, "fin_Z").setValue(positionfin.getZ());
-			prispongemine.plugin.save();
+			this.config.getNode("depart_X").setValue(positiondepart.getX());
+			this.config.getNode("depart_Y").setValue(positiondepart.getY());
+			this.config.getNode("depart_Z").setValue(positiondepart.getZ());
+			this.config.getNode("fin_X").setValue(positionfin.getX());
+			this.config.getNode("fin_Y").setValue(positionfin.getY());
+			this.config.getNode("fin_Z").setValue(positionfin.getZ());
+			ManageMines.SaveMine(Name, true);
 			src.sendMessage(Text.of("Mine " , Name, " updated"));
 			return CommandResult.success();
 		}

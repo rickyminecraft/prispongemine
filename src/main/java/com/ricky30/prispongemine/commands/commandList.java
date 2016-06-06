@@ -11,7 +11,7 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.text.Text;
 
 import com.flowpowered.math.vector.Vector3i;
-import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageMines;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -23,26 +23,29 @@ public class commandList implements CommandExecutor
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-		this.config = prispongemine.plugin.getConfig();
-		for (final Object text: this.config.getNode("mineName").getChildrenMap().keySet())
+		for (String Name:ManageMines.GetAllMines())
 		{
+			//remove the ".conf" at end
+			Name = Name.substring(0,  Name.length() -5);
+			ManageMines.LoadMine(Name);
+			config = ManageMines.getConfig();
 			//get the size of the mine
 			int X1, X2, X4, Y1, Y2, Y4, Z1, Z2, Z4;
 			double X3 = 0, Y3 = 0, Z3 = 0;
-			X1 = this.config.getNode("mineName", text.toString(), "depart_X").getInt();
-			Y1 = this.config.getNode("mineName", text.toString(), "depart_Y").getInt();
-			Z1 = this.config.getNode("mineName", text.toString(), "depart_Z").getInt();
-			X2 = this.config.getNode("mineName", text.toString(), "fin_X").getInt();
-			Y2 = this.config.getNode("mineName", text.toString(), "fin_Y").getInt();
-			Z2 = this.config.getNode("mineName", text.toString(), "fin_Z").getInt();
+			X1 = this.config.getNode("depart_X").getInt();
+			Y1 = this.config.getNode("depart_Y").getInt();
+			Z1 = this.config.getNode("depart_Z").getInt();
+			X2 = this.config.getNode("fin_X").getInt();
+			Y2 = this.config.getNode("fin_Y").getInt();
+			Z2 = this.config.getNode("fin_Z").getInt();
 
 			boolean HasSpawn = false;
-			if (config.getNode("mineName", text.toString()).getChildrenMap().get("Spawn") != null)
+			if (config.getNode("Spawn") != null)
 			{
 				HasSpawn = true;
-				X3 = config.getNode("mineName", text.toString(), "Spawn", "Spawn_X").getDouble();
-				Y3 = config.getNode("mineName", text.toString(), "Spawn", "Spawn_Y").getDouble();
-				Z3 = config.getNode("mineName", text.toString(), "Spawn", "Spawn_Z").getDouble();
+				X3 = config.getNode("Spawn", "Spawn_X").getDouble();
+				Y3 = config.getNode("Spawn", "Spawn_Y").getDouble();
+				Z3 = config.getNode("Spawn", "Spawn_Z").getDouble();
 			}
 
 			//converted to vector
@@ -81,8 +84,8 @@ public class commandList implements CommandExecutor
 			//number of block inside the mine
 			final int total_block = size.getX() * size.getY() * size.getZ();
 			//get the world of this mine
-			final UUID World = UUID.fromString(this.config.getNode("mineName", text.toString(), "world").getString());
-			src.sendMessage(Text.of("Mine: " , text.toString()));
+			final UUID World = UUID.fromString(this.config.getNode("world").getString());
+			src.sendMessage(Text.of("Mine: " , Name));
 			src.sendMessage(Text.of("Coordinates: X=" , first.getX()," Y=", first.getY()," Z=", first.getZ(), " to X=" ,second.getX()," Y=", second.getY()," Z=", second.getZ()));
 			if (HasSpawn)
 			{

@@ -9,7 +9,7 @@ import org.spongepowered.api.world.World;
 
 import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3i;
-import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageMines;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -17,11 +17,12 @@ public class teleport
 {
 	private static ConfigurationNode config = null;
 
-	public static void Doteleport(String Mine_name)
+	public static void Doteleport(String Name)
 	{
-		config = prispongemine.plugin.getConfig();
+		ManageMines.LoadMine(Name);
+		config = ManageMines.getConfig();
 		boolean HasSpawn = false;
-		if (config.getNode("mineName", Mine_name).getChildrenMap().get("Spawn") != null)
+		if (config.getNode("Spawn") != null)
 		{
 			HasSpawn = true;
 		}
@@ -29,19 +30,19 @@ public class teleport
 		{
 			int X1, X2, Y1, Y2, Z1, Z2;
 			double X3 = 0, Y3 = 0, Z3 = 0, X4 = 0, Y4 = 0, Z4 = 0;
-			X1 = config.getNode("mineName", Mine_name, "depart_X").getInt();
-			Y1 = config.getNode("mineName", Mine_name, "depart_Y").getInt();
-			Z1 = config.getNode("mineName", Mine_name, "depart_Z").getInt();
-			X2 = config.getNode("mineName", Mine_name, "fin_X").getInt();
-			Y2 = config.getNode("mineName", Mine_name, "fin_Y").getInt();
-			Z2 = config.getNode("mineName", Mine_name, "fin_Z").getInt();
-			X3 = config.getNode("mineName", Mine_name, "Spawn", "Spawn_X").getDouble();
-			Y3 = config.getNode("mineName", Mine_name, "Spawn", "Spawn_Y").getDouble();
-			Z3 = config.getNode("mineName", Mine_name, "Spawn", "Spawn_Z").getDouble();
-			X4 = config.getNode("mineName", Mine_name, "Spawn", "Spawn_Pitch").getDouble();
-			Y4 = config.getNode("mineName", Mine_name, "Spawn", "Spawn_Yaw").getDouble();
-			Z4 = config.getNode("mineName", Mine_name, "Spawn", "Spawn_Roll").getDouble();
-			final String world = config.getNode("mineName", Mine_name, "Spawn", "world").getString();
+			X1 = config.getNode("depart_X").getInt();
+			Y1 = config.getNode("depart_Y").getInt();
+			Z1 = config.getNode("depart_Z").getInt();
+			X2 = config.getNode("fin_X").getInt();
+			Y2 = config.getNode("fin_Y").getInt();
+			Z2 = config.getNode("fin_Z").getInt();
+			X3 = config.getNode("Spawn", "Spawn_X").getDouble();
+			Y3 = config.getNode("Spawn", "Spawn_Y").getDouble();
+			Z3 = config.getNode("Spawn", "Spawn_Z").getDouble();
+			X4 = config.getNode("Spawn", "Spawn_Pitch").getDouble();
+			Y4 = config.getNode("Spawn", "Spawn_Yaw").getDouble();
+			Z4 = config.getNode("Spawn", "Spawn_Roll").getDouble();
+			final String world = config.getNode("Spawn", "world").getString();
 			final World Spawn_World = Sponge.getServer().getWorld(UUID.fromString(world)).get();
 
 			//converted to vector
@@ -51,7 +52,7 @@ public class teleport
 			final Vector3d spawnRotation = new Vector3d(X4, Y4, Z4);
 			for (final Player player: Sponge.getServer().getOnlinePlayers())
 			{
-				if (player.getWorld().getUniqueId().equals(UUID.fromString(config.getNode("mineName", Mine_name, "world").getString())))
+				if (player.getWorld().getUniqueId().equals(UUID.fromString(config.getNode("world").getString())))
 				{
 					final Location<World> location = player.getLocation();
 					if (IsInside(location.getBlockPosition(), first, second))

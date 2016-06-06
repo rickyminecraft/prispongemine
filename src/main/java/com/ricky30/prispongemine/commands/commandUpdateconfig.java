@@ -16,7 +16,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 
-import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageConfig;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -28,15 +28,15 @@ public class commandUpdateconfig implements CommandExecutor
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-		this.config = prispongemine.plugin.getConfig();
+		this.config = ManageConfig.getConfig();
 		final Player player = (Player) src;
 		this.config.getNode("ConfigVersion").setValue(5);
 		this.config.getNode("RemindSecondList").setValue("1, 2, 3, 4, 5, 10, 15, 30, 60, 90, 120, 180, 300");
 		this.config.getNode("messageDump").setValue("NoMessages");
-		updateMine(player);
+		//updateMine(player);
 		updateAltar(player);
-		updateOre();
-		prispongemine.plugin.save();
+		//updateOre();
+		ManageConfig.Save();
 		src.sendMessage(Text.of("config file updated"));
 		return CommandResult.success();
 	}

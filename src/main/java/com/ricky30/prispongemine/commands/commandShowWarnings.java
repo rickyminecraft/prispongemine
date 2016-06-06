@@ -6,7 +6,7 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 
-import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageConfig;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -19,9 +19,9 @@ public class commandShowWarnings implements CommandExecutor
 			throws CommandException
 	{
 		final Boolean ShowWarning = args.<Boolean>getOne("show").get();
-		this.config = prispongemine.plugin.getConfig();
+		this.config = ManageConfig.getConfig();
 		this.config.getNode("showwarning").setValue(ShowWarning);
-		prispongemine.plugin.save();
+		ManageConfig.Save();
 		return CommandResult.success();
 	}
 

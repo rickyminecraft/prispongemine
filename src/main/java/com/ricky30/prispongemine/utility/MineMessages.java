@@ -4,20 +4,20 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
-import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageConfig;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
 /**
  * Created by Jamie on 18-May-16.
  */
-public class MineMessages
+public class mineMessages
 {
 	private static ConfigurationNode config = null;
 
 	public static void buildMessages(String mineName, int time) 
 	{
-		config = prispongemine.plugin.getConfig();
+		config = ManageConfig.getConfig();
 		String currentMessage = config.getNode("messageDump").getString();
 		String spacing = ", ";
 		if (currentMessage.equalsIgnoreCase("NoMessages")) 
@@ -26,7 +26,7 @@ public class MineMessages
 			spacing = "";
 		}
 
-		String additionalInfo = mineName + " will reset in " + TimeToString.secondsToString(time);
+		String additionalInfo = mineName + " will reset in " + timeToString.secondsToString(time);
 		if (time == 0) 
 		{
 			additionalInfo = mineName + " is resetting now";
@@ -36,18 +36,18 @@ public class MineMessages
 
 	public static void sendMessages() 
 	{
-		config = prispongemine.plugin.getConfig();
+		config = ManageConfig.getConfig();
 		if (config.getNode("showwarning").isVirtual())
 		{
 			config.getNode("showwarning").setValue(true);
-			prispongemine.plugin.save();
+			ManageConfig.Save();
 		}
 		if (config.getNode("showwarning").getBoolean())
 		{
 			if (config.getNode("messageDump").getString() == null) 
 			{
 				config.getNode("messageDump").setValue("NoMessages");
-				prispongemine.plugin.save();
+				ManageConfig.Save();
 			}
 			else 
 			{
@@ -59,7 +59,7 @@ public class MineMessages
 						player.sendMessage(TextSerializers.FORMATTING_CODE.deserialize(("&9&l[Mines]&r &e" + finalMessage + ".")));
 					}
 					config.getNode("messageDump").setValue("NoMessages");
-					prispongemine.plugin.save();
+					ManageConfig.Save();
 				}
 			}
 		}

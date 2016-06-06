@@ -8,7 +8,7 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
-import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageConfig;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -24,9 +24,10 @@ public class commandChangetool implements CommandExecutor
 		final String tool = player.getItemInHand().get().getItem().getId();
 		if (tool != null)
 		{
-			this.config = prispongemine.plugin.getConfig();
+
+			this.config = ManageConfig.getConfig();
 			this.config.getNode("tool").setValue(tool);
-			prispongemine.plugin.save();
+			ManageConfig.Save();
 			src.sendMessage(Text.of("Tool updated"));
 			return CommandResult.success();
 		}

@@ -7,7 +7,7 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.text.Text;
 
-import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageMines;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -26,14 +26,15 @@ public class commandTime implements CommandExecutor
 		{
 			Time = 10;
 		}
-		this.config = prispongemine.plugin.getConfig();
-		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
+		final boolean OK = ManageMines.LoadMine(Name);
+		this.config = ManageMines.getConfig();
+		if (OK)
 		{
 			if (Format.equals("SECONDS") || Format.equals("MINUTES") || Format.equals("HOURS") || Format.equals("DAYS"))
 			{
-				this.config.getNode("mineName", Name, "renewtime").setValue(Time);
-				this.config.getNode("mineName", Name, "renewformat").setValue(Format);
-				prispongemine.plugin.save();
+				this.config.getNode("renewtime").setValue(Time);
+				this.config.getNode("renewformat").setValue(Format);
+				ManageMines.SaveMine(Name, true);
 				src.sendMessage(Text.of("Mine " , Name, " updated time & format"));
 				return CommandResult.success();
 			}

@@ -7,7 +7,7 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.text.Text;
 
-import com.ricky30.prispongemine.prispongemine;
+import com.ricky30.prispongemine.config.ManageMines;
 
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -19,13 +19,14 @@ public class commandRandomOre implements CommandExecutor
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-		this.config = prispongemine.plugin.getConfig();
 		final String Name = args.<String>getOne("name").get();
 		final boolean Random = args.<Boolean>getOne("random").get();
-		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
+		final boolean OK = ManageMines.LoadMine(Name);
+		this.config = ManageMines.getConfig();
+		if (OK)
 		{
-			this.config.getNode("mineName", Name, "random").setValue(Random);
-			prispongemine.plugin.save();
+			this.config.getNode("random").setValue(Random);
+			ManageMines.SaveMine(Name, true);
 			src.sendMessage(Text.of("Mine " , Name, " updated random gen"));
 			return CommandResult.success();
 		}
