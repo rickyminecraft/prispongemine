@@ -26,7 +26,14 @@ public class commandAutorun implements CommandExecutor
 		{
 			this.config.getNode("mineName", Name, "autorun").setValue(Autorun);
 			ManageConfig.Save();
-			src.sendMessage(Text.of("Mine " , Name, " updated autorun"));
+			if (Autorun)
+			{
+				src.sendMessage(Text.of("Mine " , Name, " autorun on"));
+			}
+			else
+			{
+				src.sendMessage(Text.of("Mine " , Name, " autorun off"));
+			}
 			return CommandResult.success();
 		}
 		src.sendMessage(Text.of("Mine " + Name + " not found"));

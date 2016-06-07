@@ -27,7 +27,14 @@ public class commandRandomOre implements CommandExecutor
 		{
 			this.config.getNode("random").setValue(Random);
 			ManageMines.SaveMine(Name, true);
-			src.sendMessage(Text.of("Mine " , Name, " updated random gen"));
+			if (Random)
+			{
+				src.sendMessage(Text.of("Mine " , Name, " random gen on"));
+			}
+			else
+			{
+				src.sendMessage(Text.of("Mine " , Name, " random gen off"));
+			}
 			return CommandResult.success();
 		}
 		src.sendMessage(Text.of("Mine " + Name + " not found"));

@@ -5,6 +5,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.text.Text;
 
 import com.ricky30.prispongemine.config.ManageConfig;
 
@@ -22,6 +23,14 @@ public class commandShowWarnings implements CommandExecutor
 		this.config = ManageConfig.getConfig();
 		this.config.getNode("showwarning").setValue(ShowWarning);
 		ManageConfig.Save();
+		if (ShowWarning)
+		{
+			src.sendMessage(Text.of("Warning on"));
+		}
+		else
+		{
+			src.sendMessage(Text.of("Warning off"));
+		}
 		return CommandResult.success();
 	}
 

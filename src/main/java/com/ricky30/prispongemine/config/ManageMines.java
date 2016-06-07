@@ -43,7 +43,7 @@ public class ManageMines
 			try
 			{
 				configManager.save(ConfigNodes);
-			} catch (IOException e)
+			} catch (final IOException e)
 			{
 				prispongemine.plugin.getLogger().error("Failed to save config file!", e);
 			}

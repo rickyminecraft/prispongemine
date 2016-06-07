@@ -22,35 +22,10 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.extent.ExtentBufferFactory;
 
 import com.google.inject.Inject;
-import com.ricky30.prispongemine.commands.commandAddOre;
-import com.ricky30.prispongemine.commands.commandAltar;
-import com.ricky30.prispongemine.commands.commandAutorun;
-import com.ricky30.prispongemine.commands.commandChangetool;
-import com.ricky30.prispongemine.commands.commandClear;
-import com.ricky30.prispongemine.commands.commandDefine;
-import com.ricky30.prispongemine.commands.commandDelete;
-import com.ricky30.prispongemine.commands.commandFill;
-import com.ricky30.prispongemine.commands.commandList;
-import com.ricky30.prispongemine.commands.commandPrisponge;
-import com.ricky30.prispongemine.commands.commandRandomOre;
-import com.ricky30.prispongemine.commands.commandReload;
-import com.ricky30.prispongemine.commands.commandRemoveOre;
-import com.ricky30.prispongemine.commands.commandRunall;
-import com.ricky30.prispongemine.commands.commandSave;
-import com.ricky30.prispongemine.commands.commandSet;
-import com.ricky30.prispongemine.commands.commandShowWarnings;
-import com.ricky30.prispongemine.commands.commandSpawn;
-import com.ricky30.prispongemine.commands.commandStart;
-import com.ricky30.prispongemine.commands.commandStop;
-import com.ricky30.prispongemine.commands.commandTime;
-import com.ricky30.prispongemine.commands.commandUpdate;
-import com.ricky30.prispongemine.commands.commandUpdateconfig;
+import com.ricky30.prispongemine.commands.*;
 import com.ricky30.prispongemine.config.ManageConfig;
 import com.ricky30.prispongemine.events.interactionevents;
-import com.ricky30.prispongemine.task.AutorunTask;
-import com.ricky30.prispongemine.task.ClearTask;
-import com.ricky30.prispongemine.task.FillTask;
-import com.ricky30.prispongemine.task.Timers;
+import com.ricky30.prispongemine.task.*;
 import ninja.leaping.configurate.ConfigurationNode;
 
 @Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "2.1.0")
@@ -238,11 +213,6 @@ public class prispongemine
 				.description(Text.of("stop all mine"))
 				.permission("prisponge.stopall")
 				.executor(new commandRunall())
-				.build());
-		subcommands.put(Arrays.asList("updateconfig"), CommandSpec.builder()
-				.description(Text.of("update config file"))
-				.permission("prisponge.updateconfig")
-				.executor(new commandUpdateconfig())
 				.build());
 		subcommands.put(Arrays.asList("set"), CommandSpec.builder()
 				.description(Text.of("change set of a mine"))
