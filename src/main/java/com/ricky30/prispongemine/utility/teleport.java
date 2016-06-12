@@ -88,7 +88,6 @@ public class teleport
 		{
 			return true;
 		}
-
 		return false;
 	}
 }

@@ -14,7 +14,6 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandChangetool implements CommandExecutor
 {
-	private ConfigurationNode config = null;
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
@@ -25,8 +24,8 @@ public class commandChangetool implements CommandExecutor
 		if (tool != null)
 		{
 
-			this.config = ManageConfig.getConfig();
-			this.config.getNode("tool").setValue(tool);
+			ConfigurationNode config = ManageConfig.getConfig();
+			config.getNode("tool").setValue(tool);
 			ManageConfig.Save();
 			src.sendMessage(Text.of("Tool updated"));
 			return CommandResult.success();

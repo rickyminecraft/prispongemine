@@ -13,18 +13,17 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandAutorun implements CommandExecutor
 {
-	private ConfigurationNode config = null;
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-		this.config = ManageConfig.getConfig();
+		ConfigurationNode config = ManageConfig.getConfig();
 		final String Name = args.<String>getOne("name").get();
 		final boolean Autorun = args.<Boolean>getOne("autorun").get();
-		if (this.config.getNode("mineName").getChildrenMap().get(Name) != null)
+		if (config.getNode("mineName").getChildrenMap().get(Name) != null)
 		{
-			this.config.getNode("mineName", Name, "autorun").setValue(Autorun);
+			config.getNode("mineName", Name, "autorun").setValue(Autorun);
 			ManageConfig.Save();
 			if (Autorun)
 			{

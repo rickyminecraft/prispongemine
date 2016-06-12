@@ -16,7 +16,6 @@ import com.ricky30.prispongemine.utility.altar;
 
 public class interactionevents
 {
-	public static Map<String, Boolean> isActive = new HashMap<String, Boolean>();
 	private static Map<String, Boolean> Readytofill = new HashMap<String, Boolean>();
 	private static Map<String, Boolean> primaryUsed = new HashMap<String, Boolean>();
 	private static Map<String, Boolean> secondaryUsed = new HashMap<String, Boolean>();
@@ -28,23 +27,6 @@ public class interactionevents
 	@Listener
 	public void oninteractblockBreak(ChangeBlockEvent.Break Event, @First Player player)
 	{
-		if (!isActive.isEmpty())
-		{
-			if (isActive.get(player.getUniqueId().toString()).booleanValue())
-			{
-				if(secondaryUsed.get(player.getUniqueId().toString()).booleanValue())
-				{
-					isActive.put(player.getUniqueId().toString(), false);
-				}
-				if (player.getItemInHand().isPresent())
-				{
-					if (player.getItemInHand().get().getItem().getId().equals(prispongemine.plugin.GetTool()))
-					{
-						Event.setCancelled(true);
-					}
-				}
-			}
-		}
 		if (altar.IsSaved() && setAltar)
 		{
 			setAltar = false;
@@ -53,7 +35,7 @@ public class interactionevents
 	}
 
 	@Listener
-	public void oninteractblockPrimary(InteractBlockEvent.Primary Event, @First Player player)
+	public void oninteractblockPrimary(InteractBlockEvent.Secondary Event, @First Player player)
 	{
 		if (setAltar)
 		{
@@ -61,30 +43,24 @@ public class interactionevents
 			altar.SaveAltar(Altar, player.getWorld().getUniqueId());
 			player.getCommandSource().get().sendMessage(Text.of("Altar defined"));
 		}
-		if (!isActive.isEmpty())
+		else if (player.getItemInHand().isPresent())
 		{
-			if (isActive.get(player.getUniqueId().toString()).booleanValue())
+			if (player.getItemInHand().get().getItem().getId().equals(prispongemine.plugin.GetTool()))
 			{
-				if (player.getItemInHand().isPresent())
+				if (!primaryUsed.get(player.getUniqueId().toString()).booleanValue())
 				{
-					if (player.getItemInHand().get().getItem().getId().equals(prispongemine.plugin.GetTool()))
-					{
-						if (!primaryUsed.get(player.getUniqueId().toString()).booleanValue())
-						{
-							first.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
-							primaryUsed.put(player.getUniqueId().toString(), true);
-							player.getCommandSource().get().sendMessage(Text.of("First point defined"));
+					first.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
+					primaryUsed.put(player.getUniqueId().toString(), true);
+					player.getCommandSource().get().sendMessage(Text.of("First point defined"));
 
-						}
-						else if (!secondaryUsed.get(player.getUniqueId().toString()).booleanValue())
-						{
-							second.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
-							secondaryUsed.put(player.getUniqueId().toString(), true);
-							Readytofill.put(player.getUniqueId().toString(), true);
-							player.getCommandSource().get().sendMessage(Text.of("Second point defined"));
-							player.getCommandSource().get().sendMessage(Text.of("Ready to save / update"));
-						}
-					}
+				}
+				else if (!secondaryUsed.get(player.getUniqueId().toString()).booleanValue())
+				{
+					second.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
+					secondaryUsed.put(player.getUniqueId().toString(), true);
+					Readytofill.put(player.getUniqueId().toString(), true);
+					player.getCommandSource().get().sendMessage(Text.of("Second point defined"));
+					player.getCommandSource().get().sendMessage(Text.of("Ready to save / update"));
 				}
 			}
 		}
@@ -107,14 +83,12 @@ public class interactionevents
 
 	public static void Reset(Player player)
 	{
-		isActive.remove(player.getUniqueId().toString());
 		Readytofill.remove(player.getUniqueId().toString());
 		primaryUsed.remove(player.getUniqueId().toString());
 		secondaryUsed.remove(player.getUniqueId().toString());
 		first.remove(player.getUniqueId().toString());
 		second.remove(player.getUniqueId().toString());
 
-		isActive.put(player.getUniqueId().toString(), true);
 		Readytofill.put(player.getUniqueId().toString(), false);
 		primaryUsed.put(player.getUniqueId().toString(), false);
 		secondaryUsed.put(player.getUniqueId().toString(), false);

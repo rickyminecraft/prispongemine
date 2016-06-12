@@ -16,7 +16,6 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandSpawn implements CommandExecutor
 {
-	private ConfigurationNode config = null;
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
@@ -24,18 +23,18 @@ public class commandSpawn implements CommandExecutor
 	{
 		final String Name = args.<String>getOne("name").get();
 		final boolean OK = ManageMines.LoadMine(Name);
-		this.config = ManageMines.getConfig();
+		ConfigurationNode config = ManageMines.getConfig();
 		final Player player = (Player) src;
 		if (OK)
 		{
 			final Location<World> Spawn = player.getLocation();
-			this.config.getNode("Spawn", "Spawn_X").setValue(Spawn.getX());
-			this.config.getNode("Spawn", "Spawn_Y").setValue(Spawn.getY());
-			this.config.getNode("Spawn", "Spawn_Z").setValue(Spawn.getZ());
-			this.config.getNode("Spawn", "Spawn_Pitch").setValue(player.getRotation().getX());
-			this.config.getNode("Spawn", "Spawn_Yaw").setValue(player.getRotation().getY());
-			this.config.getNode("Spawn", "Spawn_Roll").setValue(player.getRotation().getZ());
-			this.config.getNode("Spawn", "world").setValue(player.getWorld().getUniqueId().toString());
+			config.getNode("Spawn", "Spawn_X").setValue(Spawn.getX());
+			config.getNode("Spawn", "Spawn_Y").setValue(Spawn.getY());
+			config.getNode("Spawn", "Spawn_Z").setValue(Spawn.getZ());
+			config.getNode("Spawn", "Spawn_Pitch").setValue(player.getRotation().getX());
+			config.getNode("Spawn", "Spawn_Yaw").setValue(player.getRotation().getY());
+			config.getNode("Spawn", "Spawn_Roll").setValue(player.getRotation().getZ());
+			config.getNode("Spawn", "world").setValue(player.getWorld().getUniqueId().toString());
 			ManageMines.SaveMine(Name, true);
 			src.sendMessage(Text.of("Mine " , Name, " Spawn saved"));
 			return CommandResult.success();

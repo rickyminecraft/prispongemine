@@ -14,7 +14,6 @@ public class size
 		else
 		{
 			x = second.getX();
-
 		}
 		if (first.getY() < second.getY())
 		{

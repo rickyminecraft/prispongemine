@@ -16,7 +16,6 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandUpdate implements CommandExecutor
 {
-	private ConfigurationNode config = null;
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
@@ -25,7 +24,7 @@ public class commandUpdate implements CommandExecutor
 		final String Name = args.<String>getOne("name").get();
 		final Player player = (Player) src;
 		final boolean OK = ManageMines.LoadMine(Name);
-		this.config = ManageMines.getConfig();
+		ConfigurationNode config = ManageMines.getConfig();
 		if (!OK)
 		{
 			src.sendMessage(Text.of("Mine ", Name, " not found. Use save instead or change name."));
@@ -36,12 +35,12 @@ public class commandUpdate implements CommandExecutor
 			final Vector3i positiondepart = interactionevents.getFirst(player);
 			final Vector3i positionfin = interactionevents.getSecond(player);
 
-			this.config.getNode("depart_X").setValue(positiondepart.getX());
-			this.config.getNode("depart_Y").setValue(positiondepart.getY());
-			this.config.getNode("depart_Z").setValue(positiondepart.getZ());
-			this.config.getNode("fin_X").setValue(positionfin.getX());
-			this.config.getNode("fin_Y").setValue(positionfin.getY());
-			this.config.getNode("fin_Z").setValue(positionfin.getZ());
+			config.getNode("depart_X").setValue(positiondepart.getX());
+			config.getNode("depart_Y").setValue(positiondepart.getY());
+			config.getNode("depart_Z").setValue(positiondepart.getZ());
+			config.getNode("fin_X").setValue(positionfin.getX());
+			config.getNode("fin_Y").setValue(positionfin.getY());
+			config.getNode("fin_Z").setValue(positionfin.getZ());
 			ManageMines.SaveMine(Name, true);
 			src.sendMessage(Text.of("Mine " , Name, " updated"));
 			return CommandResult.success();

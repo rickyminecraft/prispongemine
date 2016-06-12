@@ -12,7 +12,6 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandSet implements CommandExecutor
 {
-	private ConfigurationNode config = null;
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
@@ -21,10 +20,10 @@ public class commandSet implements CommandExecutor
 		final String Name = args.<String>getOne("name").get();
 		final int SetNumber = args.<Integer>getOne("setnumber").get();
 		final boolean OK = ManageMines.LoadMine(Name);
-		this.config = ManageMines.getConfig();
+		ConfigurationNode config = ManageMines.getConfig();
 		if (OK)
 		{
-			this.config.getNode("set").setValue(SetNumber);
+			config.getNode("set").setValue(SetNumber);
 			ManageMines.SaveMine(Name, true);
 			return CommandResult.success();
 		}

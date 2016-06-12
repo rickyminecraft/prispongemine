@@ -33,8 +33,6 @@ public class commandFill implements CommandExecutor
 {
 	private static Random RANDOM = new Random();
 
-	private ConfigurationNode config = null;
-
 	private final Map<String, BlockState> TEST_BLOCKS = new HashMap<String, BlockState>();
 
 	private final Map<BlockState, Float> ore= new HashMap<BlockState, Float>();
@@ -48,18 +46,18 @@ public class commandFill implements CommandExecutor
 		final String Name = args.<String>getOne("name").get();
 		//init the config
 		final boolean OK = ManageMines.LoadMine(Name);
-		this.config = ManageMines.getConfig();
+		ConfigurationNode config = ManageMines.getConfig();
 		//if the mine is defined then fine
 		if (OK)
 		{
 			//get the size of the mine
 			int X1, X2, X3, Y1, Y2, Y3, Z1, Z2, Z3;
-			X1 = this.config.getNode("depart_X").getInt();
-			Y1 = this.config.getNode("depart_Y").getInt();
-			Z1 = this.config.getNode("depart_Z").getInt();
-			X2 = this.config.getNode("fin_X").getInt();
-			Y2 = this.config.getNode("fin_Y").getInt();
-			Z2 = this.config.getNode("fin_Z").getInt();
+			X1 = config.getNode("depart_X").getInt();
+			Y1 = config.getNode("depart_Y").getInt();
+			Z1 = config.getNode("depart_Z").getInt();
+			X2 = config.getNode("fin_X").getInt();
+			Y2 = config.getNode("fin_Y").getInt();
+			Z2 = config.getNode("fin_Z").getInt();
 
 			//converted to vector
 			final Vector3i first = new Vector3i(X1, Y1, Z1);
@@ -99,24 +97,24 @@ public class commandFill implements CommandExecutor
 
 			float percentage_global = 0.0f;
 			int remplissage = 0;
-			for (final Object text: this.config.getNode("items").getChildrenMap().keySet())
+			for (final Object text: config.getNode("items").getChildrenMap().keySet())
 			{
 				//here we convert string to blockstate
 				//if the string is not like "BlockState="minecraft:stone[variant=smooth_granite]" it will never work
 				final ConfigurateTranslator  tr = ConfigurateTranslator.instance();
-				final ConfigurationNode node = this.config.getNode("items", text.toString());
+				final ConfigurationNode node = config.getNode("items", text.toString());
 				final DataContainer cont = tr.translateFrom(node);
 				final BlockState state = BlockState.builder().build(cont).get();
 
 				//get the percentage
-				final float percentage = this.config.getNode("items", text.toString(), "percentage").getFloat();
+				final float percentage = config.getNode("items", text.toString(), "percentage").getFloat();
 				ore.put(state, percentage);
 				orecount.put(state, 0);
 				//add percentage to total;
 				percentage_global += percentage;
 			}
 			//if random is set
-			if (this.config.getNode("random").getBoolean())
+			if (config.getNode("random").getBoolean())
 			{
 				//random with only one ore is useless
 				if (ore.size() > 1)
@@ -234,7 +232,7 @@ public class commandFill implements CommandExecutor
 				}
 			}
 			//get the world where the mine is located
-			final World world = Sponge.getServer().getWorld(UUID.fromString(this.config.getNode("world").getString())).get();
+			final World world = Sponge.getServer().getWorld(UUID.fromString(config.getNode("world").getString())).get();
 			//next location in the world of our blocks inside a volume
 			final MutableBlockVolume Mvolume = world.getBlockView(com.ricky30.prispongemine.utility.size.Min(first, second), com.ricky30.prispongemine.utility.size.Max(first, second));
 			//teleport all player inside the mine if there is a spawn

@@ -13,7 +13,6 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandRandomOre implements CommandExecutor
 {
-	private ConfigurationNode config = null;
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
@@ -22,10 +21,10 @@ public class commandRandomOre implements CommandExecutor
 		final String Name = args.<String>getOne("name").get();
 		final boolean Random = args.<Boolean>getOne("random").get();
 		final boolean OK = ManageMines.LoadMine(Name);
-		this.config = ManageMines.getConfig();
+		ConfigurationNode config = ManageMines.getConfig();
 		if (OK)
 		{
-			this.config.getNode("random").setValue(Random);
+			config.getNode("random").setValue(Random);
 			ManageMines.SaveMine(Name, true);
 			if (Random)
 			{

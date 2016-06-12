@@ -13,15 +13,14 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandShowWarnings implements CommandExecutor
 {
-	private ConfigurationNode config = null;
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
 		final Boolean ShowWarning = args.<Boolean>getOne("show").get();
-		this.config = ManageConfig.getConfig();
-		this.config.getNode("showwarning").setValue(ShowWarning);
+		ConfigurationNode config = ManageConfig.getConfig();
+		config.getNode("showwarning").setValue(ShowWarning);
 		ManageConfig.Save();
 		if (ShowWarning)
 		{

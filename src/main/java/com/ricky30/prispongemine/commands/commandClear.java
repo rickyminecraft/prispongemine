@@ -23,7 +23,6 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandClear implements CommandExecutor
 {
-	private ConfigurationNode config = null;
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
@@ -31,17 +30,17 @@ public class commandClear implements CommandExecutor
 	{
 		final String Name = args.<String>getOne("name").get();
 		final boolean OK = ManageMines.LoadMine(Name);
-		this.config = ManageMines.getConfig();
+		ConfigurationNode config = ManageMines.getConfig();
 		if (OK)
 		{
 			//get the size of the prison
 			int X1, X2, X3, Y1, Y2, Y3, Z1, Z2, Z3;
-			X1 = this.config.getNode("depart_X").getInt();
-			Y1 = this.config.getNode("depart_Y").getInt();
-			Z1 = this.config.getNode("depart_Z").getInt();
-			X2 = this.config.getNode("fin_X").getInt();
-			Y2 = this.config.getNode("fin_Y").getInt();
-			Z2 = this.config.getNode("fin_Z").getInt();
+			X1 = config.getNode("depart_X").getInt();
+			Y1 = config.getNode("depart_Y").getInt();
+			Z1 = config.getNode("depart_Z").getInt();
+			X2 = config.getNode("fin_X").getInt();
+			Y2 = config.getNode("fin_Y").getInt();
+			Z2 = config.getNode("fin_Z").getInt();
 
 			//converted to vector
 			final Vector3i first = new Vector3i(X1, Y1, Z1);
@@ -92,7 +91,7 @@ public class commandClear implements CommandExecutor
 				}
 			}
 			//get the world where the prison is located
-			final World world = Sponge.getServer().getWorld(UUID.fromString(this.config.getNode("world").getString())).get();
+			final World world = Sponge.getServer().getWorld(UUID.fromString(config.getNode("world").getString())).get();
 			final MutableBlockVolume Mvolume = world.getBlockView(size.Min(first, second), size.Max(first, second));
 			//fill the prison with buffer blocks
 			ClearTask.Fill(Mvolume, size.Min(first, second), size.Max(first, second), Name);

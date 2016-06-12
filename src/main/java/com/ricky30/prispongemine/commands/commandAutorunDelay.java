@@ -13,7 +13,6 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandAutorunDelay implements CommandExecutor
 {
-	private ConfigurationNode config = null;
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
@@ -22,17 +21,17 @@ public class commandAutorunDelay implements CommandExecutor
 		final String Name = args.<String>getOne("name").get();
 		final int Delay = args.<Integer>getOne("delay").get();
 		final boolean OK = ManageMines.LoadMine(Name);
-		this.config = ManageMines.getConfig();
+		ConfigurationNode config = ManageMines.getConfig();
 		if (OK)
 		{
 			if (Delay >= 60)
 			{
-				this.config.getNode("startupdelay").setValue(Delay);
+				config.getNode("startupdelay").setValue(Delay);
 				return CommandResult.success();
 			}
 			else
 			{
-				this.config.getNode("startupdelay").setValue(60);
+				config.getNode("startupdelay").setValue(60);
 				src.sendMessage(Text.of("Delay must be at last 60 seconds"));
 			}
 			return CommandResult.empty();

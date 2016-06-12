@@ -13,7 +13,6 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandTime implements CommandExecutor
 {
-	private ConfigurationNode config = null;
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
@@ -27,13 +26,13 @@ public class commandTime implements CommandExecutor
 			Time = 10;
 		}
 		final boolean OK = ManageMines.LoadMine(Name);
-		this.config = ManageMines.getConfig();
+		ConfigurationNode config = ManageMines.getConfig();
 		if (OK)
 		{
 			if (Format.equals("SECONDS") || Format.equals("MINUTES") || Format.equals("HOURS") || Format.equals("DAYS"))
 			{
-				this.config.getNode("renewtime").setValue(Time);
-				this.config.getNode("renewformat").setValue(Format);
+				config.getNode("renewtime").setValue(Time);
+				config.getNode("renewformat").setValue(Format);
 				ManageMines.SaveMine(Name, true);
 				src.sendMessage(Text.of("Mine " , Name, " updated time & format"));
 				return CommandResult.success();

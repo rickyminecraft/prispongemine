@@ -23,8 +23,6 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandRemoveOre implements CommandExecutor
 {
-	private ConfigurationNode Mine = null;
-	private ConfigurationNode config = null;
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
@@ -32,16 +30,16 @@ public class commandRemoveOre implements CommandExecutor
 	{
 		final String Name = args.<String>getOne("name").get();
 		final boolean OK = ManageMines.LoadMine(Name);
-		this.Mine = ManageMines.getConfig();
-		this.config = ManageConfig.getConfig();
+		ConfigurationNode Mine = ManageMines.getConfig();
+		ConfigurationNode config = ManageConfig.getConfig();
 		if (!config.getNode("altar").isVirtual())
 		{
 			if (OK)
 			{
-				for (final Object text: this.Mine.getNode("items").getChildrenMap().keySet())
+				for (final Object text: Mine.getNode("items").getChildrenMap().keySet())
 				{
 					final ConfigurateTranslator  tr = ConfigurateTranslator.instance();
-					final ConfigurationNode node = this.Mine.getNode("items", text.toString());
+					final ConfigurationNode node = Mine.getNode("items", text.toString());
 					final DataContainer cont = tr.translateFrom(node);
 					final BlockState state = BlockState.builder().build(cont).get();
 
@@ -58,7 +56,7 @@ public class commandRemoveOre implements CommandExecutor
 					if (data.equals(state))
 					{
 						Altar_World.setBlock(position_block, BlockTypes.AIR.getDefaultState());
-						this.Mine.getNode("items").removeChild(text);
+						Mine.getNode("items").removeChild(text);
 						ManageMines.SaveMine(Name, true);
 						src.sendMessage(Text.of("Mine " + Name + " ore removed"));
 					}

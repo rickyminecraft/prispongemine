@@ -21,8 +21,6 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandAddOre implements CommandExecutor
 {
-	private ConfigurationNode Mine = null;
-	private ConfigurationNode config = null;
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
@@ -31,8 +29,8 @@ public class commandAddOre implements CommandExecutor
 		final String Name = args.<String>getOne("name").get();
 		final float Percentage = args.<Double>getOne("percentage").get().floatValue();
 		final boolean OK = ManageMines.LoadMine(Name);
-		this.Mine = ManageMines.getConfig();
-		this.config = ManageConfig.getConfig();
+		ConfigurationNode Mine = ManageMines.getConfig();
+		ConfigurationNode config = ManageConfig.getConfig();
 		if (OK)
 		{
 			if (!config.getNode("altar").isVirtual())
@@ -42,13 +40,13 @@ public class commandAddOre implements CommandExecutor
 					src.sendMessage(Text.of("Wrong percentage"));
 					return CommandResult.empty();
 				}
-				int X, Y, Z;
-				X = config.getNode("altar", "altar_X").getInt();
-				Y = config.getNode("altar", "altar_Y").getInt();
-				Z = config.getNode("altar", "altar_Z").getInt();
+				int x, y, z;
+				x = config.getNode("altar", "altar_X").getInt();
+				y = config.getNode("altar", "altar_Y").getInt();
+				z = config.getNode("altar", "altar_Z").getInt();
 				final String world = config.getNode("altar", "world").getString();
 				final World Altar_World = Sponge.getServer().getWorld(UUID.fromString(world)).get();
-				final Vector3i position_block = new Vector3i(X, Y, Z);
+				final Vector3i position_block = new Vector3i(x, y, z);
 
 				final BlockState data = Altar_World.getBlock(position_block);
 				Altar_World.setBlock(position_block, BlockTypes.AIR.getDefaultState());
@@ -57,13 +55,13 @@ public class commandAddOre implements CommandExecutor
 				while (!Isnothere)
 				{
 					position++;
-					if (this.Mine.getNode("items", "item_".concat(String.valueOf(position))).getString() == null)
+					if (Mine.getNode("items", "item_".concat(String.valueOf(position))).getString() == null)
 					{
 						Isnothere = true;
 					}
 				}
-				this.Mine.getNode("items", "item_".concat(String.valueOf(position)), "BlockState").setValue(data.toString());
-				this.Mine.getNode("items", "item_".concat(String.valueOf(position)), "percentage").setValue(Percentage);
+				Mine.getNode("items", "item_".concat(String.valueOf(position)), "BlockState").setValue(data.toString());
+				Mine.getNode("items", "item_".concat(String.valueOf(position)), "percentage").setValue(Percentage);
 				ManageMines.SaveMine(Name, true);
 				src.sendMessage(Text.of("Mine " , Name, " add altar ore"));
 				return CommandResult.success();

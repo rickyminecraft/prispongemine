@@ -18,7 +18,6 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class commandSave implements CommandExecutor
 {
-	private ConfigurationNode config = null;
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext args)
@@ -28,7 +27,7 @@ public class commandSave implements CommandExecutor
 		final Player player = (Player) src;
 		final UUID world = player.getWorld().getUniqueId();
 		final boolean OK = ManageMines.SaveMine(Name, false);
-		this.config = ManageMines.getConfig();
+		ConfigurationNode config = ManageMines.getConfig();
 		if (!OK)
 		{
 			src.sendMessage(Text.of("Mine ", Name, " already saved. Use update instead or change name."));
@@ -38,19 +37,19 @@ public class commandSave implements CommandExecutor
 		{
 			final Vector3i positiondepart = interactionevents.getFirst(player);
 			final Vector3i positionfin = interactionevents.getSecond(player);
-			this.config.getNode("world").setValue(world.toString());
-			this.config.getNode("depart_X").setValue(positiondepart.getX());
-			this.config.getNode("depart_Y").setValue(positiondepart.getY());
-			this.config.getNode("depart_Z").setValue(positiondepart.getZ());
-			this.config.getNode("fin_X").setValue(positionfin.getX());
-			this.config.getNode("fin_Y").setValue(positionfin.getY());
-			this.config.getNode("fin_Z").setValue(positionfin.getZ());
-			this.config.getNode("renewtime").setValue(24);
-			this.config.getNode("renewformat").setValue("HOURS");
-			this.config.getNode("autorun").setValue(false);
-			this.config.getNode("random").setValue(false);
-			this.config.getNode("set").setValue(0);
-			this.config.getNode("startupdelay").setValue(300);
+			config.getNode("world").setValue(world.toString());
+			config.getNode("depart_X").setValue(positiondepart.getX());
+			config.getNode("depart_Y").setValue(positiondepart.getY());
+			config.getNode("depart_Z").setValue(positiondepart.getZ());
+			config.getNode("fin_X").setValue(positionfin.getX());
+			config.getNode("fin_Y").setValue(positionfin.getY());
+			config.getNode("fin_Z").setValue(positionfin.getZ());
+			config.getNode("renewtime").setValue(24);
+			config.getNode("renewformat").setValue("HOURS");
+			config.getNode("autorun").setValue(false);
+			config.getNode("random").setValue(false);
+			config.getNode("set").setValue(0);
+			config.getNode("startupdelay").setValue(300);
 			ManageMines.SaveMine(Name, true);
 			src.sendMessage(Text.of("Mine " , Name, " saved"));
 			return CommandResult.success();

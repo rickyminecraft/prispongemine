@@ -117,9 +117,5 @@ public class ManageConfig
 			prispongemine.plugin.getLogger().error("Failed to load config file!", e);
 		}
 	}
-
-	public static void Reload()
-	{
-
-	}
+	
 }
