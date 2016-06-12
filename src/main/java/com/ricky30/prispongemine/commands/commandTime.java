@@ -26,7 +26,7 @@ public class commandTime implements CommandExecutor
 			Time = 10;
 		}
 		final boolean OK = ManageMines.LoadMine(Name);
-		ConfigurationNode config = ManageMines.getConfig();
+		final ConfigurationNode config = ManageMines.getConfig();
 		if (OK)
 		{
 			if (Format.equals("SECONDS") || Format.equals("MINUTES") || Format.equals("HOURS") || Format.equals("DAYS"))

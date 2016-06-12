@@ -21,7 +21,7 @@ public class commandAutorunDelay implements CommandExecutor
 		final String Name = args.<String>getOne("name").get();
 		final int Delay = args.<Integer>getOne("delay").get();
 		final boolean OK = ManageMines.LoadMine(Name);
-		ConfigurationNode config = ManageMines.getConfig();
+		final ConfigurationNode config = ManageMines.getConfig();
 		if (OK)
 		{
 			if (Delay >= 60)
@@ -36,6 +36,7 @@ public class commandAutorunDelay implements CommandExecutor
 			}
 			return CommandResult.empty();
 		}
+		src.sendMessage(Text.of("Mine " + Name + " not found"));
 		return CommandResult.empty();
 	}
 

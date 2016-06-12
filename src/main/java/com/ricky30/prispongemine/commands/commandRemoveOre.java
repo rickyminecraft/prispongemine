@@ -30,8 +30,8 @@ public class commandRemoveOre implements CommandExecutor
 	{
 		final String Name = args.<String>getOne("name").get();
 		final boolean OK = ManageMines.LoadMine(Name);
-		ConfigurationNode Mine = ManageMines.getConfig();
-		ConfigurationNode config = ManageConfig.getConfig();
+		final ConfigurationNode Mine = ManageMines.getConfig();
+		final ConfigurationNode config = ManageConfig.getConfig();
 		if (!config.getNode("altar").isVirtual())
 		{
 			if (OK)

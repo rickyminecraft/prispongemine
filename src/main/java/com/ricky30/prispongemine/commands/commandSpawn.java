@@ -23,7 +23,7 @@ public class commandSpawn implements CommandExecutor
 	{
 		final String Name = args.<String>getOne("name").get();
 		final boolean OK = ManageMines.LoadMine(Name);
-		ConfigurationNode config = ManageMines.getConfig();
+		final ConfigurationNode config = ManageMines.getConfig();
 		final Player player = (Player) src;
 		if (OK)
 		{

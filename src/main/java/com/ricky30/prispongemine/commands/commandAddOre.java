@@ -29,8 +29,8 @@ public class commandAddOre implements CommandExecutor
 		final String Name = args.<String>getOne("name").get();
 		final float Percentage = args.<Double>getOne("percentage").get().floatValue();
 		final boolean OK = ManageMines.LoadMine(Name);
-		ConfigurationNode Mine = ManageMines.getConfig();
-		ConfigurationNode config = ManageConfig.getConfig();
+		final ConfigurationNode Mine = ManageMines.getConfig();
+		final ConfigurationNode config = ManageConfig.getConfig();
 		if (OK)
 		{
 			if (!config.getNode("altar").isVirtual())

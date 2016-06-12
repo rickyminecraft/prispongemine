@@ -21,7 +21,7 @@ public class commandRandomOre implements CommandExecutor
 		final String Name = args.<String>getOne("name").get();
 		final boolean Random = args.<Boolean>getOne("random").get();
 		final boolean OK = ManageMines.LoadMine(Name);
-		ConfigurationNode config = ManageMines.getConfig();
+		final ConfigurationNode config = ManageMines.getConfig();
 		if (OK)
 		{
 			config.getNode("random").setValue(Random);

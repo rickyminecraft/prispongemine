@@ -27,7 +27,7 @@ public class commandSave implements CommandExecutor
 		final Player player = (Player) src;
 		final UUID world = player.getWorld().getUniqueId();
 		final boolean OK = ManageMines.SaveMine(Name, false);
-		ConfigurationNode config = ManageMines.getConfig();
+		final ConfigurationNode config = ManageMines.getConfig();
 		if (!OK)
 		{
 			src.sendMessage(Text.of("Mine ", Name, " already saved. Use update instead or change name."));

@@ -20,7 +20,7 @@ public class commandSet implements CommandExecutor
 		final String Name = args.<String>getOne("name").get();
 		final int SetNumber = args.<Integer>getOne("setnumber").get();
 		final boolean OK = ManageMines.LoadMine(Name);
-		ConfigurationNode config = ManageMines.getConfig();
+		final ConfigurationNode config = ManageMines.getConfig();
 		if (OK)
 		{
 			config.getNode("set").setValue(SetNumber);

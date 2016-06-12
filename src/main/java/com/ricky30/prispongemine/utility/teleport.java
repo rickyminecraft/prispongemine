@@ -15,12 +15,11 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class teleport
 {
-	private static ConfigurationNode config = null;
 
 	public static void Doteleport(String Name)
 	{
 		ManageMines.LoadMine(Name);
-		config = ManageMines.getConfig();
+		final ConfigurationNode config = ManageMines.getConfig();
 		boolean HasSpawn = false;
 		if (config.getNode("Spawn") != null)
 		{

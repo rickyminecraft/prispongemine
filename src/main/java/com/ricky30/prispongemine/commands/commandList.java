@@ -27,7 +27,7 @@ public class commandList implements CommandExecutor
 			//remove the ".conf" at end
 			Name = Name.substring(0,  Name.length() -5);
 			ManageMines.LoadMine(Name);
-			ConfigurationNode config = ManageMines.getConfig();
+			final ConfigurationNode config = ManageMines.getConfig();
 			//get the size of the mine
 			int X1, X2, X4, Y1, Y2, Y4, Z1, Z2, Z4;
 			double X3 = 0, Y3 = 0, Z3 = 0;
@@ -39,7 +39,7 @@ public class commandList implements CommandExecutor
 			Z2 = config.getNode("fin_Z").getInt();
 
 			boolean HasSpawn = false;
-			if (config.getNode("Spawn") != null)
+			if (!config.getNode("Spawn").isVirtual())
 			{
 				HasSpawn = true;
 				X3 = config.getNode("Spawn", "Spawn_X").getDouble();

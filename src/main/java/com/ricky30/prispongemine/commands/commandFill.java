@@ -46,7 +46,7 @@ public class commandFill implements CommandExecutor
 		final String Name = args.<String>getOne("name").get();
 		//init the config
 		final boolean OK = ManageMines.LoadMine(Name);
-		ConfigurationNode config = ManageMines.getConfig();
+		final ConfigurationNode config = ManageMines.getConfig();
 		//if the mine is defined then fine
 		if (OK)
 		{

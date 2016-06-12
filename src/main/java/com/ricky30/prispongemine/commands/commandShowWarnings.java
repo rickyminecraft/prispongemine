@@ -19,7 +19,7 @@ public class commandShowWarnings implements CommandExecutor
 			throws CommandException
 	{
 		final Boolean ShowWarning = args.<Boolean>getOne("show").get();
-		ConfigurationNode config = ManageConfig.getConfig();
+		final ConfigurationNode config = ManageConfig.getConfig();
 		config.getNode("showwarning").setValue(ShowWarning);
 		ManageConfig.Save();
 		if (ShowWarning)

@@ -18,7 +18,7 @@ public class commandAutorun implements CommandExecutor
 	public CommandResult execute(CommandSource src, CommandContext args)
 			throws CommandException
 	{
-		ConfigurationNode config = ManageConfig.getConfig();
+		final ConfigurationNode config = ManageConfig.getConfig();
 		final String Name = args.<String>getOne("name").get();
 		final boolean Autorun = args.<Boolean>getOne("autorun").get();
 		if (config.getNode("mineName").getChildrenMap().get(Name) != null)

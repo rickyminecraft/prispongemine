@@ -270,7 +270,7 @@ public class prispongemine
 	{
 		return this.config.getNode("tool").getString();
 	}
-	
+
 	public void StartRunnningAll()
 	{
 		AutorunTask.Init();
@@ -283,7 +283,7 @@ public class prispongemine
 			}
 		}).interval(1, TimeUnit.SECONDS).name("Autoruntask").submit(this);
 	}
-	
+
 	public void StopAutorun()
 	{
 		task_autorun.cancel();

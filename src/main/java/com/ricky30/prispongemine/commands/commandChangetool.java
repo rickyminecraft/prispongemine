@@ -1,11 +1,14 @@
 package com.ricky30.prispongemine.commands;
 
+import java.util.Optional;
+
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 
 import com.ricky30.prispongemine.config.ManageConfig;
@@ -20,11 +23,11 @@ public class commandChangetool implements CommandExecutor
 			throws CommandException
 	{
 		final Player player = (Player) src;
-		final String tool = player.getItemInHand().get().getItem().getId();
-		if (tool != null)
+		final Optional<ItemStack> item = player.getItemInHand();
+		if (item.isPresent())
 		{
-
-			ConfigurationNode config = ManageConfig.getConfig();
+			final String tool = player.getItemInHand().get().getItem().getId();
+			final ConfigurationNode config = ManageConfig.getConfig();
 			config.getNode("tool").setValue(tool);
 			ManageConfig.Save();
 			src.sendMessage(Text.of("Tool updated"));

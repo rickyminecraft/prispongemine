@@ -24,7 +24,7 @@ public class commandUpdate implements CommandExecutor
 		final String Name = args.<String>getOne("name").get();
 		final Player player = (Player) src;
 		final boolean OK = ManageMines.LoadMine(Name);
-		ConfigurationNode config = ManageMines.getConfig();
+		final ConfigurationNode config = ManageMines.getConfig();
 		if (!OK)
 		{
 			src.sendMessage(Text.of("Mine ", Name, " not found. Use save instead or change name."));

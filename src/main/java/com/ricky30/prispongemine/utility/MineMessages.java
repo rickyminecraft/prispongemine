@@ -13,11 +13,10 @@ import ninja.leaping.configurate.ConfigurationNode;
  */
 public class mineMessages
 {
-	private static ConfigurationNode config = null;
 
 	public static void buildMessages(String mineName, int time) 
 	{
-		config = ManageConfig.getConfig();
+		final ConfigurationNode config = ManageConfig.getConfig();
 		String currentMessage = config.getNode("messageDump").getString();
 		String spacing = ", ";
 		if (currentMessage.equalsIgnoreCase("NoMessages")) 
@@ -36,7 +35,7 @@ public class mineMessages
 
 	public static void sendMessages() 
 	{
-		config = ManageConfig.getConfig();
+		final ConfigurationNode config = ManageConfig.getConfig();
 		if (config.getNode("showwarning").isVirtual())
 		{
 			config.getNode("showwarning").setValue(true);
