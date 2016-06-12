@@ -45,11 +45,11 @@ public class FillTask
 					EndX = End.get(Names).getX();
 					EndY = End.get(Names).getY();
 					EndZ = End.get(Names).getZ();
-					for (int x = 0;x< EndX;x++)
+					for (int x = 0;x< EndX; x++)
 					{
 						for (int y = 0; y< EndY; y++)
 						{
-							for (int z = 0; z< EndZ;z++)
+							for (int z = 0; z< EndZ; z++)
 							{
 								volumeTwo.setBlock(StartX+x, StartY+y, StartZ+z, volumeOne.getBlock(x, y, z));
 							}

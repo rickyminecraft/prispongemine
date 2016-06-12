@@ -43,17 +43,16 @@ public class ClearTask
 					EndX = End.get(Names).getX();
 					EndY = End.get(Names).getY();
 					EndZ = End.get(Names).getZ();
-					for (int x = StartX; x<= EndX;x++)
+					for (int x = StartX; x<= EndX; x++)
 					{
 						for (int y = StartY; y<= EndY; y++)
 						{
-							for (int z = StartZ; z<= EndZ;z++)
+							for (int z = StartZ; z<= EndZ; z++)
 							{
 								volumeOne.setBlock(x, y, z, BlockTypes.AIR.getDefaultState());
 							}
 						}
 					}
-
 					Volume.remove(Names);
 					Start.remove(Names);
 					End.remove(Names);

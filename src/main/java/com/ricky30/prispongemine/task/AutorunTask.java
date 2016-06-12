@@ -74,6 +74,7 @@ public class AutorunTask
 				startfillsets = false;
 			}
 		}
+		
 		if (startfillsets)
 		{
 			//let us know how many set are defined
@@ -119,11 +120,12 @@ public class AutorunTask
 				}
 			}
 		}
+		
 		if (Mine_set.isEmpty())
 		{
 			Mine_startupdelay.clear();
 			Mine_actualdelay.clear();
-			prispongemine.plugin.task_autorun.cancel();
+			prispongemine.plugin.StopAutorun();
 		}
 	}
 }

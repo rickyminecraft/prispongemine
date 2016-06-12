@@ -6,64 +6,64 @@ public class size
 {
 	public static Vector3i Min(Vector3i first, Vector3i second)
 	{
-		int x1, y1, z1;
+		int x, y, z;
 		if (first.getX() < second.getX())
 		{
-			x1 = first.getX();
+			x = first.getX();
 		}
 		else
 		{
-			x1 = second.getX();
+			x = second.getX();
 
 		}
 		if (first.getY() < second.getY())
 		{
-			y1 = first.getY();
+			y = first.getY();
 		}
 		else
 		{
-			y1 = second.getY();
+			y = second.getY();
 		}
 		if (first.getZ() < second.getZ())
 		{
-			z1 = first.getZ();
+			z = first.getZ();
 		}
 		else
 		{
-			z1 = second.getZ();
+			z = second.getZ();
 		}
-		final Vector3i vector3i = new Vector3i(x1, y1, z1);
+		final Vector3i vector3i = new Vector3i(x, y, z);
 		return vector3i;
 	}
 
 	public static Vector3i Max(Vector3i first, Vector3i second)
 	{
-		int x1, y1, z1;
+		int x, y, z;
 		if (first.getX() < second.getX())
 		{
-			x1 = second.getX();
+			x = second.getX();
 		}
 		else
 		{
-			x1 = first.getX();
+			x = first.getX();
 		}
 		if (first.getY() < second.getY())
 		{
-			y1 = second.getY();
+			y = second.getY();
 		}
 		else
 		{
-			y1 = first.getY();
+			y = first.getY();
 		}
 		if (first.getZ() < second.getZ())
 		{
-			z1 = second.getZ();
+			z = second.getZ();
 		}
 		else
 		{
-			z1 = first.getZ();
+			z = first.getZ();
 		}
-		final Vector3i vector3i = new Vector3i(x1, y1, z1);
+		final Vector3i vector3i = new Vector3i(x, y, z);
 		return vector3i;
 	}
 }

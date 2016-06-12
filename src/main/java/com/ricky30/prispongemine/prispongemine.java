@@ -28,7 +28,7 @@ import com.ricky30.prispongemine.events.interactionevents;
 import com.ricky30.prispongemine.task.*;
 import ninja.leaping.configurate.ConfigurationNode;
 
-@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "2.1.0")
+@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "3.0.0")
 public class prispongemine
 {
 	public static ExtentBufferFactory EXTENT_BUFFER_FACTORY;
@@ -46,7 +46,7 @@ public class prispongemine
 	private Task task;
 	private Task task_fill;
 	private Task task_clear;
-	public Task task_autorun = null;
+	private Task task_autorun = null;
 
 	public Task gettask()
 	{
@@ -266,9 +266,13 @@ public class prispongemine
 		getLogger().info("Prispongemine stopped.");
 	}
 
+	public String GetTool()
+	{
+		return this.config.getNode("tool").getString();
+	}
+	
 	public void StartRunnningAll()
 	{
-		//runnning the autorun in a task make it run in a separate thread
 		AutorunTask.Init();
 		task_autorun = prispongemine.plugin.getTaskbuilder().execute(new Runnable()
 		{
@@ -279,10 +283,11 @@ public class prispongemine
 			}
 		}).interval(1, TimeUnit.SECONDS).name("Autoruntask").submit(this);
 	}
-
-	public String GetTool()
+	
+	public void StopAutorun()
 	{
-		return this.config.getNode("tool").getString();
+		task_autorun.cancel();
+		task_autorun = null;
 	}
 
 	public void StartTaskFill()

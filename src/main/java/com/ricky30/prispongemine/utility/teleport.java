@@ -29,7 +29,7 @@ public class teleport
 		if (HasSpawn)
 		{
 			int X1, X2, Y1, Y2, Z1, Z2;
-			double X3 = 0, Y3 = 0, Z3 = 0, X4 = 0, Y4 = 0, Z4 = 0;
+			double X3 = 0.0, Y3 = 0.0, Z3 = 0.0, X4 = 0.0, Y4 = 0.0, Z4 = 0.0;
 			X1 = config.getNode("depart_X").getInt();
 			Y1 = config.getNode("depart_Y").getInt();
 			Z1 = config.getNode("depart_Z").getInt();
