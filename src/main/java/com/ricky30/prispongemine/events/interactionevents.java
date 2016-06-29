@@ -68,6 +68,10 @@ public class interactionevents
 
 	public static boolean IsreadytoFill(Player player)
 	{
+		if (Readytofill.get(player.getUniqueId().toString()) == null)
+		{
+			return false;
+		}
 		return Readytofill.get(player.getUniqueId().toString());
 	}
 

@@ -21,7 +21,7 @@ public class teleport
 		ManageMines.LoadMine(Name);
 		final ConfigurationNode config = ManageMines.getConfig();
 		boolean HasSpawn = false;
-		if (config.getNode("Spawn") != null)
+		if (!config.getNode("Spawn").isVirtual())
 		{
 			HasSpawn = true;
 		}

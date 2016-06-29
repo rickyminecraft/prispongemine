@@ -28,7 +28,7 @@ import com.ricky30.prispongemine.events.interactionevents;
 import com.ricky30.prispongemine.task.*;
 import ninja.leaping.configurate.ConfigurationNode;
 
-@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "3.0.0")
+@Plugin(id = "com.ricky30.prispongemine", name = "prispongemine", version = "3.0.1")
 public class prispongemine
 {
 	public static ExtentBufferFactory EXTENT_BUFFER_FACTORY;
