@@ -3,6 +3,7 @@ package com.ricky30.prispongemine.events;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
@@ -43,16 +44,15 @@ public class interactionevents
 			altar.SaveAltar(Altar, player.getWorld().getUniqueId());
 			player.getCommandSource().get().sendMessage(Text.of("Altar defined"));
 		}
-		else if (player.getItemInHand().isPresent())
+		else if (player.getItemInHand(HandTypes.MAIN_HAND).isPresent())
 		{
-			if (player.getItemInHand().get().getItem().getId().equals(prispongemine.plugin.GetTool()))
+			if (player.getItemInHand(HandTypes.MAIN_HAND).get().getItem().getId().equals(prispongemine.plugin.GetTool()))
 			{
 				if (!primaryUsed.get(player.getUniqueId().toString()).booleanValue())
 				{
 					first.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
 					primaryUsed.put(player.getUniqueId().toString(), true);
 					player.getCommandSource().get().sendMessage(Text.of("First point defined"));
-
 				}
 				else if (!secondaryUsed.get(player.getUniqueId().toString()).booleanValue())
 				{
