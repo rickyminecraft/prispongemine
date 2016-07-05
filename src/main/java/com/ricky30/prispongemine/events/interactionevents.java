@@ -36,7 +36,27 @@ public class interactionevents
 	}
 
 	@Listener
-	public void oninteractblockPrimary(InteractBlockEvent.Secondary Event, @First Player player)
+	public void oninteractblockPrimary(InteractBlockEvent.Primary Event, @First Player player)
+	{
+		if (player.getItemInHand(HandTypes.MAIN_HAND).isPresent())
+		{
+			if (player.getItemInHand(HandTypes.MAIN_HAND).get().getItem().getId().equals(prispongemine.plugin.GetTool()))
+			{
+				if (!primaryUsed.get(player.getUniqueId().toString()).booleanValue())
+				{
+					if (Event.getTargetBlock().getPosition().getY() != 0)
+					{
+						first.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
+						primaryUsed.put(player.getUniqueId().toString(), true);
+						player.getCommandSource().get().sendMessage(Text.of("First point defined"));
+					}
+				}
+			}
+		}
+	}
+	
+	@Listener
+	public void oninteractblockSecondary(InteractBlockEvent.Secondary Event, @First Player player)
 	{
 		if (setAltar)
 		{
@@ -48,19 +68,16 @@ public class interactionevents
 		{
 			if (player.getItemInHand(HandTypes.MAIN_HAND).get().getItem().getId().equals(prispongemine.plugin.GetTool()))
 			{
-				if (!primaryUsed.get(player.getUniqueId().toString()).booleanValue())
+				if (!secondaryUsed.get(player.getUniqueId().toString()).booleanValue())
 				{
-					first.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
-					primaryUsed.put(player.getUniqueId().toString(), true);
-					player.getCommandSource().get().sendMessage(Text.of("First point defined"));
-				}
-				else if (!secondaryUsed.get(player.getUniqueId().toString()).booleanValue())
-				{
-					second.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
-					secondaryUsed.put(player.getUniqueId().toString(), true);
-					Readytofill.put(player.getUniqueId().toString(), true);
-					player.getCommandSource().get().sendMessage(Text.of("Second point defined"));
-					player.getCommandSource().get().sendMessage(Text.of("Ready to save / update"));
+					if (Event.getTargetBlock().getPosition().getY() != 0)
+					{
+						second.put(player.getUniqueId().toString(), Event.getTargetBlock().getPosition());
+						secondaryUsed.put(player.getUniqueId().toString(), true);
+						Readytofill.put(player.getUniqueId().toString(), true);
+						player.getCommandSource().get().sendMessage(Text.of("Second point defined"));
+						player.getCommandSource().get().sendMessage(Text.of("Ready to save / update"));
+					}
 				}
 			}
 		}
